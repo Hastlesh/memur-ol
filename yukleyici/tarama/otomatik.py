@@ -207,7 +207,8 @@ for a in ilanlar:
     r = yukle(a, ekler)
     if 'neden' in r: bak.append(r); continue
     if ekler: r['duzeltme'] = ekler
-    if not r['son'] or r['son'] <= bugun.isoformat():
+    # Son günü bugün olan ilan da alınır (23.59'a kadar başvurulabilir; uygulama "Bugün son gün" der)
+    if not r['son'] or r['son'] < bugun.isoformat():
         if os.path.exists(r['dosya']) and r['id'] not in durum['yuklu']: os.remove(r['dosya'])
         if r['son']: r['neden'] = 'süresi geçmiş/bugün bitiyor'; atla.append(r); durum['islenen'][a['ad']] = r['neden']; continue
         if g(a['gun']) >= bugun - datetime.timedelta(5):

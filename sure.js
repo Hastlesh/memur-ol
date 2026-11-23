@@ -12,7 +12,7 @@
   const BAS = `(?:${TAM}|(?<![\\d./])\\d{1,2} (?:${A})|(?<![\\d./])\\d{1,2}(?= ?[-–—] ?\\d{1,2} (?:${A})))`;
   const GUN = '(?: ?(?:pazartesi|salı|çarşamba|perşembe|cuma|cumartesi|pazar)(?![a-zçğıöşü]))?';
   const SAAT = `${GUN}[\\])]?(?:,? ?(?:günü |tarihi |tarihinde )?(?:saat:? ?|\\( ?(?:saat:? ?)?)(\\d{1,2}[.:]\\d\\d)(?:['’][a-zçğıöşü]+)? ?\\)?)?`;
-  const AYRAC = `(?: ?[-–—/] ?| ile | ve | tarihinden | tarihinde başlayıp,? ?| tarihinde başlayacak,? (?:ve )?| ?(?:itibarıyla |itibariyle )?başlayıp,? ?)`;
+  const AYRAC = `(?: ?[-–—/] ?| ile | ve | tarihinden | tarihinde başlayıp,? ?| tarihinde başlayacak,? (?:ve )?| ?(?:itibarıyla |itibariyle )?başlayacak,? (?:ve )?| ?(?:itibarıyla |itibariyle )?başlayıp,? ?)`;
 
   function tarih(yazi, ornek) {
     const s = String(yazi).trim();

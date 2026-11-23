@@ -657,7 +657,7 @@ details>summary::after{content:" ▾"}details[open]>summary::after{content:" ▴
   const BAS = `(?:${TAM}|(?<![\\d./])\\d{1,2} (?:${A})|(?<![\\d./])\\d{1,2}(?= ?[-–—] ?\\d{1,2} (?:${A})))`;
   const GUN = '(?: ?(?:pazartesi|salı|çarşamba|perşembe|cuma|cumartesi|pazar)(?![a-zçğıöşü]))?';
   const SAAT = `${GUN}[\\])]?(?:,? ?(?:günü |tarihi |tarihinde )?(?:saat:? ?|\\( ?(?:saat:? ?)?)(\\d{1,2}[.:]\\d\\d)(?:['’][a-zçğıöşü]+)? ?\\)?)?`;
-  const AYRAC = `(?: ?[-–—/] ?| ile | ve | tarihinden | tarihinde başlayıp,? ?| tarihinde başlayacak,? (?:ve )?| ?(?:itibarıyla |itibariyle )?başlayıp,? ?)`;
+  const AYRAC = `(?: ?[-–—/] ?| ile | ve | tarihinden | tarihinde başlayıp,? ?| tarihinde başlayacak,? (?:ve )?| ?(?:itibarıyla |itibariyle )?başlayacak,? (?:ve )?| ?(?:itibarıyla |itibariyle )?başlayıp,? ?)`;
 
   function tarih(yazi, ornek) {
     const s = String(yazi).trim();
@@ -1609,7 +1609,7 @@ window.TABAN_VERI = [
       }
       konu = parca.join(' ').replace(/\s+/g, ' ');
     }
-    return (kurum.replace(/(ndan|nden|ndan:|nden:|:)\s*$/i, '').replace(/(ndan|nden):?$/i, '') + ': ' + konu).replace(/^T\.C\.\s*/, '').trim().slice(0, 170);
+    return (kurum.replace(/\s*['’]\s*(ndan|nden)?\s*:?\s*$/i, '').replace(/(ndan|nden|ndan:|nden:|:)\s*$/i, '').replace(/(ndan|nden):?$/i, '') + ': ' + konu).replace(/^T\.C\.\s*/, '').trim().slice(0, 170);
   }
 
   const api = { pdfOku, bol, degerlendir, ilanAdi, genelSartlar };

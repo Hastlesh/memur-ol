@@ -509,7 +509,6 @@
 "20261028-4-9": "elazig-il-ozel-idaresi-ilk-defa-atanmak-uzere-sozlesmeli-per-44206c98",
 "20261030-4-3": "süresi geçmiş/bugün bitiyor",
 "20261030-4-4": "süresi geçmiş/bugün bitiyor",
-"20261030-4-5": "süresi geçmiş/bugün bitiyor",
 "20261030-4-8": "iptal edilmiş",
 "20261031-4-21": "izmir-ili-karsiyaka-belediye-baskanligi-ilk-defa-atanmak-uze-8cf81975",
 "20261031-4-22": "konya-ili-karatay-belediye-baskanligi-ilk-defa-atanmak-uzere-6c38693f",
@@ -555,7 +554,8 @@
 "20261123-4-2": "icisleri-bakanligi-jandarma-ve-sahil-guvenlik-akademisi-bask-294b0945",
 "20261123-4-4": "ankara-yildirim-beyazit-universitesi-rektorlugu-sozlesmeli-b-077c7973",
 "20261123-4-5": "turk-akreditasyon-kurumu-giris-sinavi-ilani-5754f0b8",
-"20261123-4-12": "ondokuz-mayis-universitesi-rektorlugu-surekli-isci-alim-ilan-aad0d07b"
+"20261123-4-12": "ondokuz-mayis-universitesi-rektorlugu-surekli-isci-alim-ilan-aad0d07b",
+"20261030-4-5": "nukleer-duzenleme-kurumu-sozlesmeli-bilisim-personeli-giris--ca61b954"
 },
 "yuklu": {
 "adalet-bakanligi-adli-tip-kurumu-baskanligi-sozlesmeli-perso-e4691169": {
@@ -885,6 +885,22 @@
 "kurum": "Ankara Yıldırım Beyazıt Üniversitesi Rektörlüğü: SÖZLEŞMELİ BİLİŞİM PERSONELİ ALIM İLANI",
 "son": "2026-12-07",
 "url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261123-4-4.pdf"
+},
+"kocaeli-isu-genel-mudurlugu-rehberlik-ve-teftis-kurulu-baska-0d137c15": {
+"ad": "site-kocaeli-isu-genel-mudurlugu-rehberlik-ve-teftis-kurulu-baska-0d137c15",
+"gun": "20261109",
+"anahtar": "kocaeli isu genel müdürlüğü rehberlik ve teftiş kurulu başkanlığı 'ndan",
+"kurum": "Kocaeli İSU Genel Müdürlüğü Rehberlik ve Teftiş Kurulu Başkanlığı ': MÜFETTİŞ YARDIMCILIĞI GİRİŞ SINAVI İLANI",
+"son": "2026-11-29",
+"url": "https://www.isu.gov.tr/content/kocaeli-su-ve-kanalizasyon-idaresi-genel-mudurlugu-isu-genel-mudurlugu-mufettis"
+},
+"nukleer-duzenleme-kurumu-sozlesmeli-bilisim-personeli-giris--ca61b954": {
+"ad": "20261030-4-5",
+"gun": "20261030",
+"anahtar": "nukleer duzenleme kurumu",
+"kurum": "Nükleer Düzenleme Kurumu: SÖZLEŞMELİ BİLİŞİM PERSONELİ GİRİŞ SINAVI İLANI",
+"son": "2026-11-23",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/10/20261030-4-5.pdf"
 }
 },
 "notlar": [

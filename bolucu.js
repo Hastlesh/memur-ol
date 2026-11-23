@@ -488,7 +488,7 @@
       }
       konu = parca.join(' ').replace(/\s+/g, ' ');
     }
-    return (kurum.replace(/(ndan|nden|ndan:|nden:|:)\s*$/i, '').replace(/(ndan|nden):?$/i, '') + ': ' + konu).replace(/^T\.C\.\s*/, '').trim().slice(0, 170);
+    return (kurum.replace(/\s*['’]\s*(ndan|nden)?\s*:?\s*$/i, '').replace(/(ndan|nden|ndan:|nden:|:)\s*$/i, '').replace(/(ndan|nden):?$/i, '') + ': ' + konu).replace(/^T\.C\.\s*/, '').trim().slice(0, 170);
   }
 
   const api = { pdfOku, bol, degerlendir, ilanAdi, genelSartlar };
