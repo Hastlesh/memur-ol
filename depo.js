@@ -110,6 +110,28 @@
   // Claude yeni ilanları yükleyip sayfayı yeniden yayınlar; açık uygulama 10 dakikada bir ve
   // telefona geri dönülünce yeniden bakar. Dosya yoksa eski yol: Claude veritabanı.
   // gelince(ilanlar, guncel, kaynak): kaynak = 'canli' (internetten) | 'gomulu' (Android'in içindeki kopya) | 'onbellek' (internet yok, son görülen)
+  // Gelen ilan listesini denetler: biçimi bozuk ya da beklenmeyen kayıtlar atılır. Veri kaynağı (GitHub)
+  // bozulsa ya da ele geçirilse bile uygulama çökmez, tuhaf veri ekrana gelmez (OWASP A08: veri bütünlüğü).
+  const KIMLIK = /^[\w-]{1,160}$/;
+  function denetle(v) {
+    const L = Array.isArray(v) ? v : v && v.ilanlar;
+    if (!Array.isArray(L) || L.length > 3000) throw new Error('biçim');
+    const temiz = [], gorulen = new Set();
+    const yazi = (s, n) => s == null || (typeof s === 'string' && s.length <= n);
+    for (const x of L) {
+      if (!x || typeof x !== 'object' || Array.isArray(x)) continue;
+      if (typeof x.id !== 'string' || !KIMLIK.test(x.id) || gorulen.has(x.id)) continue;
+      if (typeof x.metin !== 'string' || x.metin.length > 600000) continue;
+      if (!yazi(x.ad, 2000) || !yazi(x.kaynak, 2000)) continue;
+      if (x.B != null && (typeof x.B !== 'object' || Array.isArray(x.B))) continue;
+      if (x.uyari != null && !Array.isArray(x.uyari)) continue;
+      if (x.eklendi != null && !Number.isFinite(x.eklendi)) continue;
+      gorulen.add(x.id); temiz.push(x);
+    }
+    const g = v && !Array.isArray(v) ? v.guncel : null;
+    return { L: temiz, guncel: typeof g === 'string' || Number.isFinite(g) ? g : null };
+  }
+
   let yenileFn = null;
   async function ortakIlanlar(gelince, olmadi) {
     let son = '';
@@ -121,12 +143,13 @@
       if (!r) { if (kok.ILAN_ADRESI) kaynak = 'gomulu'; r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' }) }
       if (!r.ok) throw new Error(r.status);
       const metin = await r.text();
+      if (metin.length > 30e6) throw new Error('büyük');
       if (metin === son) return kaynak;
-      const v = JSON.parse(metin), L = Array.isArray(v) ? v : v && v.ilanlar;
-      if (!Array.isArray(L)) throw new Error('biçim');
+      const { L, guncel } = denetle(JSON.parse(metin));
+      if (!L.length) throw new Error('boş');   // boş/bozuk liste eskisinin yerine geçmez
       son = metin;
       try { localStorage.setItem('st_ortak', metin) } catch {}
-      gelince(L, v.guncel || null, kaynak);
+      gelince(L, guncel, kaynak);
       return kaynak;
     };
     yenileFn = getir;
@@ -138,8 +161,8 @@
     } catch {
       // İnternet yoksa son görülen liste
       try {
-        const v = JSON.parse(localStorage.getItem('st_ortak')), L = Array.isArray(v) ? v : v && v.ilanlar;
-        if (Array.isArray(L) && L.length) { gelince(L, v.guncel || null, 'onbellek'); setInterval(() => getir().catch(() => {}), 60000); return }
+        const { L, guncel } = denetle(JSON.parse(localStorage.getItem('st_ortak')));
+        if (L.length) { gelince(L, guncel, 'onbellek'); setInterval(() => getir().catch(() => {}), 60000); return }
       } catch {}
     }
     if (!kok.claude || !kok.claude.use) return olmadi();

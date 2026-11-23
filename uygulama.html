@@ -520,7 +520,13 @@ function ciz(d) {
   if (d.sekme) sekme = d.sekme;
   for (const b of $('nav').querySelectorAll('button')) b.setAttribute('aria-current', d.ekran === 'ana' && b.dataset.sekme === sekme ? 'page' : 'false');
   K.replaceChildren();
-  ({ hosgeldin: hosgeldinCiz, sihir: sihirCiz, ana: anaCiz, ilan: ilanCiz, poz: pozCiz })[d.ekran](d);
+  // Bir ekran çizilirken hata olursa boş beyaz sayfa kalmasın: kısa açıklama + çıkış yolu
+  try { ({ hosgeldin: hosgeldinCiz, sihir: sihirCiz, ana: anaCiz, ilan: ilanCiz, poz: pozCiz })[d.ekran](d) }
+  catch (h) {
+    console.log('ST ekran hatası:', h && h.message);
+    K.replaceChildren(ustSatir(), el('div', { class: 'bos' }, ikon('soru'), el('p', { text: 'Bu ekranı açarken bir sorun oldu.' }),
+      el('button', { class: 'ikincil', onclick: () => { history.replaceState({ ekran: profil ? 'ana' : 'hosgeldin', sekme: 'uygun' }, ''); ciz(profil ? { ekran: 'ana', sekme: 'uygun' } : { ekran: 'hosgeldin' }) } }, ikon('geri'), 'Ana sayfaya dön')));
+  }
   // Her ekranın kendi başlığı (ekran okuyucu ve sekme adı için — WCAG 2.4.2)
   const h1 = K.querySelector('h1'), ad = d.ekran === 'ana' ? { ilanlar: 'İlanlar', uygun: 'Sana uygun', profil: 'Profil' }[sekme] : h1 && h1.textContent;
   document.title = (ad ? ad + ' · ' : '') + 'Şartım Tamam';
@@ -764,8 +770,16 @@ function profilCiz() {
     const acik = bildirimAcik();
     K.append(el('button', { class: 'ikincil', style: 'margin-top:14px', onclick: () => { acik ? Android.bildirimKapat() : Android.bildirimAc(); setTimeout(bildirimGuncel, 300) } },
       ikon('zil'), acik ? 'Bildirimler açık · kapat' : 'Yeni ilan bildirimlerini aç'));
+    // Arka plan denetimi çalışıyor mu? (telefon pil tasarrufu için durdurabilir)
+    const sd = oku('sonDenetim', null);
+    if (acik) {
+      const dk = sd && Number.isFinite(sd.t) ? Math.max(0, Math.round((Date.now() - sd.t) / 60000)) : null;
+      const ne = dk == null ? 'Henüz arka plan kontrolü olmadı' : 'Son kontrol: ' + (dk < 60 ? (dk || 1) + ' dk önce' : dk < 1440 ? Math.round(dk / 60) + ' saat önce' : Math.round(dk / 1440) + ' gün önce') + (sd.ok ? '' : ' · ilanlara ulaşılamadı');
+      K.append(el('p', { class: 'kucuk-not', style: 'margin:6px 4px 0;font-size:.82rem;color:' + (dk != null && dk > 720 ? 'var(--bak)' : 'var(--soluk)') },
+        ne + (dk != null && dk > 720 ? '. Telefonun pil ayarlarında Şartım Tamam için "Kısıtlama yok" seç.' : '')));
+    }
   }
-  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
+  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); yaz('sonDenetim', null); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
   K.append(el('button', { class: 'ikincil', style: 'margin-top:10px', onclick: e => uygulamaPaylas(e.currentTarget) }, ikon('paylas'), el('span', { text: 'Uygulamayı arkadaşınla paylaş' })));
   const giz = el('details', { class: 'acilir' }); giz.append(el('summary', {}, ikon('kalkan'), 'Gizlilik'));
   for (const t of ['Girdiğin bilgiler yalnızca bu cihazda saklanır; hiçbir sunucuya gönderilmez, hesap yoktur.',
@@ -909,9 +923,13 @@ window.bildirimdenAc = s => {
   if (yuklendi) git(temiz); else bekleyenAc = temiz;
 };
 function arkaDenetim() {
-  const bit = () => { try { Arka.bitti() } catch { } };
-  if (!profil || !profil.okul) { bit(); return }
-  Depo.ortakIlanlar(L => {
+  // Ne olursa olsun iş bitirilir (yoksa telefon 1,5 dk bekler); sonuç profilde "Son kontrol" olarak görünür
+  const bit = ok => { try { yaz('sonDenetim', { t: Date.now(), ok: ok === true }) } catch { } try { Arka.bitti() } catch { } };
+  if (!profil || !profil.okul) { bit(true); return }
+  Depo.ortakIlanlar(L => { try { arkaIs(L) } catch (h) { console.log('ST arka hata:', h && h.message) } bit(true) }, () => bit(false));
+}
+function arkaIs(L) {
+  {
     ilanlar = L; yuklendi = true;
     const once = oku('bildirilen', null), P = ilgili();
     if (once) {
@@ -934,8 +952,7 @@ function arkaDenetim() {
       L.forEach(o => H.add(pozAnahtar(o.z) + '|' + o.g));
     }
     yaz('hatirlatilan', [...H].slice(-600));
-    bit();
-  }, bit);
+  }
 }
 
 // ---------- Başlangıç ----------

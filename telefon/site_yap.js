@@ -5,10 +5,10 @@ const fs = require('fs'), path = require('path');
 const K = path.join(__dirname, '..'), D = path.join(K, 'docs');
 fs.mkdirSync(D, { recursive: true });
 const govde = fs.readFileSync(path.join(__dirname, 'sartim-tamam.html'), 'utf8').replace(/^<title>.*?<\/title>\s*/s, '');
-const html = `<!doctype html>
+let html = `<!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="{{CSP}}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
@@ -24,6 +24,7 @@ ${govde}
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body></html>
 `;
+html = require('./csp').cspEkle(html, { ek: "worker-src 'self'; manifest-src 'self'" });
 fs.writeFileSync(path.join(D, 'index.html'), html);
 fs.copyFileSync(path.join(__dirname, 'ilanlar.json'), path.join(D, 'ilanlar.json'));
 fs.writeFileSync(path.join(D, 'manifest.webmanifest'), JSON.stringify({

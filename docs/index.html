@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-reErayB1d+txSqjJI9m0SNmR3HDTKZKukPA4xc3SWNQ=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-JVbKcFl92LK7/rptmwS43w/VkrrTMLi/Mct82eZ/v/c=' 'sha256-2sE46OFTFApoqBPey6d5Ce4sehxz5EUr3LyusUodt1k=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
@@ -1065,6 +1065,28 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
   // Claude yeni ilanları yükleyip sayfayı yeniden yayınlar; açık uygulama 10 dakikada bir ve
   // telefona geri dönülünce yeniden bakar. Dosya yoksa eski yol: Claude veritabanı.
   // gelince(ilanlar, guncel, kaynak): kaynak = 'canli' (internetten) | 'gomulu' (Android'in içindeki kopya) | 'onbellek' (internet yok, son görülen)
+  // Gelen ilan listesini denetler: biçimi bozuk ya da beklenmeyen kayıtlar atılır. Veri kaynağı (GitHub)
+  // bozulsa ya da ele geçirilse bile uygulama çökmez, tuhaf veri ekrana gelmez (OWASP A08: veri bütünlüğü).
+  const KIMLIK = /^[\w-]{1,160}$/;
+  function denetle(v) {
+    const L = Array.isArray(v) ? v : v && v.ilanlar;
+    if (!Array.isArray(L) || L.length > 3000) throw new Error('biçim');
+    const temiz = [], gorulen = new Set();
+    const yazi = (s, n) => s == null || (typeof s === 'string' && s.length <= n);
+    for (const x of L) {
+      if (!x || typeof x !== 'object' || Array.isArray(x)) continue;
+      if (typeof x.id !== 'string' || !KIMLIK.test(x.id) || gorulen.has(x.id)) continue;
+      if (typeof x.metin !== 'string' || x.metin.length > 600000) continue;
+      if (!yazi(x.ad, 2000) || !yazi(x.kaynak, 2000)) continue;
+      if (x.B != null && (typeof x.B !== 'object' || Array.isArray(x.B))) continue;
+      if (x.uyari != null && !Array.isArray(x.uyari)) continue;
+      if (x.eklendi != null && !Number.isFinite(x.eklendi)) continue;
+      gorulen.add(x.id); temiz.push(x);
+    }
+    const g = v && !Array.isArray(v) ? v.guncel : null;
+    return { L: temiz, guncel: typeof g === 'string' || Number.isFinite(g) ? g : null };
+  }
+
   let yenileFn = null;
   async function ortakIlanlar(gelince, olmadi) {
     let son = '';
@@ -1076,12 +1098,13 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
       if (!r) { if (kok.ILAN_ADRESI) kaynak = 'gomulu'; r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' }) }
       if (!r.ok) throw new Error(r.status);
       const metin = await r.text();
+      if (metin.length > 30e6) throw new Error('büyük');
       if (metin === son) return kaynak;
-      const v = JSON.parse(metin), L = Array.isArray(v) ? v : v && v.ilanlar;
-      if (!Array.isArray(L)) throw new Error('biçim');
+      const { L, guncel } = denetle(JSON.parse(metin));
+      if (!L.length) throw new Error('boş');   // boş/bozuk liste eskisinin yerine geçmez
       son = metin;
       try { localStorage.setItem('st_ortak', metin) } catch {}
-      gelince(L, v.guncel || null, kaynak);
+      gelince(L, guncel, kaynak);
       return kaynak;
     };
     yenileFn = getir;
@@ -1093,8 +1116,8 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
     } catch {
       // İnternet yoksa son görülen liste
       try {
-        const v = JSON.parse(localStorage.getItem('st_ortak')), L = Array.isArray(v) ? v : v && v.ilanlar;
-        if (Array.isArray(L) && L.length) { gelince(L, v.guncel || null, 'onbellek'); setInterval(() => getir().catch(() => {}), 60000); return }
+        const { L, guncel } = denetle(JSON.parse(localStorage.getItem('st_ortak')));
+        if (L.length) { gelince(L, guncel, 'onbellek'); setInterval(() => getir().catch(() => {}), 60000); return }
       } catch {}
     }
     if (!kok.claude || !kok.claude.use) return olmadi();
@@ -2193,7 +2216,13 @@ function ciz(d) {
   if (d.sekme) sekme = d.sekme;
   for (const b of $('nav').querySelectorAll('button')) b.setAttribute('aria-current', d.ekran === 'ana' && b.dataset.sekme === sekme ? 'page' : 'false');
   K.replaceChildren();
-  ({ hosgeldin: hosgeldinCiz, sihir: sihirCiz, ana: anaCiz, ilan: ilanCiz, poz: pozCiz })[d.ekran](d);
+  // Bir ekran çizilirken hata olursa boş beyaz sayfa kalmasın: kısa açıklama + çıkış yolu
+  try { ({ hosgeldin: hosgeldinCiz, sihir: sihirCiz, ana: anaCiz, ilan: ilanCiz, poz: pozCiz })[d.ekran](d) }
+  catch (h) {
+    console.log('ST ekran hatası:', h && h.message);
+    K.replaceChildren(ustSatir(), el('div', { class: 'bos' }, ikon('soru'), el('p', { text: 'Bu ekranı açarken bir sorun oldu.' }),
+      el('button', { class: 'ikincil', onclick: () => { history.replaceState({ ekran: profil ? 'ana' : 'hosgeldin', sekme: 'uygun' }, ''); ciz(profil ? { ekran: 'ana', sekme: 'uygun' } : { ekran: 'hosgeldin' }) } }, ikon('geri'), 'Ana sayfaya dön')));
+  }
   // Her ekranın kendi başlığı (ekran okuyucu ve sekme adı için — WCAG 2.4.2)
   const h1 = K.querySelector('h1'), ad = d.ekran === 'ana' ? { ilanlar: 'İlanlar', uygun: 'Sana uygun', profil: 'Profil' }[sekme] : h1 && h1.textContent;
   document.title = (ad ? ad + ' · ' : '') + 'Şartım Tamam';
@@ -2437,8 +2466,16 @@ function profilCiz() {
     const acik = bildirimAcik();
     K.append(el('button', { class: 'ikincil', style: 'margin-top:14px', onclick: () => { acik ? Android.bildirimKapat() : Android.bildirimAc(); setTimeout(bildirimGuncel, 300) } },
       ikon('zil'), acik ? 'Bildirimler açık · kapat' : 'Yeni ilan bildirimlerini aç'));
+    // Arka plan denetimi çalışıyor mu? (telefon pil tasarrufu için durdurabilir)
+    const sd = oku('sonDenetim', null);
+    if (acik) {
+      const dk = sd && Number.isFinite(sd.t) ? Math.max(0, Math.round((Date.now() - sd.t) / 60000)) : null;
+      const ne = dk == null ? 'Henüz arka plan kontrolü olmadı' : 'Son kontrol: ' + (dk < 60 ? (dk || 1) + ' dk önce' : dk < 1440 ? Math.round(dk / 60) + ' saat önce' : Math.round(dk / 1440) + ' gün önce') + (sd.ok ? '' : ' · ilanlara ulaşılamadı');
+      K.append(el('p', { class: 'kucuk-not', style: 'margin:6px 4px 0;font-size:.82rem;color:' + (dk != null && dk > 720 ? 'var(--bak)' : 'var(--soluk)') },
+        ne + (dk != null && dk > 720 ? '. Telefonun pil ayarlarında Şartım Tamam için "Kısıtlama yok" seç.' : '')));
+    }
   }
-  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
+  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); yaz('sonDenetim', null); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
   K.append(el('button', { class: 'ikincil', style: 'margin-top:10px', onclick: e => uygulamaPaylas(e.currentTarget) }, ikon('paylas'), el('span', { text: 'Uygulamayı arkadaşınla paylaş' })));
   const giz = el('details', { class: 'acilir' }); giz.append(el('summary', {}, ikon('kalkan'), 'Gizlilik'));
   for (const t of ['Girdiğin bilgiler yalnızca bu cihazda saklanır; hiçbir sunucuya gönderilmez, hesap yoktur.',
@@ -2582,9 +2619,13 @@ window.bildirimdenAc = s => {
   if (yuklendi) git(temiz); else bekleyenAc = temiz;
 };
 function arkaDenetim() {
-  const bit = () => { try { Arka.bitti() } catch { } };
-  if (!profil || !profil.okul) { bit(); return }
-  Depo.ortakIlanlar(L => {
+  // Ne olursa olsun iş bitirilir (yoksa telefon 1,5 dk bekler); sonuç profilde "Son kontrol" olarak görünür
+  const bit = ok => { try { yaz('sonDenetim', { t: Date.now(), ok: ok === true }) } catch { } try { Arka.bitti() } catch { } };
+  if (!profil || !profil.okul) { bit(true); return }
+  Depo.ortakIlanlar(L => { try { arkaIs(L) } catch (h) { console.log('ST arka hata:', h && h.message) } bit(true) }, () => bit(false));
+}
+function arkaIs(L) {
+  {
     ilanlar = L; yuklendi = true;
     const once = oku('bildirilen', null), P = ilgili();
     if (once) {
@@ -2607,8 +2648,7 @@ function arkaDenetim() {
       L.forEach(o => H.add(pozAnahtar(o.z) + '|' + o.g));
     }
     yaz('hatirlatilan', [...H].slice(-600));
-    bit();
-  }, bit);
+  }
 }
 
 // ---------- Başlangıç ----------
