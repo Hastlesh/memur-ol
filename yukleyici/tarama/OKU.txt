@@ -14,6 +14,13 @@
   Deneme: --bas YYYYMMDD --son YYYYMMDD --deneme  (durum.json'u değiştirmez)
   is\ klasörü: indirilen günlük sayfalar, PDF'ler ve OCR metinleri (önbellek).
 
+SBB KARŞILAŞTIRMASI (sadece bu bilgisayardan; SBB yurt dışından/GitHub'dan 403 verir):
+  otomatik.py çıktısında "SBB'DE OLUP BİZDE OLMAYABİLEN" listesi: Resmî Gazete'de olmayan, sadece kurum sitesinde/
+  Kariyer Kapısı'nda/İŞKUR'da yayımlanan ilanlar. Asıl metni kurumun kendi sitesinden al (ilan.gov.tr ve haber siteleri DEĞİL), sonra:
+  node yukleyici\metin_ekle.js <metin.txt> --kaynak <kurum sayfası> --gun YYYYMMDD   (metinler: yukleyici\elle\metin\)
+  Kaynaklar: MSB → personeltemin.msb.gov.tr (DuyuruDetay → DosyaIndir PDF'leri); kariyerkapisi.gov.tr/isealim listesi HTML olarak okunur.
+  Son günü bugün olan ilan da alınır (23.59'a kadar başvurulabilir).
+
 Güvenlik kuralları (dersler):
   - SBB tarihi yalnızca ilanda tarih yoksa ve SBB başlığındaki "kişi sayısı + sözcük" ilanla tutuyorsa kullanılır
     (Burdur MAKÜ ve SGK denetmen ilanları başka ilanın tarihini almıştı, ikisinin de süresi geçmişti).

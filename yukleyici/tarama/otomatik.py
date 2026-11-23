@@ -6,7 +6,7 @@
 #  4. Her ilan yukle.js ile kadrolara bölünür; son gün SBB kamu ilanları dizini ile karşılaştırılır
 #  5. yeni.json: hazir (yüklenecek), kaldir (iptal/düzeltme yüzünden silinecek eski kayıt), bak (elle), atla
 # --deneme: durum.json'u değiştirmez. Yükleme yapılınca: python -I otomatik.py --yuklendi
-import sys, re, html, time, json, os, datetime, subprocess, urllib.request, unicodedata, shutil
+import sys, re, html, time, json, os, datetime, subprocess, urllib.request, unicodedata, shutil, glob
 import pymupdf
 sys.stdout.reconfigure(encoding='utf-8')
 T = os.path.dirname(os.path.abspath(__file__)); Y = os.path.dirname(T)
@@ -241,13 +241,42 @@ for n in iptaller + duzeltmeler:
         atla.append({'ad': n['ad'], 'gun': n['gun'], 'url': n['url'], 'kurum': n['anahtar'],
                      'neden': ('iptal' if n in iptaller else 'düzeltme') + ': listede olmayan bir ilanı anıyor'})
 
+# SBB'de açık görünüp bizde olmayan ilanlar (Resmî Gazete dışında, sadece kurum sitesinde/Kariyer Kapısı'nda yayımlananlar).
+# Kurum başına SBB'deki ilan sayısı bizdekinden fazlaysa fazlası "eksik olabilir" diye listelenir; akademik ve süresi geçenler hariç.
+sbbEksik = []
+if sbb:
+    # Bizdeki her ilanın adı + metninin başı (kurum ve konu sözcükleri burada geçer)
+    bizim = [sade(str(x.get('kurum', '')) + ' ' + str(x.get('anahtar', ''))) for x in hazir]
+    for f in glob.glob(os.path.join(Y, 'kayitlar', '*.json')):
+        try:
+            k = json.loads(json.load(open(f, encoding='utf-8'))['json'])
+            if k['id'] in durum['yuklu']: bizim.append(sade(k.get('ad', '') + ' ' + k.get('metin', '')[:3000]))
+        except Exception: pass
+    tekil, gor = [], set()
+    iptalli = {x['kurum'] for x in sbb if re.search(r'iptal', sade(x['baslik']))}   # iptal duyurusu olan kurumun ilanı sayılmaz
+    for x in sbb:
+        k = (x['kurum'], sade(x['baslik']))
+        if k in gor or x['son'] < bugun or x['kurum'] in iptalli or re.search(r'ogretim|arastirma gorevlisi|akademik|iptal|duzeltme', sade(x['baslik'])): continue
+        gor.add(k); tekil.append(x)
+    # Kurum adı sözcük sözcük aranır: "karsiyaka izmir belediye baskanligi" ↔ "izmir ili karsiyaka belediye baskanligi"
+    kelime = lambda kurum: [w for w in kurum.split() if len(w) > 2 and w not in ('ili', 'baskanligi', 'baskanlik', 'mudurlugu', 'genel', 've')]
+    GENEL = {'alacak', 'personel', 'ilani', 'alimi', 'temin', 'temini', 'edilecektir', 'sozlesmeli', 'yili', 'giris', 'sinavi'}
+    for x in tekil:
+        K_ = kelime(x['kurum'])
+        konu = [w for w in sade(x['baslik']).split() if len(w) > 4 and w not in GENEL and not w.isdigit()]
+        # Kurum sözcüklerinin hepsi ve konu sözcüklerinin çoğu aynı ilanda geçiyorsa bizde var
+        var = any(K_ and all(w in b for w in K_) and (not konu or sum(w in b for w in konu) >= max(1, len(konu) * 2 // 3)) for b in bizim)
+        if not var: sbbEksik.append({'kurum': x['kurum'], 'baslik': x['baslik'], 'son': x['son'].isoformat(), 'bizde': 0, 'sbbde': 1})
+
 json.dump({'tarih': bugun.isoformat(), 'hazir': hazir, 'kaldir': kaldir, 'bak': [{k: v for k, v in r.items() if k != 'metin'} for r in bak],
-           'atla': [{k: v for k, v in r.items() if k != 'metin'} for r in atla]}, open(YENI, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+           'atla': [{k: v for k, v in r.items() if k != 'metin'} for r in atla], 'sbbEksik': sbbEksik}, open(YENI, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 if not deneme:
     durum['sonGun'] = max(durum['sonGun'], son.strftime('%Y%m%d'))
     json.dump(durum, open(DURUM, 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
 print(f'\nHAZIR {len(hazir)}')
 for r in hazir: print(' ', r['son'], '|', r['kurum'][:58], '|', r['kadro'], 'kadro', '| OCR' if r['ocr'] else ('| RESİM TABLO' if r['eksik'] else ''), '|', r['sbb'], '| düzeltmeli' if r.get('duzeltme') else '')
+print(f'SBB\'DE OLUP BİZDE OLMAYABİLEN {len(sbbEksik)}' + ('' if sbb else ' (SBB okunamadı, karşılaştırma yapılmadı)'))
+for r in sorted(sbbEksik, key=lambda r: r['son']): print(' ', r['son'], '|', r['kurum'][:40], '|', r['baslik'][:70], f"| SBB {r['sbbde']} / bizde {r['bizde']}")
 print(f'KALDIR {len(kaldir)}')
 for r in kaldir: print(' ', r['id'], '|', r['neden'])
 print(f'ELLE BAK {len(bak)}')
