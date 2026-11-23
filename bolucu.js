@@ -327,9 +327,11 @@
       const R = [];
       let kpssPuan = null;   // geçmiş tabanla kıyas için
       // eksik: profilde boş olduğu için "bak" denen bilgi (okul, puan, dogum, ehliyet, boy, ikamet...)
-      const ekle = (durum, not, sinif, cumle, alinabilir, eksik) => {
+      // tur: şartın konusu (uygulamadaki "seni en çok engelleyen" özeti için); verilmezse sinif/nottan çıkarılır.
+      const ekle = (durum, not, sinif, cumle, alinabilir, eksik, tur) => {
+        if (!tur) tur = sinif === 'okul' ? 'okul' : sinif === 'cinsiyet' ? 'cinsiyet' : sinif === 'bolum' ? 'bolum' : sinif === 'puan' ? (/puanı ister, sende/.test(not) ? 'puanTur' : /KPSS ister\.$/.test(not) ? 'kpssYil' : 'kpss') : null;
         if (!R.some(r => r.durum === durum && r.not === not && (sinif !== 'diger' || r.cumle === cumle)))
-          R.push({ durum, not, sinif, cumle: cumle || '', alinabilir, eksik: durum === 'bak' ? eksik || null : null });
+          R.push({ durum, not, sinif, tur, cumle: cumle || '', alinabilir, eksik: durum === 'bak' ? eksik || null : null });
       };
       // Bazı ilanlar bölüm şartını "Öğrenim şartı" sütununa yazar.
       const okulSartli = /mezun|bölüm|program|fakülte|alanı|dalı/.test(kucuk(duz(k.okul)));
@@ -411,7 +413,7 @@
             }
           }
         }
-        ekle(r.durum, r.not, sinif, s.cumle, r.alinabilir, r.eksik);
+        ekle(r.durum, r.not, sinif, s.cumle, r.alinabilir, r.eksik, s.tur);
       }
       // Mezuniyet cümlesinde düz okul adından başka kelime varsa o bir alan şartıdır.
       for (const s of sartlar.filter(x => x.tur === 'okul')) {
@@ -441,8 +443,8 @@
       const benim = kok_(k.ad);
       for (const s of ortak) {
         if (s.kime.length && s.kime.includes(benim) === s.haric) continue;
-        if (s.durum === 'yok') ekle('yok', s.not, 'ortak', s.cumle, s.alinabilir);
-        else if (s.kime.length) ekle(s.durum, s.not, 'diger', s.cumle, null, s.eksik);
+        if (s.durum === 'yok') ekle('yok', s.not, 'ortak', s.cumle, s.alinabilir, null, s.tur);
+        else if (s.kime.length) ekle(s.durum, s.not, 'diger', s.cumle, null, s.eksik, s.tur);
         // İkamet sadece profilde il boşsa (doldurulsun diye) kadroya yansır; tanınmayan madde "ortak oku"da kalır.
         else if (s.durum === 'bak' && s.tur !== 'bilinmeyen' && !(s.tur === 'ikamet' && !s.eksik) && !(s.tur === 'genel' && p.genel)) ekle('bak', s.not, 'profil', s.cumle, null, s.eksik);
       }
