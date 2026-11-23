@@ -109,22 +109,27 @@
   // Herkesin okuduğu ilan listesi: sayfayla birlikte yayınlanan ilanlar.json (giriş gerekmez).
   // Claude yeni ilanları yükleyip sayfayı yeniden yayınlar; açık uygulama 10 dakikada bir ve
   // telefona geri dönülünce yeniden bakar. Dosya yoksa eski yol: Claude veritabanı.
+  // gelince(ilanlar, guncel, kaynak): kaynak = 'canli' (internetten) | 'gomulu' (Android'in içindeki kopya) | 'onbellek' (internet yok, son görülen)
+  let yenileFn = null;
   async function ortakIlanlar(gelince, olmadi) {
     let son = '';
     const getir = async () => {
+      let kaynak = 'canli';
       // Android uygulaması: önce internetteki güncel liste (window.ILAN_ADRESI), olmazsa uygulamanın içindeki kopya
       let r = null;
       if (kok.ILAN_ADRESI) { try { r = await fetch(kok.ILAN_ADRESI + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) r = null } catch { r = null } }
-      if (!r) r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!r) { if (kok.ILAN_ADRESI) kaynak = 'gomulu'; r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' }) }
       if (!r.ok) throw new Error(r.status);
       const metin = await r.text();
-      if (metin === son) return;
+      if (metin === son) return kaynak;
       const v = JSON.parse(metin), L = Array.isArray(v) ? v : v && v.ilanlar;
       if (!Array.isArray(L)) throw new Error('biçim');
       son = metin;
       try { localStorage.setItem('st_ortak', metin) } catch {}
-      gelince(L, v.guncel || null);
+      gelince(L, v.guncel || null, kaynak);
+      return kaynak;
     };
+    yenileFn = getir;
     try {
       await getir();
       setInterval(() => getir().catch(() => {}), 600000);
@@ -134,7 +139,7 @@
       // İnternet yoksa son görülen liste
       try {
         const v = JSON.parse(localStorage.getItem('st_ortak')), L = Array.isArray(v) ? v : v && v.ilanlar;
-        if (Array.isArray(L) && L.length) { gelince(L, v.guncel || null); return }
+        if (Array.isArray(L) && L.length) { gelince(L, v.guncel || null, 'onbellek'); setInterval(() => getir().catch(() => {}), 60000); return }
       } catch {}
     }
     if (!kok.claude || !kok.claude.use) return olmadi();
@@ -150,5 +155,7 @@
     }, () => { clearTimeout(saat); olmadi() });
   }
 
-  kok.Depo = { ortakIlanlar, oku: (ad, v) => bellek.has(ad) ? bellek.get(ad) : oku(ad, v), yaz, bagla };
+  // Elle yenile: internetten yeniden indirir; sonuç kaynağı döner (hata = internet yok)
+  const ilanYenile = () => yenileFn ? yenileFn() : Promise.reject(new Error('hazır değil'));
+  kok.Depo = { ortakIlanlar, ilanYenile, oku: (ad, v) => bellek.has(ad) ? bellek.get(ad) : oku(ad, v), yaz, bagla };
 })(this);

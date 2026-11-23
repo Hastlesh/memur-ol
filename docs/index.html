@@ -16,9 +16,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Şartım Tamam — az yazı, çok işaret: renk, simge, halka. Karşılama → 5 adım → İlanlar / Sana uygun / Profil → ayrıntı */
-:root{--zemin:#f6f4fb;--kart:#fff;--ic:#f1eef8;--yazi:#1b1530;--soluk:#6e6583;--cizgi:#e6e1f0;--ana:#4a24b8;--ana2:#7048e8;--koyu:#241164;--ana-ac:#efe9ff;--mercan:#ff6f4f;--mercan-yazi:#d2401f;--mercan-ac:#ffece7;--tamam:#08795a;--tamam-ac:#e1f6ee;--bak:#985400;--bak-ac:#fff2dc;--yok:#b3264a;--yok-ac:#fde8ec;--ters:#fff;--golge:0 1px 2px rgb(36 17 100/.05),0 6px 18px rgb(36 17 100/.07);--govde:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--golge:none;color-scheme:dark}}
-:root[data-theme="dark"]{--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--golge:none;color-scheme:dark}
+:root{--zemin:#f6f4fb;--kart:#fff;--ic:#f1eef8;--yazi:#1b1530;--soluk:#6e6583;--cizgi:#e6e1f0;--ana:#4a24b8;--ana2:#7048e8;--koyu:#241164;--ana-ac:#efe9ff;--mercan:#ff6f4f;--mercan-yazi:#d2401f;--mercan-ac:#ffece7;--tamam:#08795a;--tamam-ac:#e1f6ee;--bak:#985400;--bak-ac:#fff2dc;--yok:#b3264a;--yok-ac:#fde8ec;--ters:#fff;--ana-ustu:#fff;--golge:0 1px 2px rgb(36 17 100/.05),0 6px 18px rgb(36 17 100/.07);--govde:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--ana-ustu:#100c19;--golge:none;color-scheme:dark}}
+:root[data-theme="dark"]{--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--ana-ustu:#100c19;--golge:none;color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{background:var(--zemin);color:var(--yazi);font:16px/1.4 var(--govde);-webkit-text-size-adjust:100%;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
@@ -41,10 +41,10 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .marka{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.12em;letter-spacing:-.02em;flex:1}.marka b{color:var(--mercan-yazi)}
 .marka svg{width:36px;height:36px;flex:none}
 .yuvarlak{width:44px;height:44px;border-radius:50%;background:var(--kart);box-shadow:var(--golge);display:grid;place-items:center;color:var(--ana);text-decoration:none}
-.yuvarlak.zil-acik{background:var(--ana);color:#fff}
+.yuvarlak.zil-acik{background:var(--ana);color:var(--ana-ustu)}
 
 /* Düğmeler */
-.birincil{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border-radius:18px;background:linear-gradient(135deg,var(--ana2),var(--ana));color:#fff;font-weight:700;font-size:1.05em;text-decoration:none;box-shadow:0 6px 16px rgb(74 36 184/.25)}
+.birincil{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border-radius:18px;background:linear-gradient(135deg,#7048e8,#4a24b8);color:#fff;font-weight:700;font-size:1.05em;text-decoration:none;box-shadow:0 6px 16px rgb(74 36 184/.25)}
 :root:not([data-theme="light"]) .birincil{color:#fff}
 .birincil:disabled{opacity:.4;box-shadow:none}
 .ikincil{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:16px;background:var(--ana-ac);color:var(--ana);font-weight:700;text-decoration:none}
@@ -56,16 +56,16 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .secenek>button small{display:block;font-weight:500;color:var(--soluk);font-size:.8em}
 .secenek>button[aria-pressed="true"]{border-color:var(--ana2);background:var(--ana-ac);color:var(--ana)}
 .secenek .simge{width:38px;height:38px;border-radius:12px;background:var(--ic);display:grid;place-items:center;color:var(--ana)}
-.secenek>button[aria-pressed="true"] .simge{background:var(--ana);color:#fff}
+.secenek>button[aria-pressed="true"] .simge{background:var(--ana);color:var(--ana-ustu)}
 .cipler{display:flex;gap:8px;flex-wrap:wrap}
 .cipler>button{padding:9px 15px;border:1.5px solid var(--cizgi);border-radius:999px;background:var(--kart);font-weight:700;min-height:42px}
-.cipler>button[aria-pressed="true"]{background:var(--ana);border-color:var(--ana);color:#fff}
+.cipler>button[aria-pressed="true"]{background:var(--ana);border-color:var(--ana);color:var(--ana-ustu)}
 .kaydir{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 6px}.kaydir::-webkit-scrollbar{display:none}.kaydir>button{flex:none}
 .alan{margin-top:20px}.alan>.etiket{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:10px}
 .ipucu{display:block;color:var(--soluk);margin-top:6px;font-size:.82em}
 .ilerleme{display:flex;gap:6px;flex:1}.ilerleme i{flex:1;height:6px;border-radius:9px;background:var(--cizgi)}.ilerleme i.dolu{background:linear-gradient(90deg,var(--ana2),var(--ana))}
 .sihir-ust{display:flex;align-items:center;gap:14px;margin-bottom:18px}.sihir-ust .geri{width:42px;height:42px;border-radius:14px;background:var(--kart);box-shadow:var(--golge);display:grid;place-items:center}
-.adim-simge{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--ana2),var(--ana));color:#fff;display:grid;place-items:center;margin-bottom:12px}.adim-simge svg{width:28px;height:28px}
+.adim-simge{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#7048e8,#4a24b8);color:#fff;display:grid;place-items:center;margin-bottom:12px}.adim-simge svg{width:28px;height:28px}
 .alt-cubuk{position:fixed;left:0;right:0;bottom:0;z-index:5;background:color-mix(in srgb,var(--kart) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--cizgi);padding:10px max(16px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
 .alt-cubuk>div{max-width:640px;margin:auto}
 .sayac{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:10px;font-size:.9em}
@@ -85,7 +85,7 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .nav .rozet-n{position:absolute;top:5px;left:calc(50% + 8px);background:var(--tamam);color:var(--ters);border-radius:99px;font-size:.85em;padding:0 6px;font-weight:800;line-height:1.5}
 
 /* Ana sayfa kahramanı */
-.hero{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--ana2),var(--ana) 55%,var(--koyu));color:#fff;border-radius:24px;padding:18px;display:flex;align-items:center;gap:16px;width:100%;text-align:left;box-shadow:0 10px 24px rgb(74 36 184/.28)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(140deg,#7048e8,#4a24b8 55%,#241164);color:#fff;border-radius:24px;padding:18px;display:flex;align-items:center;gap:16px;width:100%;text-align:left;box-shadow:0 10px 24px rgb(74 36 184/.28)}
 .hero::after{content:"";position:absolute;right:-40px;top:-50px;width:170px;height:170px;border-radius:50%;background:rgb(255 255 255/.08)}
 .hero .bilgi{flex:1;position:relative;z-index:1}.hero .etk{font-size:.78em;opacity:.8;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .hero .satir{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:700}.hero .satir b{font-size:1.4em}
@@ -162,15 +162,27 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
 .ozellik div{background:var(--kart);border-radius:18px;padding:14px 8px;box-shadow:var(--golge);font-weight:700;font-size:.85em;display:flex;flex-direction:column;align-items:center;gap:8px}
 .ozellik .rk{background:var(--ana-ac);color:var(--ana)}
 .ik.dolu svg{fill:currentColor}
-.hap.basvurdu{background:var(--ana);color:#fff}.hap.takipte{background:var(--ana-ac);color:var(--ana);padding:3px 6px}
-.yuvarlak.aktif{background:var(--ana);color:#fff}
+.hap.basvurdu{background:var(--ana);color:var(--ana-ustu)}.hap.takipte{background:var(--ana-ac);color:var(--ana);padding:3px 6px}
+.yuvarlak.aktif{background:var(--ana);color:var(--ana-ustu)}
 .engel-satir{display:grid;grid-template-columns:minmax(0,7.5em) 1fr 2em;gap:10px;align-items:center;margin:8px 0;font-size:.88em;font-weight:600}
 .engel-satir span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.engel-satir b{text-align:right}
 .engel-cubuk{height:10px;border-radius:9px;background:var(--ic);overflow:hidden}.engel-cubuk i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--yok),var(--mercan))}
 .hedef-satir{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--cizgi);font-size:.92em}.hedef-satir:first-of-type{border-top:0}
 .hedef-satir>span:nth-child(2){flex:1}.hedef-puan{width:46px;height:36px;border-radius:12px;background:var(--tamam-ac);color:var(--tamam);display:grid;place-items:center;font-size:1.05em}
+.serit{display:flex;gap:6px;margin:0 -16px 4px;padding:2px 16px 8px}
+.serit button{flex:none;width:48px;padding:8px 0 6px;border-radius:14px;background:var(--ic);display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--soluk)}
+.serit button i{font-style:normal;font-size:.7em;font-weight:700;text-transform:uppercase}.serit button b{font-size:1.1em;color:var(--yazi)}
+.serit button span{min-width:18px;height:18px;border-radius:9px;background:#d2401f;color:#fff;font-size:.72em;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.serit button .bos-n{background:none}.serit button:disabled{opacity:.45;cursor:default}
+.serit button[aria-pressed="true"]{background:var(--ana);color:var(--ana-ustu)}.serit button[aria-pressed="true"] b{color:var(--ana-ustu)}
+.meta .cevrimdisi{background:var(--bak-ac);color:var(--bak);border-radius:99px;padding:2px 9px}
+.meta button{margin-left:auto;display:inline-flex;align-items:center;gap:5px;color:var(--ana);font-weight:700;min-height:32px}
+.tost{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--yazi);color:var(--zemin);padding:10px 16px;border-radius:14px;font-weight:600;font-size:.9em;z-index:9;max-width:90vw}
+.iskelet{height:78px;border-radius:18px;margin-bottom:9px;background:linear-gradient(90deg,var(--ic) 25%,var(--kart) 50%,var(--ic) 75%);background-size:300% 100%;animation:parla 1.3s infinite linear}
+.iskelet.buyuk{height:132px;border-radius:24px;margin-bottom:16px}
+@keyframes parla{from{background-position:100% 0}to{background-position:0 0}}
 .takip-ust{display:flex;gap:8px}.takip-ust>*{flex:1}
-.ikincil[aria-pressed="true"]{background:var(--ana);color:#fff}
+.ikincil[aria-pressed="true"]{background:var(--ana);color:var(--ana-ustu)}
 [hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
@@ -1052,22 +1064,27 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
   // Herkesin okuduğu ilan listesi: sayfayla birlikte yayınlanan ilanlar.json (giriş gerekmez).
   // Claude yeni ilanları yükleyip sayfayı yeniden yayınlar; açık uygulama 10 dakikada bir ve
   // telefona geri dönülünce yeniden bakar. Dosya yoksa eski yol: Claude veritabanı.
+  // gelince(ilanlar, guncel, kaynak): kaynak = 'canli' (internetten) | 'gomulu' (Android'in içindeki kopya) | 'onbellek' (internet yok, son görülen)
+  let yenileFn = null;
   async function ortakIlanlar(gelince, olmadi) {
     let son = '';
     const getir = async () => {
+      let kaynak = 'canli';
       // Android uygulaması: önce internetteki güncel liste (window.ILAN_ADRESI), olmazsa uygulamanın içindeki kopya
       let r = null;
       if (kok.ILAN_ADRESI) { try { r = await fetch(kok.ILAN_ADRESI + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) r = null } catch { r = null } }
-      if (!r) r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!r) { if (kok.ILAN_ADRESI) kaynak = 'gomulu'; r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' }) }
       if (!r.ok) throw new Error(r.status);
       const metin = await r.text();
-      if (metin === son) return;
+      if (metin === son) return kaynak;
       const v = JSON.parse(metin), L = Array.isArray(v) ? v : v && v.ilanlar;
       if (!Array.isArray(L)) throw new Error('biçim');
       son = metin;
       try { localStorage.setItem('st_ortak', metin) } catch {}
-      gelince(L, v.guncel || null);
+      gelince(L, v.guncel || null, kaynak);
+      return kaynak;
     };
+    yenileFn = getir;
     try {
       await getir();
       setInterval(() => getir().catch(() => {}), 600000);
@@ -1077,7 +1094,7 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
       // İnternet yoksa son görülen liste
       try {
         const v = JSON.parse(localStorage.getItem('st_ortak')), L = Array.isArray(v) ? v : v && v.ilanlar;
-        if (Array.isArray(L) && L.length) { gelince(L, v.guncel || null); return }
+        if (Array.isArray(L) && L.length) { gelince(L, v.guncel || null, 'onbellek'); setInterval(() => getir().catch(() => {}), 60000); return }
       } catch {}
     }
     if (!kok.claude || !kok.claude.use) return olmadi();
@@ -1093,7 +1110,9 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
     }, () => { clearTimeout(saat); olmadi() });
   }
 
-  kok.Depo = { ortakIlanlar, oku: (ad, v) => bellek.has(ad) ? bellek.get(ad) : oku(ad, v), yaz, bagla };
+  // Elle yenile: internetten yeniden indirir; sonuç kaynağı döner (hata = internet yok)
+  const ilanYenile = () => yenileFn ? yenileFn() : Promise.reject(new Error('hazır değil'));
+  kok.Depo = { ortakIlanlar, ilanYenile, oku: (ad, v) => bellek.has(ad) ? bellek.get(ad) : oku(ad, v), yaz, bagla };
 })(this);
 
 </script>
@@ -1890,6 +1909,7 @@ const YOL = {
   kalkan: '<path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
   isik: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>',
   grafik: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', konum: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  yenile: '<path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/>', bulut: '<path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 10 4 4 0 0 1 18 18z"/><path d="m4 4 16 16"/>',
   arti: '<path d="M12 5v14M5 12h14"/>', yer: '<path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/>', cop: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>', ucretsiz: '<path d="M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/><path d="M9 9.5h3.5a1.8 1.8 0 0 1 0 3.6H10.5a1.8 1.8 0 0 0 0 3.6H15M12 7.5v1.8M12 16.7v1.8"/>'
 };
 const ikon = (ad, ek = '') => { const s = el('span', { class: 'ik ' + ek, 'aria-hidden': 'true' }); s.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${YOL[ad] || ''}</svg>`; return s };
@@ -1911,7 +1931,7 @@ function halka(dilimler, boyut, kalin, orta, renkArka = 'rgb(255 255 255 / .18)'
 }
 
 let profil = oku('kisiler', [])[0] || null;
-let ilanlar = [], guncel = null, yuklendi = false;
+let ilanlar = [], guncel = null, yuklendi = false, kaynakDurum = 'canli', bekleyenAc = null;
 let taslak = null, adim = 0, sekme = 'ilanlar', ara = '', suzgec = 'hepsi';
 
 // ---------- Hesap: ilan → pozisyonlar (kadro bazında) ----------
@@ -2080,6 +2100,32 @@ async function uygulamaPaylas(btn) {
     else if (navigator.share) await navigator.share({ title: 'Şartım Tamam', text: yazi });
     else { await navigator.clipboard.writeText(yazi); btn.lastChild.textContent = 'Bağlantı kopyalandı' }
   } catch { }
+}
+
+// Kısa uyarı (ekranın altında 2,5 sn)
+function uyar(metin) {
+  const t = el('div', { class: 'tost', role: 'status', text: metin }); document.body.append(t);
+  setTimeout(() => t.remove(), 2600);
+}
+// Yaklaşan son günler: önümüzdeki 14 gün, her gün kaç pozisyonun son günü (uygun/kontrol/takip; başvurulanlar hariç)
+let seciliGun = null;
+function seritKart(P) {
+  const gun = d => d.toLocaleDateString('sv-SE'), bugun = new Date(); bugun.setHours(0, 0, 0, 0);
+  const A = P.filter(z => (z.grup !== 'uymuyor' || takipDurum(z) === 'takip') && takipDurum(z) !== 'basvurdum' && sure(z.x).son && sure(z.x).kod !== 'acilmadi');
+  const harita = {}; for (const z of A) { const g = gun(sure(z.x).son.zaman); (harita[g] = harita[g] || []).push(z) }
+  const G = Array.from({ length: 14 }, (_, i) => new Date(+bugun + i * 864e5));
+  if (!G.some(d => harita[gun(d)])) return null;
+  const k = el('div', { class: 'kart', style: 'margin-top:12px' }, el('h2', { style: 'margin:0 0 10px' }, ikon('takvim'), 'Yaklaşan son günler'));
+  const serit = el('div', { class: 'serit kaydir' }), liste = el('div');
+  const goster = g => { seciliGun = g; liste.replaceChildren(...(harita[g] || []).map(pozKart)); for (const b of serit.children) b.setAttribute('aria-pressed', String(b.dataset.g === g)) };
+  for (const d of G) {
+    const g = gun(d), n = (harita[g] || []).length;
+    serit.append(el('button', { type: 'button', class: n ? 'var' : '', 'data-g': g, disabled: !n, 'aria-label': `${d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })}: ${n} son gün`, onclick: () => goster(g) },
+      el('i', { text: d.toLocaleDateString('tr-TR', { weekday: 'short' }) }), el('b', { text: String(d.getDate()) }), n ? el('span', { text: String(n) }) : el('span', { class: 'bos-n' })));
+  }
+  k.append(serit, liste);
+  goster(seciliGun && harita[seciliGun] ? seciliGun : gun(G.find(d => harita[gun(d)])));
+  return k;
 }
 
 // ---------- Kartlar ----------
@@ -2306,7 +2352,7 @@ function adimSon(p) {
 // ---------- Ana ekran ----------
 function anaCiz() {
   if (!profil) { git({ ekran: 'hosgeldin' }, false); return }
-  if (!yuklendi) { K.append(ustSatir(), el('p', { class: 'bos' }, ikon('saat'), el('br'), 'İlanlar yükleniyor…')); return }
+  if (!yuklendi) { K.append(ustSatir(), el('div', { class: 'iskelet buyuk', 'aria-hidden': 'true' }), ...[1, 2, 3, 4, 5].map(() => el('div', { class: 'iskelet', 'aria-hidden': 'true' })), el('p', { class: 'soluk kucuk', role: 'status', style: 'text-align:center', text: 'İlanlar yükleniyor…' })); return }
   ({ ilanlar: ilanlarCiz, uygun: uygunCiz, profil: profilCiz })[sekme]();
 }
 function ilanlarCiz() {
@@ -2320,8 +2366,18 @@ function ilanlarCiz() {
       el('div', { class: 'satir' }, el('span', { class: 'nokta', style: 'background:#4fe3b0' }), el('b', { text: String(u) }), 'başvurabilirsin'),
       el('div', { class: 'satir' }, el('span', { class: 'nokta', style: 'background:#ffc56b' }), el('b', { text: String(b) }), 'kontrol et')),
     el('span', { class: 'git' }, ikon('ileri'))));
+  const yenileD = el('button', { type: 'button', 'aria-label': 'İlanları yenile', onclick: async () => {
+    yenileD.disabled = true;
+    try {
+      const k = await Depo.ilanYenile(); uyar(k === 'canli' ? 'Liste güncel' : 'İnternete ulaşılamadı, kayıtlı liste gösteriliyor');
+      if (k && k !== kaynakDurum) { kaynakDurum = k; ciz({ ...durumSon, kaydir: scrollY }) }
+    }
+    catch { uyar('İnternete ulaşılamadı') }
+    yenileD.disabled = false;
+  } }, ikon('yenile'), 'Yenile');
   K.append(el('div', { class: 'meta' }, el('span', {}, ikon('belge'), `${A.length} açık ilan`),
-    guncel ? el('span', {}, ikon('saat'), new Date(guncel).toLocaleString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) : null));
+    guncel ? el('span', {}, ikon('saat'), new Date(guncel).toLocaleString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })) : null,
+    kaynakDurum !== 'canli' ? el('span', { class: 'cevrimdisi' }, ikon('bulut'), 'Çevrimdışı') : null, yenileD));
   const arama = el('input', { type: 'search', placeholder: 'Kurum, unvan, şehir…', value: ara, 'aria-label': 'Ara' });
   const liste = el('div');
   const turlar = [['hepsi', 'Tümü'], ['bana', 'Bana uyanlar'], ...Object.entries(Ozet.TURLER).map(([k, v]) => [k, v.ad])];
@@ -2354,6 +2410,7 @@ function uygunCiz() {
   K.append(el('div', { class: 'ozet3', style: 'margin-top:12px' },
     el('div', {}, el('span', { class: 'rk u' }, ikon('tik')), el('div', {}, el('div', { class: 'rakam', text: String(U.length) }), el('div', { class: 'ad', text: 'Uygun' }))),
     el('div', {}, el('span', { class: 'rk k' }, ikon('soru')), el('div', {}, el('div', { class: 'rakam', text: String(B.length) }), el('div', { class: 'ad', text: 'Kontrol et' })))));
+  const sk = seritKart(P); if (sk) K.append(sk);
   const tk = tamlikKart(profil); if (tk) K.append(tk);
   const T = P.filter(z => takipDurum(z)).sort((a, b) => zaman(a) - zaman(b));
   if (T.length) { K.append(el('h2', {}, ikon('yer', 'dolu'), 'Takip ettiklerin', el('span', { class: 'say', text: String(T.length) }))); T.forEach(z => K.append(pozKart(z))) }
@@ -2510,6 +2567,20 @@ function ilanCiz(d) {
 const anahtar = z => z.x.id + '#' + (z.i ?? -1);
 const ilgili = () => tumPozisyon(profil).filter(z => z.grup !== 'uymuyor');
 function isaretle(P = ilgili()) { const g = new Set(oku('bildirilen', [])); P.forEach(z => g.add(anahtar(z))); yaz('bildirilen', [...g].slice(-4000)) }
+// Bildirim + dokununca açılacak ekran: tek pozisyon → onun ayrıntısı, birden çok → "Sana uygun"
+function arkaBildir(baslik, metin, Z) {
+  const hedef = Z.length === 1 ? { ekran: 'poz', id: Z[0].x.id, i: Z[0].i ?? -1 } : { ekran: 'ana', sekme: 'uygun' };
+  try { Arka.bildir(baslik, metin, JSON.stringify(hedef)) } catch { Arka.bildir(baslik, metin) }
+}
+// Android bildirime dokununca çağırır. Gelen hedef doğrulanır (yalnızca bilinen ekranlar).
+window.bildirimdenAc = s => {
+  let d; try { d = typeof s === 'string' ? JSON.parse(s) : s } catch { return }
+  if (!d || !profil) return;
+  const temiz = d.ekran === 'poz' && typeof d.id === 'string' ? { ekran: 'poz', id: d.id, i: Number.isInteger(d.i) ? d.i : -1 }
+    : d.ekran === 'ana' && ['ilanlar', 'uygun', 'profil'].includes(d.sekme) ? { ekran: 'ana', sekme: d.sekme } : null;
+  if (!temiz) return;
+  if (yuklendi) git(temiz); else bekleyenAc = temiz;
+};
 function arkaDenetim() {
   const bit = () => { try { Arka.bitti() } catch { } };
   if (!profil || !profil.okul) { bit(); return }
@@ -2519,8 +2590,8 @@ function arkaDenetim() {
     if (once) {
       const s = new Set(once), yeni = g => P.filter(z => z.grup === g && !s.has(anahtar(z)));
       const U = yeni('uygun'), B = yeni('bak'), ad = z => (z.k ? z.ad : konuKisa(z.x)) + ' · ' + kurumKisa(z.x);
-      if (U.length) Arka.bildir(U.length === 1 ? 'Sana uygun yeni ilan' : `Sana uygun ${U.length} yeni ilan`, U.slice(0, 4).map(ad).join('\n') + (B.length ? `\n+${B.length} ilanda şartlarına bakmalısın` : ''));
-      else if (B.length) Arka.bildir(B.length === 1 ? 'Yeni ilan: şartlarına bak' : `${B.length} yeni ilan: şartlarına bak`, B.slice(0, 4).map(ad).join('\n'));
+      if (U.length) arkaBildir(U.length === 1 ? 'Sana uygun yeni ilan' : `Sana uygun ${U.length} yeni ilan`, U.slice(0, 4).map(ad).join('\n') + (B.length ? `\n+${B.length} ilanda şartlarına bakmalısın` : ''), U);
+      else if (B.length) arkaBildir(B.length === 1 ? 'Yeni ilan: şartlarına bak' : `${B.length} yeni ilan: şartlarına bak`, B.slice(0, 4).map(ad).join('\n'), B);
     }
     console.log('ST arka denetim:', P.length, 'pozisyon,', once ? P.filter(z => !once.includes(anahtar(z))).length : 'ilk', 'yeni');
     isaretle(P);
@@ -2532,7 +2603,7 @@ function arkaDenetim() {
     const ad2 = z => (z.k ? z.ad : konuKisa(z.x)) + ' · ' + kurumKisa(z.x);
     for (const [g, baslik] of [[bg, 'Bugün son gün'], [yg, 'Yarın son gün']]) {
       const L = aday.filter(o => o.g === g); if (!L.length) continue;
-      Arka.bildir(baslik + (L.length > 1 ? ` (${L.length} ilan)` : ''), L.slice(0, 4).map(o => ad2(o.z)).join('\n') + '\nBaşvurduysan uygulamada "Başvurdum" de.');
+      arkaBildir(baslik + (L.length > 1 ? ` (${L.length} ilan)` : ''), L.slice(0, 4).map(o => ad2(o.z)).join('\n') + '\nBaşvurduysan uygulamada "Başvurdum" de.', L.map(o => o.z));
       L.forEach(o => H.add(pozAnahtar(o.z) + '|' + o.g));
     }
     yaz('hatirlatilan', [...H].slice(-600));
@@ -2543,9 +2614,10 @@ function arkaDenetim() {
 // ---------- Başlangıç ----------
 if (window.Arka) arkaDenetim();   // Android arka plan denetimi: ekran çizilmez
 else {
-  Depo.ortakIlanlar((L, g) => {
-    ilanlar = L; guncel = g; yuklendi = true;
+  Depo.ortakIlanlar((L, g, kaynak) => {
+    ilanlar = L; guncel = g; yuklendi = true; kaynakDurum = kaynak || 'canli';
     if (profil) isaretle();
+    if (bekleyenAc) { const d = bekleyenAc; bekleyenAc = null; git(d); return }
     if (durumSon && durumSon.ekran === 'sihir') sayacGuncelle(); else if (durumSon) ciz(durumSon);
   }, () => { yuklendi = true; if (durumSon && durumSon.ekran !== 'sihir') { K.replaceChildren(ustSatir(), el('div', { class: 'bos' }, ikon('zil'), el('p', { text: 'İlanlara ulaşamadım. İnternetini kontrol et.' }))) } });
   if (profil && profil.okul && (Motor.puanListe(profil).length || profil.puanYok)) { history.replaceState({ ekran: 'ana', sekme: 'uygun' }, ''); sekme = 'uygun'; ciz({ ekran: 'ana', sekme: 'uygun' }) }
