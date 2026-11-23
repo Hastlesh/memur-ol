@@ -14,6 +14,11 @@
   Deneme: --bas YYYYMMDD --son YYYYMMDD --deneme  (durum.json'u değiştirmez)
   is\ klasörü: indirilen günlük sayfalar, PDF'ler ve OCR metinleri (önbellek).
 
+KARİYER KAPISI (her sabah bulutta da): resmî RSS beslemesi https://kariyerkapisi.gov.tr/RSS (kurum, başlık, tür, bağlantı; son gün YOK).
+  Bizde olmayan alım ilanı "duyuru" kaydı olur (kayitlar\kariyer-kapisi-<guid>.json, duyuru:true): uygulamada "kontrol et, ilanın sayfasına bak".
+  Beslemeden düşünce ya da Resmî Gazete'den tam okununca kendiliğinden kaldırılır. api.kariyerkapisi.gov.tr iç servislerine GİDİLMEZ (izin verilmedi).
+  Görevde yükselme, unvan değişikliği, yurt dışı eğitim, akademik vb. ayıklanır.
+
 SBB KARŞILAŞTIRMASI (sadece bu bilgisayardan; SBB yurt dışından/GitHub'dan 403 verir):
   otomatik.py çıktısında "SBB'DE OLUP BİZDE OLMAYABİLEN" listesi: Resmî Gazete'de olmayan, sadece kurum sitesinde/
   Kariyer Kapısı'nda/İŞKUR'da yayımlanan ilanlar. Asıl metni kurumun kendi sitesinden al (ilan.gov.tr ve haber siteleri DEĞİL), sonra:
