@@ -1,0 +1,23 @@
+# Sadece uygulama, ilan verisi ve tarama kodu depoya girer.
+# Android imza anahtarı/şifresi, indirilen araçlar, PDF önbelleği ve eski yedekler ASLA girmez.
+/*
+!/.gitignore
+!/.github/
+!/*.js
+!/uygulama.html
+!/index.html
+!/docs/
+!/telefon/
+/telefon/sartim-tamam.html
+!/yukleyici/
+/yukleyici/node_modules/
+/yukleyici/tarama/is/
+/yukleyici/tarama/yeni.json
+/yukleyici/tarama/dizin.py
+/yukleyici/tarama/rg*.py
+/yukleyici/tarama/toplu2.js
+/yukleyici/tarama/uygun_tara.js
+*.pdf
+*.jks
+*.apk
+*sifre*

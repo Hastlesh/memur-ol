@@ -1,0 +1,55 @@
+# Her sabah 08.17 (Türkiye) Resmî Gazete ilanlarını tarar, yeni ilanları yükler, siteyi günceller, ntfy ile bildirir.
+name: Günlük ilan taraması
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: tarama
+jobs:
+  tara:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Araçlar
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-tur
+          pip install -q pymupdf
+          cd yukleyici && npm ci --silent
+      - name: Tara
+        run: python -I yukleyici/tarama/otomatik.py | tee tarama.log
+      - name: Yükle
+        run: |
+          python -I yukleyici/tarama/otomatik.py --yuklendi
+          node yukleyici/ilanlar_yap.js
+          node telefon/yap.js
+          node telefon/site_yap.js
+          node yukleyici/tarama/kontrol.js | tee -a tarama.log
+      - name: Kaydet
+        run: |
+          git config user.name "Şartım Tamam tarayıcı"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A yukleyici/kayitlar yukleyici/tarama/durum.json docs telefon/ilanlar.json
+          git diff --cached --quiet && echo "değişiklik yok" || (git commit -q -m "İlan taraması $(date +%F)" && git push -q)
+      - name: Bildirim
+        run: |
+          python - <<'PY'
+          import json, urllib.request
+          y = json.load(open('yukleyici/tarama/yeni.json', encoding='utf-8'))
+          h = y.get('hazir', [])
+          if h:
+              kurum = ', '.join(sorted({r['kurum'].split(':')[0] for r in h}))[:300]
+              msg = f"{len(h)} yeni kamu ilanı: {kurum}. Sana uyanları görmek için uygulamayı aç."
+              req = urllib.request.Request('https://ntfy.sh/sartimtamam-l1mnao9by2', data=msg.encode('utf-8'),
+                    headers={'Title': 'Yeni kamu ilanları', 'Click': 'https://hastlesh.github.io/sartim-tamam/', 'Tags': 'bell'})
+              urllib.request.urlopen(req, timeout=30)
+              print('bildirim gönderildi:', msg)
+          else:
+              print('yeni ilan yok, bildirim yok')
+          PY

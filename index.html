@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Şartım Tamam</title>
+<style>
+/* Tek sütun telefon, iki sütun masaüstü. Önce son gün, sonra ilan ve karar, sonra profil. */
+:root{--zemin:#f3effa;--kart:#fff;--ic:#faf8fd;--yazi:#281b3d;--soluk:#6d617e;--cizgi:#d5cbe6;--ikinci:#e9e1f7;--not:#fff1e8;--bant:#6233b5;--ana:#6233b5;--vurgu:#ff8a5b;--vurgu-yazi:#281b3d;--ters:#fff;--tamam:#087f78;--bak:#a35a00;--yok:#bd2c4b;--gecmis:#77717f;--bilgi:#667;--govde:"Segoe UI",system-ui,-apple-system,sans-serif;--baslik:"Trebuchet MS","Avenir Next",system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#191422;--kart:#241d30;--ic:#2c243a;--yazi:#eee8f7;--soluk:#b3a8c4;--cizgi:#493d5c;--ikinci:#3a2f4c;--not:#3d2d2c;--bant:#42247a;--ana:#bda2f5;--ters:#191422;--tamam:#58c9c0;--bak:#eda957;--yok:#f17f98;--gecmis:#aaa3b3;--bilgi:#9b98aa;color-scheme:dark}}
+:root[data-theme="dark"]{--zemin:#191422;--kart:#241d30;--ic:#2c243a;--yazi:#eee8f7;--soluk:#b3a8c4;--cizgi:#493d5c;--ikinci:#3a2f4c;--not:#3d2d2c;--bant:#42247a;--ana:#bda2f5;--ters:#191422;--tamam:#58c9c0;--bak:#eda957;--yok:#f17f98;--gecmis:#aaa3b3;--bilgi:#9b98aa;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--zemin);color:var(--yazi);font:16px/1.45 var(--govde)}
+body.buyuk{font-size:21px}
+header{background:var(--bant);color:#fff;padding-block:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+h1{font:700 1.6em/1.2 var(--baslik);margin:0}h1 b{color:var(--vurgu)}header span{flex:1}
+h2{font-size:1.15em;margin:0 0 10px}
+main{display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1250px;margin:auto}
+@media(max-width:800px){main{grid-template-columns:minmax(0,1fr);gap:0}main>.ilanlar{order:-1}header span{flex-basis:100%;order:1}header h1{flex:1}}
+section{background:var(--kart);border-radius:18px;padding:16px;margin-bottom:16px}
+label{display:block;font-size:.88em;color:var(--soluk);margin-top:9px}
+input,select,textarea,button{font:inherit;border-radius:10px;border:1px solid var(--cizgi);background:var(--kart);color:var(--yazi);padding:8px;max-width:100%;min-height:42px}
+:focus-visible{outline:3px solid var(--vurgu);outline-offset:2px}
+label.tik>input{min-height:0;width:20px;height:20px;flex:none}
+label>input,label>select{display:block;width:100%;color:var(--yazi)}
+label.tik{display:flex;gap:8px;align-items:center}
+button{background:var(--vurgu);border:0;color:var(--vurgu-yazi);cursor:pointer;font-weight:600}
+button.ikinci{background:var(--ikinci);color:var(--yazi)}
+textarea{width:100%;height:190px}
+.sira{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px;align-items:center}
+.karar{color:var(--ters);border-radius:14px;padding:14px;font-size:1.35em;font-weight:700}
+.karar small{display:block;font-size:.65em;font-weight:400}
+.uygun{background:var(--tamam)}.karar.bak{background:var(--bak)}.uymuyor{background:var(--yok)}
+.uyari{background:var(--not);padding:10px;border-radius:10px;margin-top:10px}
+details{border-left:5px solid var(--renk);background:var(--ic);border-radius:8px;padding:8px 10px;margin-top:8px;overflow-wrap:anywhere}
+details p{color:var(--soluk);margin:6px 0 0}
+.d-tamam{--renk:var(--tamam)}.d-bak{--renk:var(--bak)}.d-yok{--renk:var(--yok)}.d-bilgi{--renk:var(--bilgi)}
+.g-uygun{--renk:var(--tamam)}.g-bak{--renk:var(--bak)}.g-belge{--renk:var(--ana)}.g-bolum{--renk:var(--bilgi)}.g-uymuyor{--renk:var(--yok)}
+details.kadro>summary small{display:block;color:var(--soluk)}
+details.kadro details{background:var(--kart)}
+summary{cursor:pointer}
+h2.grup{margin:20px 0 0}
+.puan{display:flex;gap:6px;margin-top:6px}.puan select,.puan input{min-width:0;flex:1;padding:8px 5px}.puan button{padding:6px 10px}
+table{width:100%;border-collapse:collapse;margin-top:8px}th,td{padding:5px 3px;border-bottom:1px solid var(--cizgi);font-variant-numeric:tabular-nums;text-align:right}th:first-child,td:first-child{text-align:left}th{font-size:.82em;color:var(--soluk)}tr.secili{background:var(--not);font-weight:600}
+.sure{border-radius:14px;padding:11px 14px;margin-bottom:10px;font-weight:700;background:var(--ikinci)}
+.sure p{font-weight:400;margin:5px 0 0;font-size:.9em}
+.s-gecti,.s-bugun{background:var(--yok);color:var(--ters)}.s-az{background:var(--vurgu);color:var(--vurgu-yazi)}.s-belirsiz{background:var(--not)}
+.karar.gecmis{background:var(--gecmis)}
+.rozet{font-size:.8em;border-radius:8px;padding:2px 7px;font-weight:600}
+small.taban{color:var(--ana)!important}.y-asil{color:var(--tamam)}.y-yedek,.y-sinir{color:var(--bak)}.y-geride{color:var(--yok)}
+.kaydir{overflow-x:auto}
+#eslesen .ilan{display:block;width:100%;text-align:left;background:var(--ic);color:var(--yazi);border:1px solid var(--cizgi);border-left:6px solid var(--renk);border-radius:12px;padding:11px 12px;margin-top:9px;font-weight:600}
+#eslesen .ilan small{display:block;font-weight:400;color:var(--soluk);margin-top:3px}
+#eslesen .ilan .rozet{float:right;margin-left:8px}
+.yeni{background:var(--vurgu);color:var(--vurgu-yazi);border-radius:6px;padding:1px 6px;font-size:.75em;margin-right:6px}
+#acil{max-width:1250px;margin:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#acil button{display:block;width:100%;margin-top:12px;text-align:left}
+a.alarm{display:block;background:var(--vurgu);color:var(--vurgu-yazi);border-radius:10px;padding:11px;margin-top:9px;font-weight:700;text-decoration:none}
+a.alarm small{display:block;font-weight:400}
+.kayitli{padding-block:10px;border-bottom:1px solid var(--cizgi)}.kayitli .sira{margin:0}.kayitli .sira .ikinci{flex:1 1 170px;min-width:0;overflow-wrap:anywhere}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+[hidden]{display:none!important}
+</style></head>
+<body>
+<header><h1>Şartım <b>Tamam</b></h1><span>İlanı ver, neyin tamam neyin eksik söylesin.</span>
+<button id="buyut">Büyük yazı</button></header>
+<div id="acil"></div>
+<main>
+<div class="profil">
+  <section><h2>Kimin için bakıyoruz?</h2>
+    <div class="sira"><select id="kisi"></select><button class="ikinci" id="kisiEkle">+ Kişi ekle</button></div>
+    <form id="profil"><fieldset id="profilAlan">
+      <label>Ad<input id="f_ad" name="ad"></label>
+      <label>Son mezun olunan okul<select id="f_okul" name="okul"></select></label>
+      <label>Bölüm<input id="f_bolum" name="bolum"></label>
+      <label>KPSS puanların (tür, puan, yıl)</label>
+      <div id="puanlar"></div>
+      <button type="button" class="ikinci" id="puanEkle" style="margin-top:6px">+ Puan ekle</button>
+      <label>Çalışmak istediğin iller (örnek: Antalya, Burdur)<input id="f_iller" name="iller"></label>
+      <label>Doğum tarihi<input id="f_dogum" name="dogum" type="date"></label>
+      <label>Cinsiyet<select id="f_cinsiyet" name="cinsiyet"><option></option><option value="K">Kadın</option><option value="E">Erkek</option></select></label>
+      <label>Askerlik<select id="f_asker" name="asker"><option></option><option value="yapti">Yaptı</option><option value="muaf">Muaf</option><option value="tecilli">Tecilli</option><option value="yapmadi">Yapmadı</option></select></label>
+      <label>Boy (cm)<input id="f_boy" name="boy" type="number"></label>
+      <label>Deneyim (yıl)<input id="f_deneyim" name="deneyim" type="number"></label>
+      <label>Ehliyetler (örnek: B, C)<input id="f_ehliyet" name="ehliyet"></label>
+      <div id="belgeler"></div>
+      <label class="tik"><input id="f_genel" type="checkbox" name="genel">Türk vatandaşıyım, sabıkam, ihracım ve göreve engel durumum yok</label>
+    </fieldset></form>
+    <p><small id="depoNot">Bilgiler sadece bu bilgisayarda durur.</small></p>
+  </section>
+  <section><h2>Kayıtlı ilanlar</h2><div id="kayitlar"></div></section>
+</div>
+<div class="ilanlar">
+  <section id="eslesenKutu" hidden><h2 id="eslesenBaslik">Sana uygun ilanlar</h2><div id="eslesen"></div></section>
+  <section><h2 id="ilanBaslik">İlan</h2>
+    <textarea id="metin" placeholder="İlan metnini yapıştır veya aşağıdan PDF seç. Son günü, sana uyan kadroları ve geçmiş tabanları burada görürsün."></textarea>
+    <div class="sira"><input type="file" id="dosya" accept=".pdf,.txt,application/pdf,text/plain">
+      <button id="bak">Şartlarıma bak</button><button class="ikinci" id="kaydet">İlanı kaydet</button><button class="ikinci" id="ornek">Örnekle dene</button></div>
+    <div class="sira" id="ekAlan" hidden><span>İl dağılımı (Ek-1):</span><input type="file" id="ekDosya" accept=".pdf" multiple></div>
+    <details class="d-bilgi"><summary>Geçmiş taban puan dosyası ekle</summary>
+      <p>GSB 2025 ve 2026 hazır yüklü. Başka alımın "yerleştirme istatistiği" PDF'i varsa ekle.</p>
+      <div class="sira"><input id="tabanYil" inputmode="numeric" placeholder="KPSS yılı" size="10"><input type="file" id="tabanDosya" accept=".pdf"></div>
+    </details>
+    <div id="mesaj" role="status"></div>
+  </section>
+  <section id="cikti" hidden></section>
+</div>
+</main>
+<script src="motor.js"></script>
+<script src="il.js"></script>
+<script src="sure.js"></script>
+<script src="bildirim.js"></script>
+<script src="depo.js"></script>
+<script src="taban.js"></script>
+<script src="taban_veri.js"></script>
+<script src="bolucu.js"></script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const oku = Depo.oku;
+const yaz = (k, v) => { if (!Depo.yaz(k, v)) $('mesaj').textContent = 'Tarayıcı kaydetmeye izin vermedi.' };
+const yeniNo = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const el = (tur, metin = '', sinif = '') => { const e = document.createElement(tur); e.textContent = metin; e.className = sinif; return e };
+
+let kisiler = oku('kisiler', [{ ad: 'Ben' }]), secili = 0, kayit = oku('kayit', []);
+for (const k of kayit) k.id = k.id || yeniNo();
+const form = $('profil');
+// form['ad'] gibi erişimlerde çakışma olmasın diye hep elements kullanılır.
+const alan = ad => form.elements.namedItem(ad);
+
+alan('okul').append(new Option(''), ...Object.entries(Motor.OKUL).map(([k, v]) => new Option(v, k)));
+for (const b of Motor.BELGELER) {
+  const l = el('label', '', 'tik'), i = el('input');
+  i.type = 'checkbox'; i.dataset.belge = b; i.id = 'b_' + Motor.BELGELER.indexOf(b); l.append(i, b); $('belgeler').append(l);
+}
+
+function kisiListe() {
+  $('kisi').replaceChildren(...kisiler.map((p, i) => new Option(p.ad || 'Adsız', i)));
+  $('kisi').value = secili;
+}
+const PUAN_TURLERI = ['P3', 'P93', 'P94', ...Array.from({ length: 48 }, (_, i) => 'P' + (i + 1)).filter(t => t !== 'P3')];
+function puanSatiri(x = {}) {
+  const d = el('div', '', 'puan'), t = el('select'), n = el('input'), y = el('input'), s = el('button', '✕', 'ikinci');
+  t.append(new Option('Tür', ''), ...PUAN_TURLERI.map(v => new Option(v, v)));
+  t.dataset.puan = 'tur'; n.dataset.puan = 'puan'; y.dataset.puan = 'yil';
+  t.setAttribute('aria-label', 'Puan türü'); n.setAttribute('aria-label', 'Puan'); y.setAttribute('aria-label', 'Sınav yılı');
+  n.placeholder = 'Puan'; n.inputMode = 'decimal'; y.placeholder = 'Yıl'; y.inputMode = 'numeric';
+  t.value = x.tur || ''; n.value = x.puan || ''; y.value = x.yil || '';
+  s.type = 'button'; s.title = 'Bu puanı sil';
+  s.onclick = () => { d.remove(); if (!$('puanlar').children.length) puanSatiri(); form.oninput() };
+  d.append(t, n, y, s); $('puanlar').append(d);
+}
+$('puanEkle').onclick = () => puanSatiri();
+
+function formDoldur() {
+  const p = kisiler[secili];
+  $('puanlar').replaceChildren();
+  // Eski kayıttaki tek puan ilk satıra taşınır.
+  const puanlar = p.puanlar || [{ tur: p.puanTur, puan: p.puan, yil: p.puanYil }];
+  (puanlar.length ? puanlar : [{}]).forEach(puanSatiri);
+  for (const i of form.elements) {
+    if (i.dataset.puan || (!i.name && !i.dataset.belge)) continue;
+    if (i.dataset.belge) i.checked = (p.belgeler || []).includes(i.dataset.belge);
+    else if (i.type === 'checkbox') i.checked = !!p[i.name];
+    else i.value = p[i.name] ?? '';
+  }
+}
+form.oninput = () => {
+  const p = { belgeler: [] };
+  p.puanlar = [...$('puanlar').children].map(d => Object.fromEntries([...d.querySelectorAll('[data-puan]')].map(i => [i.dataset.puan, i.value.trim()])))
+    .filter(x => x.tur || x.puan);
+  for (const i of form.elements) {
+    if (i.dataset.puan || (!i.name && !i.dataset.belge)) continue;
+    if (i.dataset.belge) { if (i.checked) p.belgeler.push(i.dataset.belge) }
+    else p[i.name] = i.type === 'checkbox' ? i.checked : i.value;
+  }
+  kisiler[secili] = p; yaz('kisiler', kisiler); kisiListe();
+  if (!$('cikti').hidden) goster();
+  eslesenleriGoster();
+};
+form.onsubmit = e => e.preventDefault();
+$('kisi').onchange = e => { secili = +e.target.value; formDoldur(); if (!$('cikti').hidden) goster(); eslesenleriGoster() };
+$('kisiEkle').onclick = () => { secili = kisiler.push({ ad: 'Yeni kişi' }) - 1; yaz('kisiler', kisiler); kisiListe(); formDoldur(); alan('ad').select() };
+
+// Uygulama kapalıyken bildirimi telefonun takvimi verir.
+function alarmKutusu(metin, S, c) {
+  if (S.kod === 'gecti') return;
+  const d = el('details', '', 'd-bilgi');
+  d.id = 'alarm'; d.open = true;
+  d.append(el('summary', 'Telefonuma bildirim kur'));
+  if (!S.son) { d.append(el('p', 'Son günü bulamadığım için alarm kuramam. Tarihi ilandan bakıp telefonuna kendin ekle.')); c.append(d); return }
+  const saat = el('select'), kutu = el('div'), l = el('label', 'Hatırlatma saati');
+  saat.id = 'alarmSaat';
+  for (const s of [8, 9, 10, 12, 14, 16, 18, 20]) saat.append(new Option(String(s).padStart(2, '0') + ':00', s));
+  saat.value = oku('saat', 10);
+  l.append(saat);
+  const ciz = () => {
+    const isler = Bildirim.planla(kayitAdi(metin), Sure.bul(metin), S, new Date(), +saat.value);
+    kutu.replaceChildren(...isler.map(x => {
+      const a = el('a', x.dugme, 'alarm');
+      a.href = x.adres; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.append(el('small', x.aciklama));
+      // Takvime giden ilan listede de dursun.
+      a.onclick = () => ilaniKaydet(metin);
+      return a;
+    }));
+    if (!isler.length) kutu.append(el('p', 'Hatırlatma için çok geç, hemen başvur.'));
+  };
+  saat.onchange = () => { yaz('saat', +saat.value); ciz() };
+  ciz();
+  const kopya = el('button', 'Tarihi kopyala', 'ikinci');
+  kopya.onclick = async () => {
+    const yazi = `${kayitAdi(metin)} - son başvuru ${S.son.zaman.toLocaleString('tr-TR', { dateStyle: 'long', timeStyle: 'short' })}`;
+    try { await navigator.clipboard.writeText(yazi); kopya.textContent = 'Kopyalandı' } catch { kopya.replaceWith(el('p', yazi)) }
+  };
+  d.append(l, kutu, el('p', 'Düğme Google Takvim\'i açar, orada Kaydet\'e bas. iPhone\'da Google Takvim uygulaması kurulu ve bildirimleri açık olmalı.'), kopya);
+  c.append(d);
+}
+
+function sureGoster(S, c) {
+  const d = el('div', S.baslik, 'sure s-' + S.kod);
+  for (const n of S.not) d.append(el('p', n));
+  if (S.son) {
+    const x = el('details', '', 'd-bilgi');
+    x.style.color = 'var(--yazi)'; x.style.fontWeight = '400';
+    x.append(el('summary', 'İlanda nerede yazıyor?'), el('p', '… ' + S.son.yer + ' …'));
+    d.append(x);
+  }
+  c.append(d);
+}
+
+const puanYaz = n => n == null ? '-' : n.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const KIYAS = { asil: 'asıla yeterdi', sinir: 'tam sınırda', yedek: 'yedeğe kalırdı', geride: 'yetmezdi', veriyok: 'veri yok', puanyok: 'puanın yok', farkli: 'farklı sınav', bilinmiyor: 'sınav yılı belirsiz' };
+const tabanSetleri = () => [...oku('taban', []), ...(window.TABAN_VERI || [])];
+
+function tabanOzet(k, secilen) {
+  const A = k.taban_gecmis[0];
+  if (!A) return '';
+  const bas = `${A.yil || 'Geçen'} alımı`;
+  if (secilen.length) return secilen.filter(il => !k.iller || k.iller[il]).map(il => {
+    // O il son alımda yoksa bir önceki alıma bakılır.
+    const H = k.taban_gecmis.find(x => x.iller[il] && x.iller[il].asil != null);
+    if (!H) return `${il}: geçmiş taban yok.`;
+    const K = Taban.kiyas(H.iller[il], k.kpssPuan, H);
+    const ek = K.fark != null && K.kod !== 'sinir' ? ` (${K.fark > 0 ? '+' : '-'}${puanYaz(Math.abs(K.fark))})` : '';
+    // Tek yıl yanıltır: bir önceki alım da söylenir.
+    const O = k.taban_gecmis.find(x => x !== H && x.yil < H.yil && x.iller[il] && x.iller[il].asil != null);
+    const onceki = O ? ` ${O.yil} tabanı ${puanYaz(O.iller[il].asil)}` + (k.kpssPuan ? `: ${KIYAS[Taban.kiyas(O.iller[il], k.kpssPuan, O).kod]}.` : '.') : '';
+    return `${H.yil} ${il} tabanı ${puanYaz(H.iller[il].asil)}` + (k.kpssPuan ? `, sende ${k.kpssPuan.yazi}: ${KIYAS[K.kod]}${ek}.` : '.') + onceki;
+  }).join(' ');
+  const L = Object.entries(A.iller).filter(([il, v]) => v.asil != null && (!k.iller || k.iller[il]));
+  if (!L.length) return '';
+  const S = L.map(([, v]) => Taban.kiyas(v, k.kpssPuan, A).kod);
+  if (S.includes('farkli') || S.includes('bilinmiyor')) return `${bas}: tabanlar var ama ${KIYAS[S[0]]}, kıyaslamadım.`;
+  if (!k.kpssPuan) return `${bas}: tabanlar ${puanYaz(Math.min(...L.map(x => x[1].asil)))} - ${puanYaz(Math.max(...L.map(x => x[1].asil)))} arası.`;
+  const asil = S.filter(x => x === 'asil').length, yedek = S.filter(x => x === 'yedek').length;
+  const B = k.taban_gecmis[1], LB = B ? Object.entries(B.iller).filter(([il, v]) => v.asil != null && (!k.iller || k.iller[il])) : [];
+  const onceki = LB.length ? ` ${B.yil} alımında ${LB.length} ilden ${LB.filter(([, v]) => Taban.kiyas(v, k.kpssPuan, B).kod === 'asil').length} ilde yeterdi.` : '';
+  return `${bas}: puanınla ${L.length} ilden ${asil} ilde asıla yeterdi${yedek ? `, ${yedek} ilde yedeğe kalırdın` : ''}.${onceki}`;
+}
+
+function tabanTablosu(k, secilen) {
+  const G = k.taban_gecmis.slice(0, 3);
+  if (!G.length) return null;
+  const iller = [...new Set(G.flatMap(a => Object.keys(a.iller)))].filter(il => !k.iller || k.iller[il]).map(il => {
+    const H = G.find(a => a.iller[il] && a.iller[il].asil != null);
+    return { il, H, K: H ? Taban.kiyas(H.iller[il], k.kpssPuan, H) : { kod: 'veriyok' } };
+  });
+  // Seçilen iller, sonra puanının en rahat yettiği iller
+  const deger = x => x.K.fark != null ? x.K.fark : x.H ? -1000 - x.H.iller[x.il].asil : -9999;
+  iller.sort((a, b) => secilen.includes(b.il) - secilen.includes(a.il) || deger(b) - deger(a));
+  const d = el('details', '', 'd-bilgi'), kutu = el('div', '', 'kaydir'), t = el('table'), h = el('tr');
+  h.append(...['İl', ...G.map(a => `${a.yil || '?'} asıl / yedek`), 'Son alımda puanın'].map(x => el('th', x))); t.append(h);
+  for (const x of iller) {
+    const tr = el('tr', '', secilen.includes(x.il) ? 'secili' : '');
+    tr.append(el('td', x.il), ...G.map(a => a.iller[x.il] ? el('td', `${puanYaz(a.iller[x.il].asil)} / ${puanYaz(a.iller[x.il].yedek)}`, 'y-' + Taban.kiyas(a.iller[x.il], k.kpssPuan, a).kod) : el('td', '-')),
+      el('td', KIYAS[x.K.kod] + (x.H && x.H !== G[0] ? ` (${x.H.yil})` : ''), 'y-' + x.K.kod));
+    t.append(tr);
+  }
+  kutu.append(t);
+  d.append(el('summary', 'Geçmiş taban puanlar, il il'), kutu, el('p', 'Yeşil: asıla yeterdi. Turuncu: yedek ya da sınır. Kırmızı: yetmezdi. Geçmiş sonuçtur, garanti değildir. Taban; başvuran sayısı ve kontenjanla değişir. Sözlü sınavlı alımda puan tek başına yetmez.'));
+  return d;
+}
+
+let pdfBelge = null;   // tablo bilgisi sadece PDF'ten gelir
+let ortakAcik = null;  // ortak listeden açılan ilan (hazır kadrolarıyla)
+let ortak = [];        // herkesin gördüğü ilanlar
+$('metin').oninput = () => { pdfBelge = null; ortakAcik = null; $('ekAlan').hidden = true };
+
+// Bir ilanın bu kişi için özeti. Ortak liste ve kayıtlar aynı hesabı kullanır.
+function ilanOzet(x, p) {
+  const S = Sure.durum(Sure.bul(x.metin)), tarih = S.son ? S.son.zaman : new Date();
+  const tercih = Il.tercihler(p.iller).iller;
+  if (x.eksik) return { S, g: 'bak', say: { bak: 1 }, kisi: 0, yazi: 'Tablosu resim, şartları okuyamadım. İlanın aslına bak.' };
+  if (!x.B) {
+    const r = Motor.incele(x.metin, p, tarih);
+    let g = r.sonuc === 'uygun' ? 'uygun' : r.sonuc === 'bak' ? 'bak' : 'uymuyor';
+    // Bölüm şartı olan ilanda kişinin bölümü hiç geçmiyorsa "olabilir" demek listeyi doldurur.
+    const bolumlu = r.satirlar.some(s => s.tur === 'bolum' && s.durum === 'bak');
+    const b = Motor.kucuk(p.bolum || '');
+    if (g === 'bak' && bolumlu && b.length > 2 && !Motor.kucuk(x.metin).includes(b)) {
+      return { S, g: 'uymuyor', say: { bolum: 1 }, kisi: 0, yazi: 'Bölümün ilanda geçmiyor' };
+    }
+    return { S, g, say: { [g]: 1 }, kisi: 0, yazi: { uygun: 'Şartların tamam görünüyor', bak: 'Olabilir, kontrol et', uymuyor: 'Şu an uymuyor' }[g] };
+  }
+  const r = Bolucu.degerlendir(x.B, p, tarih), say = {};
+  let kisi = 0;
+  r.kadrolar.forEach((k, i) => {
+    let g = k.grup;
+    const il = x.B.ilHarita && x.B.ilHarita[i];
+    if (tercih.length && il) {
+      const n = tercih.reduce((t, a) => t + (il[a] || 0), 0);
+      if (!n && ['uygun', 'bak', 'belge'].includes(g)) g = 'ildeYok';
+      else if (g === 'uygun') kisi += n;
+    }
+    say[g] = (say[g] || 0) + 1;
+  });
+  const g = say.uygun ? 'uygun' : say.bak ? 'bak' : say.belge ? 'belge' : 'uymuyor';
+  const parca = [];
+  if (say.uygun) parca.push(`${say.uygun} kadro uygun${kisi ? ` (illerinde ${kisi} kişi)` : ''}`);
+  if (say.bak) parca.push(`${say.bak} olabilir`);
+  if (say.belge) parca.push(`${say.belge} belgeyle`);
+  if (!parca.length) parca.push(`${r.kadrolar.length} kadronun hiçbiri uymuyor` + (say.ildeYok ? ', uyanlar başka illerde' : ''));
+  return { S, g, say, kisi, yazi: parca.join(' · ') };
+}
+
+function eslesenleriGoster() {
+  if (!window.TELEFON) return;
+  const p = kisiler[secili], kutu = $('eslesen');
+  $('eslesenKutu').hidden = false;
+  if (!ortak.length) { kutu.replaceChildren(el('p', 'Henüz yüklenmiş ilan yok. Yeni ilanlar geldikçe sana uyanlar burada görünür.')); return }
+  if (!p.okul || !Motor.puanListe(p).length) {
+    kutu.replaceChildren(el('p', `${ortak.length} ilan var. Okulunu ve KPSS puanını girersen sana uyanları burada sıralarım.`));
+    const b = el('button', 'Bilgilerimi gir'); b.onclick = () => { alan('okul').focus(); alan('okul').scrollIntoView({ block: 'center' }) };
+    kutu.append(b); return;
+  }
+  // Açılmamış ve son 14 günde eklenmiş ilan "Yeni"dir.
+  const gorulen = new Set(oku('gorulen', [])), yeniMi = x => !gorulen.has(x.id) && Date.now() - (x.eklendi || 0) < 14 * 864e5, renk = { uygun: 'var(--tamam)', bak: 'var(--bak)', belge: 'var(--ana)', uymuyor: 'var(--yok)' };
+  const L = ortak.map(x => ({ x, o: ilanOzet(x, p) }));
+  const acik = L.filter(y => y.o.S.kod !== 'gecti'), gecti = L.length - acik.length;
+  const sira = { uygun: 0, bak: 1, belge: 2, uymuyor: 3 }, zaman = y => y.o.S.son ? +y.o.S.son.zaman : 9e15;
+  acik.sort((a, b) => sira[a.o.g] - sira[b.o.g] || zaman(a) - zaman(b));
+  const kart = ({ x, o }) => {
+    const b = el('button', '', 'ilan');
+    b.style.setProperty('--renk', renk[o.g]);
+    b.append(el('span', o.S.kisa, 'rozet s-' + o.S.kod));
+    if (yeniMi(x)) b.append(el('span', 'Yeni', 'yeni'));
+    b.append(x.ad, el('small', o.yazi));
+    b.onclick = () => ortakAc(x);
+    return b;
+  };
+  const iyi = acik.filter(y => y.o.g !== 'uymuyor'), kotu = acik.filter(y => y.o.g === 'uymuyor');
+  $('eslesenBaslik').textContent = `${p.ad ? p.ad + ' için' : 'Sana'} uygun ilanlar (${iyi.length})`;
+  kutu.replaceChildren(...iyi.map(kart));
+  if (!iyi.length) kutu.append(el('p', 'Şu an açık ilanların hiçbiri bilgilerine uymuyor. Yeni ilan gelince burada görünür.'));
+  if (kotu.length) { const d = el('details', '', 'd-bilgi'); d.append(el('summary', `Uymayan açık ilanlar (${kotu.length})`), ...kotu.map(kart)); kutu.append(d) }
+  if (gecti) kutu.append(el('p', `Süresi geçen ${gecti} ilan listede gösterilmiyor.`));
+}
+
+function ortakAc(x) {
+  $('metin').value = x.metin; pdfBelge = null; ortakAcik = x;
+  $('ekAlan').hidden = true; $('mesaj').textContent = '';
+  goster(); $('cikti').scrollIntoView({ block: 'start' });
+  // Açılan ilanın "Yeni" işareti kalksın.
+  const g = oku('gorulen', []);
+  if (!g.includes(x.id)) { yaz('gorulen', [...g, x.id].slice(-300)); eslesenleriGoster() }
+}
+
+const GRUP = {
+  uygun: 'Uygun', bak: 'Olabilir, bir şeye bak', belge: 'Belge alırsan açılır',
+  ildeYok: 'Seçtiğin ilde kontenjan yok', bolum: 'Bölümün tutmuyor görünüyor', uymuyor: 'Uymuyor'
+};
+function kadrolariGoster(B, metin, c) {
+  // Yaş gibi şartlar son başvuru gününe göre hesaplanır.
+  const p = kisiler[secili], S = Sure.durum(Sure.bul(metin)), r = Bolucu.degerlendir(B, p, S.son ? S.son.zaman : new Date());
+  const gecmisTaban = Taban.bagla(r.kadrolar, tabanSetleri(), metin);
+  r.kadrolar.forEach((k, i) => { k.taban_gecmis = gecmisTaban[i] });
+  // İl dağılımı: ilanın içinde ya da sonradan eklenen Ek-1'de
+  const kaynaklar = [pdfBelge?.tablolar || [], ...(pdfBelge?.ekler || []).map(e => e.tablolar)];
+  const dagilim = B.ilHarita ? { harita: B.ilHarita, uyari: B.ilUyari || [], bagli: B.ilBagli || 0, tam: B.ilTam } : Il.bagla(r.kadrolar, kaynaklar.flatMap(t => Il.oku(t)), metin);
+  const tercih = Il.tercihler(p.iller), ilVar = dagilim.bagli > 0, suz = ilVar && tercih.iller.length > 0;
+  r.kadrolar.forEach((k, i) => {
+    k.iller = dagilim.harita[i];
+    if (suz && k.iller) {
+      k.ildeki = tercih.iller.reduce((t, il) => t + (k.iller[il] || 0), 0);
+      if (!k.ildeki && k.grup !== 'uymuyor' && k.grup !== 'bolum') { k.asilGrup = k.grup; k.grup = 'ildeYok' }
+    }
+  });
+  const say = g => r.kadrolar.filter(k => k.grup === g).length;
+  // Kişi sayısı sadece illeri bilinen kadrolardan toplanır.
+  const kisi = g => {
+    const K = r.kadrolar.filter(k => k.grup === g);
+    const n = suz && K.every(k => k.iller) ? K.reduce((t, k) => t + k.ildeki, 0) : 0;
+    return n ? `, ${n.toLocaleString('tr-TR')} kişi` : '';
+  };
+  const nerede = suz ? tercih.iller.join(', ') + ': ' : '';
+  c.replaceChildren(); c.hidden = false;
+
+  const n = r.kadrolar.length;
+  let baslik, renk;
+  if (!p.okul || !Motor.puanListe(p).length) { baslik = `${n} kadro buldum. Okul ve puanını gir, sana uyanları ayırayım.`; renk = 'bak' }
+  else if (say('uygun')) { baslik = suz ? `${nerede}sana uygun ${say('uygun')} kadro${kisi('uygun')}` : `${n} kadrodan ${say('uygun')} tanesi sana uygun`; renk = 'uygun' }
+  else if (say('bak')) { baslik = suz ? `${nerede}olabilecek ${say('bak')} kadro${kisi('bak')}` : `${n} kadrodan ${say('bak')} tanesi olabilir`; renk = 'bak' }
+  else if (say('belge')) { baslik = suz ? `${nerede}belge alırsan ${say('belge')} kadro${kisi('belge')}` : `${n} kadrodan ${say('belge')} tanesi belge alırsan açılır`; renk = 'bak' }
+  else { baslik = `${nerede}${n} kadronun hiçbiri şu an sana uygun görünmüyor`; renk = 'uymuyor' }
+  const ozet = Object.keys(GRUP).filter(say).map(g => `${say(g)} ${GRUP[g].toLocaleLowerCase('tr-TR')}`).join(' · ');
+  if (S.kod === 'gecti') { baslik = 'Açık olsaydı: ' + baslik; renk = 'gecmis' }
+  sureGoster(S, c);
+  if (ortakAcik && ortakAcik.kaynak) { const a = el('a', 'İlanın aslı (Resmî Gazete)'); a.href = ortakAcik.kaynak; a.target = '_blank'; a.rel = 'noopener noreferrer'; c.append(a) }
+  alarmKutusu(metin, S, c);
+  const ust = el('div', baslik, 'karar ' + renk); ust.append(el('small', ozet)); c.append(ust);
+
+  for (const u of [...B.uyari, ...dagilim.uyari]) c.append(el('div', u, 'uyari'));
+  if (tercih.taninmayan.length) c.append(el('div', `Bu ili tanıyamadım: ${tercih.taninmayan.join(', ')}`, 'uyari'));
+  if (dagilim.tam) c.append(el('div', `✓ İl dağılımı tuttu: ${n} kadronun hepsi illere bağlandı.`, 'uyari'));
+  else if (!ilVar && pdfBelge && (tercih.iller.length || /ek ?- ?1|kontenjan (dağılım|liste)/i.test(metin)))
+    c.append(el('div', 'İl dağılımı bu dosyada yok. İlanın Ek-1 (kontenjan dağılımı) PDF dosyası varsa yukarıdan ekle.', 'uyari'));
+  if (!B.saglama && B.beklenen == null && B.okunan) c.append(el('div', `${n} kadro, ${B.okunan} kişi okudum. İlanda toplam yazmadığı için sağlama yapamadım, sayıyı bir kez karşılaştır.`, 'uyari'));
+  if (B.saglama) c.append(el('div', `✓ Sağlama tuttu: ilandaki ${B.okunan} kişilik kontenjanın hepsi okundu.`, 'uyari'));
+  const ses = el('button', 'Sesli oku', 'ikinci');
+  ses.onclick = () => {
+    const iyi = r.kadrolar.filter(k => ['uygun', 'bak', 'belge'].includes(k.grup));
+    const u = new SpeechSynthesisUtterance([S.baslik, baslik, ...iyi.map(k => `${k.ad}: ${GRUP[k.grup]}. ${k.neden}`)].join('. '));
+    u.lang = 'tr-TR'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+  };
+  const s0 = el('div', '', 'sira'); if ('speechSynthesis' in window) s0.append(ses); c.append(s0);
+
+  const genel = Motor.incele(metin, p);
+
+  if (ilVar) ilTablosu(r.kadrolar, tercih.iller, c);
+  const simge = { yok: '✕', bak: '?', tamam: '✓', bilgi: 'i' };
+  for (const g of Object.keys(GRUP)) {
+    const liste = r.kadrolar.filter(k => k.grup === g);
+    if (!liste.length) continue;
+    // Uymayanlar kapalı durur, listede yer kaplamaz.
+    let kutu = c;
+    if (g === 'bolum' || g === 'uymuyor' || g === 'ildeYok') {
+      kutu = el('details', '', 'g-' + g); kutu.append(el('summary', `${GRUP[g]} (${liste.length})`)); c.append(kutu);
+    } else c.append(el('h2', `${GRUP[g]} (${liste.length})`, 'grup'));
+    for (const k of liste) {
+      const d = el('details', '', 'kadro g-' + g);
+      const o = el('summary', k.ad + (k.kod ? ` · ${k.kod}` : '') + (k.adet ? ` · ${k.adet.toLocaleString('tr-TR')} kişi` : '') + (k.ildeki ? ` (senin illerinde ${k.ildeki.toLocaleString('tr-TR')})` : '') + (suz && !k.iller ? ' · ili bilinmiyor' : ''));
+      if (k.neden) o.append(el('small', k.neden));
+      const gecmis = ['uygun', 'bak', 'belge'].includes(k.grup) ? tabanOzet(k, tercih.iller) : '';
+      if (gecmis) o.append(el('small', gecmis, 'taban'));
+      d.append(o);
+      for (const durum of Object.keys(simge))
+        for (const s of k.sartlar.filter(x => x.durum === durum)) {
+          const x = el('details', '', 'd-' + durum);
+          x.append(el('summary', `${simge[durum]}  ${s.not}`), el('p', 'İlandaki yazı: ' + s.cumle));
+          d.append(x);
+        }
+      if (k.iller) {
+        const x = el('details', '', 'd-bilgi'), L = Object.entries(k.iller).filter(e => e[1]).sort((a, b) => b[1] - a[1]);
+        x.append(el('summary', `Hangi ilde kaç kişi (${L.length} yer)`), el('p', L.map(([il, n]) => `${il} ${n}`).join(', ')));
+        d.append(x);
+      }
+      const tt = tabanTablosu(k, tercih.iller);
+      if (tt) d.append(tt);
+      kutu.append(d);
+    }
+  }
+  if (r.ortakOku.length) {
+    const d = el('details', '', 'd-bak');
+    d.append(el('summary', `Bütün kadrolarda ortak, bir kez oku (${r.ortakOku.length})`));
+    for (const s of r.ortakOku) d.append(el('p', '• ' + s.cumle));
+    c.append(d);
+  }
+  if (genel.evrak.length) {
+    c.append(el('h2', 'Evrak listesi', 'grup'));
+    for (const e of genel.evrak) { const l = el('label', '', 'tik'), i = el('input'); i.type = 'checkbox'; l.append(i, e); c.append(l) }
+  }
+  c.append(el('p', 'Bu bir ön kontroldür. Başvurmadan önce ilanın aslını oku. Resmî kurumlarla bağlantısı yoktur.'));
+}
+
+function ilTablosu(kadrolar, secilen, c) {
+  const T = new Map();
+  for (const k of kadrolar) {
+    if (!k.iller) continue;
+    // "ildeYok" seçilen ilde yok demek, tabloda kendi sınıfıyla sayılır.
+    const g = k.grup === 'ildeYok' ? k.asilGrup : k.grup;
+    if (!['uygun', 'bak', 'belge'].includes(g)) continue;
+    for (const [il, n] of Object.entries(k.iller)) {
+      if (!n) continue;
+      if (!T.has(il)) T.set(il, { il, uygun: 0, bak: 0, belge: 0 });
+      T.get(il)[g] += n;
+    }
+  }
+  if (!T.size) return;
+  const sira = [...T.values()].sort((a, b) => secilen.includes(b.il) - secilen.includes(a.il) || b.uygun - a.uygun || b.bak - a.bak || b.belge - a.belge || a.il.localeCompare(b.il, 'tr'));
+  const d = el('details', '', 'd-bilgi'), t = el('table'), b = el('tr');
+  b.append(...['İl', 'Uygun', 'Olabilir', 'Belgeyle'].map(x => el('th', x))); t.append(b);
+  for (const x of sira) {
+    const s = el('tr', '', secilen.includes(x.il) ? 'secili' : '');
+    s.append(...[x.il, x.uygun || '-', x.bak || '-', x.belge || '-'].map(v => el('td', String(v))));
+    t.append(s);
+  }
+  const kutu = el('div', '', 'kaydir'); kutu.append(t);
+  d.append(el('summary', `Hangi ilde şansın var? (${T.size} yer, kişi sayısı)`), kutu); c.append(d);
+}
+
+// Kadro tablosu olmayan ilanda (ör. antrenör: spor dalları sadece Ek-1'de) dağılım yine gösterilir.
+function bolunmeyenIller(metin, c) {
+  if (!pdfBelge) return;
+  const L = [pdfBelge.tablolar, ...(pdfBelge.ekler || []).map(e => e.tablolar)].flatMap(t => Il.oku(t));
+  if (!L.length) return;
+  const yil = Il.alimYili(metin), secilen = Il.tercihler(kisiler[secili].iller).iller;
+  for (const l of L) {
+    if (l.hata.length || (yil && l.yil && yil !== l.yil)) { c.append(el('div', 'Ek-1 bu ilanla tutmuyor ya da sağlaması tutmadı, kullanmıyorum.', 'uyari')); continue }
+    const d = el('details', '', 'd-bilgi'), t = el('table');
+    const satir = l.sutun.map(s => [s.ad, secilen.length ? secilen.reduce((n, il) => n + (s.iller[il] || 0), 0) : s.toplam]).filter(x => x[1]);
+    const toplam = satir.reduce((n, x) => n + x[1], 0);
+    for (const [ad, n] of satir) { const tr = el('tr'); tr.append(el('td', ad), el('td', String(n))); t.append(tr) }
+    d.append(el('summary', `${secilen.length ? secilen.join(', ') : 'Bütün iller'}: ${satir.length} dalda/kadroda ${toplam} kişi (şartına göre ayrılmadı)`), t);
+    c.append(d);
+  }
+}
+
+function goster() {
+  const metin = $('metin').value.trim(), c = $('cikti');
+  if (!metin) { $('mesaj').textContent = 'Önce ilan metni lazım.'; c.hidden = true; return }
+  const B = ortakAcik && ortakAcik.metin === metin ? ortakAcik.B : Bolucu.bol(pdfBelge || { metin });
+  const eksikNot = ortakAcik && ortakAcik.metin === metin && ortakAcik.eksik;
+  if (B) { kadrolariGoster(B, metin, c); return }
+  const S = Sure.durum(Sure.bul(metin));
+  const r = Motor.incele(metin, kisiler[secili], S.son ? S.son.zaman : new Date());
+  if (eksikNot && r.sonuc === 'uygun') r.sonuc = 'bak';
+  c.replaceChildren(); c.hidden = false;
+  sureGoster(S, c);
+  if (eksikNot) c.append(el('div', 'Bu ilanın tabloları resim olarak basılmış, okuyamadım. Aşağıdakiler sadece yazılı kısımdan. Kadro, bölüm ve puan şartlarını ilanın aslından kontrol et.', 'uyari'));
+  if (ortakAcik && ortakAcik.kaynak) { const a = el('a', 'İlanın aslı (Resmî Gazete)'); a.href = ortakAcik.kaynak; a.target = '_blank'; a.rel = 'noopener noreferrer'; c.append(a) }
+  alarmKutusu(metin, S, c);
+  const baslik = { uygun: 'Şartların tamam görünüyor', bak: 'Olabilir, kontrol etmen gerekenler var', uymuyor: 'Şu an uymuyor' }[r.sonuc];
+  const ozet = `${r.say.tamam} tamam, ${r.say.bak} kontrol, ${r.say.yok} eksik`;
+  const k = el('div', (S.kod === 'gecti' ? 'Açık olsaydı: ' : '') + baslik, 'karar ' + (S.kod === 'gecti' ? 'gecmis' : r.sonuc)); k.append(el('small', ozet)); c.append(k);
+  if (r.coklu) c.append(el('div', 'Bu ilanda birden fazla kadro var gibi. Kadrolara bölebilmem için ilanın PDF dosyasını seç ya da tek kadronun şartlarını yapıştır.', 'uyari'));
+  if (r.eksik.length) c.append(el('div', 'Neyin eksik: ' + r.eksik.join(', ') + (r.eksikYeter ? '. Bunu alırsan görünen engel kalkıyor.' : ''), 'uyari'));
+  const ses = el('button', 'Sesli oku', 'ikinci');
+  ses.onclick = () => {
+    const u = new SpeechSynthesisUtterance([S.baslik, baslik, ozet, ...r.satirlar.filter(s => s.durum === 'yok').map(s => s.not)].join('. '));
+    u.lang = 'tr-TR'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+  };
+  const s0 = el('div', '', 'sira'); if ('speechSynthesis' in window) s0.append(ses); c.append(s0);
+  bolunmeyenIller(metin, c);
+  const simge = { yok: '✕', bak: '?', tamam: '✓', bilgi: 'i' };
+  for (const d of Object.keys(simge))
+    for (const s of r.satirlar.filter(x => x.durum === d)) {
+      const x = el('details', '', 'd-' + d);
+      x.append(el('summary', `${simge[d]}  ${s.not}`), el('p', 'İlandaki cümle: ' + s.cumle));
+      x.open = s.tur === 'bilinmeyen'; c.append(x);
+    }
+  if (r.evrak.length) {
+    c.append(el('h2', 'Evrak listesi'));
+    for (const e of r.evrak) { const l = el('label', '', 'tik'), i = el('input'); i.type = 'checkbox'; l.append(i, e); c.append(l) }
+  }
+  c.append(el('p', 'Bu bir ön kontroldür. Başvurmadan önce ilanın aslını oku. Resmî kurumlarla bağlantısı yoktur.'));
+}
+$('bak').onclick = () => { $('mesaj').textContent = ''; goster() };
+
+async function pdfAl(f) {
+  // "legacy" sürüm eski iPhone'larda da çalışır. Okuyucu ayrı işçi açmadan sayfada çalışır.
+  const adres = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/';
+  const [pdfjs, isci] = await Promise.all([import(adres + 'pdf.min.mjs'), import(adres + 'pdf.worker.min.mjs')]);
+  globalThis.pdfjsWorker = isci;
+  return Bolucu.pdfOku(pdfjs, await f.arrayBuffer());
+}
+$('ekDosya').onchange = async e => {
+  if (!pdfBelge) return;
+  const hedef = pdfBelge;
+  hedef.ekler = []; $('mesaj').textContent = 'Ek okunuyor...';
+  const sorun = [];
+  for (const f of [...e.target.files]) {
+    try {
+      const b = await pdfAl(f);
+      if (Il.oku(b.tablolar).length) hedef.ekler.push({ ad: f.name, tablolar: b.tablolar });
+      else sorun.push(`${f.name}: il tablosu bulamadım.`);
+    } catch { sorun.push(`${f.name}: açılamadı.`) }
+  }
+  if (hedef !== pdfBelge) return;
+  $('mesaj').textContent = sorun.join(' '); goster();
+};
+$('tabanDosya').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const T = Taban.oku((await pdfAl(f)).tablolar);
+    if (!T || !T.kurum || !T.yil) { $('mesaj').textContent = 'Bu dosyada kurum, yıl ve il il taban tablosu bulamadım.'; return }
+    if (T.hata.length) { $('mesaj').textContent = 'Taban dosyası tam okunamadı, kullanmıyorum: ' + T.hata.slice(0, 2).join(' '); return }
+    const y = $('tabanYil').value.trim();
+    T.kpssYil = /^20\d\d$/.test(y) ? +y : null;
+    const imza = x => x.kurum + x.yil + x.satirlar.length + x.satirlar[0][0];
+    yaz('taban', [T, ...oku('taban', []).filter(x => imza(x) !== imza(T))]);
+    if (!$('cikti').hidden) goster();
+    $('mesaj').textContent = `${T.kurum} ${T.yil}: ${T.satirlar.length} taban puan eklendi.` + (T.kpssYil ? '' : ' KPSS yılını yazmadın, o yüzden kıyas yapmam. Yılı yazıp dosyayı yeniden seç.');
+  } catch { $('mesaj').textContent = 'Taban dosyası açılamadı.' }
+  e.target.value = '';
+};
+$('dosya').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('mesaj').textContent = 'Okunuyor...'; $('cikti').hidden = true; $('metin').value = ''; pdfBelge = null; ortakAcik = null;
+  $('ekAlan').hidden = true; $('ekDosya').value = '';
+  try {
+    let t = '';
+    if (/\.pdf$/i.test(f.name)) {
+      pdfBelge = await pdfAl(f);
+      t = pdfBelge.metin;
+    } else t = await f.text();
+    if (t.trim().length < 100) { $('mesaj').textContent = 'Yazı çıkmadı, taranmış resim olabilir. Metni yapıştır.'; return }
+    $('metin').value = t; $('mesaj').textContent = '';
+    if (pdfBelge && !Bolucu.bol(pdfBelge) && Il.oku(pdfBelge.tablolar).length) {
+      $('mesaj').textContent = 'Bu dosya il dağılımı (Ek-1). Önce ilanın kendisini seç, sonra bunu altında çıkan Ek-1 kutusundan ekle.';
+      $('metin').value = ''; pdfBelge = null; return;
+    }
+    $('ekAlan').hidden = !pdfBelge; goster();
+  } catch { $('mesaj').textContent = 'PDF açılamadı (internet gerekir). Metni kopyalayıp yapıştır.' }
+};
+
+function kayitAc(k) {
+  $('metin').value = k.metin; pdfBelge = k.belge ? { ...k.belge, metin: k.metin } : null;
+  $('ekAlan').hidden = !pdfBelge; $('ekDosya').value = ''; goster();
+  $('cikti').scrollIntoView({ block: 'start' });
+}
+function kayitListe() {
+  // Açık olanlar üstte, son günü yakın olan en üstte; süresi geçenler altta.
+  const agirlik = x => x.S.kod === 'gecti' ? 2e15 : x.S.son ? x.S.son.zaman.getTime() : 1e15;
+  const sirali = kayit.map((k, i) => ({ k, i, S: Sure.durum(Sure.bul(k.metin)) })).sort((a, b) => agirlik(a) - agirlik(b));
+  $('kayitlar').replaceChildren(...sirali.map(({ k, i, S }) => {
+    const dis = el('div', '', 'kayitli'), d = el('div', '', 'sira'), a = el('button', k.ad, 'ikinci'), s = el('button', 'Sil', 'ikinci');
+    a.onclick = () => kayitAc(k);
+    s.onclick = () => { kayit.splice(i, 1); yaz('kayit', kayit); kayitListe() };
+    d.append(el('span', S.kisa, 'rozet sure-rozet s-' + S.kod), a, s); dis.append(d); return dis;
+  }));
+  if (!kayit.length) $('kayitlar').append(el('p', 'Kaydettiğin ilanlar son gününe göre burada sıralanır.'));
+  // Son 3 gün uyarısı sayfanın en üstünde
+  $('acil').replaceChildren(...sirali.filter(x => x.S.kod === 'az' || x.S.kod === 'bugun').map(({ k, S }) => {
+    const b = el('button', `${S.kod === 'bugun' ? 'BUGÜN SON GÜN' : 'Son ' + S.kisa}: ${k.ad}`, 's-' + S.kod);
+    b.onclick = () => kayitAc(k);
+    return b;
+  }));
+}
+function kayitAdi(metin) {
+  return Bolucu.ilanAdi(metin);
+  const L = metin.split('\n').map(s => s.trim()).filter(s => s.length > 5 && !/^ek ?-?\d/i.test(s)).slice(0, 8);
+  const kurum = L.find(s => /BAKANLI|BELEDİYE|ÜNİVERSİTE|BAŞKANLI|KURUMU|AJANSI/i.test(s)) || L[0] || 'İlan';
+  const konu = L.find(s => s !== kurum && /^20\d\d YILI|ALIM/.test(s)) || '';
+  return (kurum + ' ' + konu).trim().slice(0, 80);
+}
+function ilaniKaydet(metin) {
+  if (!metin) return;
+  const eski = kayit.find(k => k.metin === metin);
+  const belge = pdfBelge ? { tablolar: pdfBelge.tablolar, bosSayfa: pdfBelge.bosSayfa, ekler: pdfBelge.ekler || [] } : eski?.belge || null;
+  const yeni = { id: eski?.id || yeniNo(), eklendi: eski?.eklendi || Date.now(), ad: kayitAdi(metin), metin, belge };
+  kayit = [yeni, ...kayit.filter(k => k !== eski)];
+  yaz('kayit', kayit); kayitListe();
+}
+$('kaydet').onclick = () => {
+  const metin = $('metin').value.trim();
+  if (!metin) { $('mesaj').textContent = 'Önce ilan metni lazım.'; return }
+  ilaniKaydet(metin); $('mesaj').textContent = 'İlan kaydedildi.';
+};
+$('ornek').onclick = () => {
+  ortakAcik = null;
+  const gun = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' }) };
+  $('metin').value = `ÖRNEK İLAN (gerçek değildir)\nBaşvurular ${gun(-2)} - ${gun(5)} tarihleri arasında yapılır.\nÖn lisans mezunu olmak.\n2024 KPSS P93 puanından en az 70 puan almak.\n35 yaşını doldurmamış olmak.\nC sınıfı sürücü belgesine sahip olmak.`;
+  pdfBelge = null; $('ekAlan').hidden = true; $('mesaj').textContent = ''; goster();
+};
+$('buyut').onclick = () => document.body.classList.toggle('buyuk');
+
+kisiListe(); formDoldur(); kayitListe();
+if (window.TELEFON) {
+  $('ilanBaslik').textContent = 'Kendin ilan bak';
+  $('eslesenKutu').hidden = false; $('eslesen').replaceChildren(el('p', 'İlanlar yükleniyor...'));
+  Depo.ortakIlanlar(L => { ortak = L; eslesenleriGoster() }, () => { if (!ortak.length) $('eslesen').replaceChildren(el('p', 'İlan listesine ulaşamadım. İnternetini kontrol et.')) });
+  // Hesaptaki bilgiler gelmeden profil düzenlenirse üstüne yazılır; gelene kadar kilitli.
+  $('profilAlan').disabled = true; $('kisiEkle').disabled = true; $('kaydet').disabled = true;
+  $('depoNot').textContent = 'Bilgilerin yükleniyor...';
+  Depo.bagla(g => {
+    if (g.kisiler) {
+      const ayni = JSON.stringify(g.kisiler) === JSON.stringify(kisiler);
+      if (!ayni) { kisiler = g.kisiler; secili = Math.min(secili, kisiler.length - 1); kisiListe(); formDoldur() }
+      if (!ayni && !$('cikti').hidden) goster();
+    }
+    if (g.kayit) { kayit = g.kayit; kayitListe() }
+    eslesenleriGoster();
+  }, m => { $('mesaj').textContent = m }).then(bagli => {
+    eslesenleriGoster();
+    $('profilAlan').disabled = false; $('kisiEkle').disabled = false; $('kaydet').disabled = false;
+    $('depoNot').textContent = bagli
+      ? 'Bilgilerin Claude hesabının sadece sana açık alanında durur.'
+      : 'Bilgilerin sadece bu telefonda durur, kimseye gönderilmez.';
+  });
+}
+// Sayfa açık kalsa da kalan gün güncel dursun.
+setInterval(kayitListe, 60000);
+</script>
+</body></html>

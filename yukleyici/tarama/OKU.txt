@@ -1,0 +1,23 @@
+﻿OTOMATİK İLAN TARAMASI (2026-11-23'ten beri; elle liste yok)
+  python -I otomatik.py              : durum.json'daki son günden bugüne Resmî Gazete "Çeşitli İlanlar" sayfalarındaki HER PDF indirilir,
+                                       içerikten personel alım ilanı ayrılır (akademik / ihale / yasaklama / koruma kurulu elenir),
+                                       resim PDF'ler Windows'un yerleşik Türkçe OCR'ı ile okunur (ocr.ps1, program kurmaz),
+                                       iptal ve düzeltme ilanları andıkları RG tarihinden doğru ilana bağlanır,
+                                       her ilan yukle.js ile kadrolara bölünür, son gün SBB kamuilan dizini ile karşılaştırılır.
+                                       Sonuç: yeni.json  → hazir (yükle), kaldir (sil), bak (elle), atla
+  python -I otomatik.py --yuklendi   : yüklenenleri durum.json'a işler (sonraki iptal/düzeltmeler bunlara bağlanır)
+  node ..\ilanlar_yap.js             : telefon\ilanlar.json (herkese açık ilan dosyası; süresi geçenler çıkar)
+  Artifact publish: telefon\sartim-tamam.html + files {"ilanlar.json": telefon\ilanlar.json}, aynı adres.
+    Uygulama ilanları bu dosyadan okur (giriş gerekmez); profil kişinin kendi telefonunda kalır.
+    (Eski yol ArtifactData "ilanlar" koleksiyonu artık sadece yedek; dosya yoksa ona bakar.)
+  node uygun_tara.js .. [id ...]      : yüklemeden önce yanlış "uygun" taraması
+  Deneme: --bas YYYYMMDD --son YYYYMMDD --deneme  (durum.json'u değiştirmez)
+  is\ klasörü: indirilen günlük sayfalar, PDF'ler ve OCR metinleri (önbellek).
+
+Güvenlik kuralları (dersler):
+  - SBB tarihi yalnızca ilanda tarih yoksa ve SBB başlığındaki "kişi sayısı + sözcük" ilanla tutuyorsa kullanılır
+    (Burdur MAKÜ ve SGK denetmen ilanları başka ilanın tarihini almıştı, ikisinin de süresi geçmişti).
+  - Son günü bulunamayan yeni ilan (5 gün içinde) kaydedilmez, sonraki taramada yeniden denenir.
+  - Göreli süre ("ilan tarihinden itibaren 15 gün") bir gün erken hesaplanır.
+
+Eski elle yöntem dosyaları (dizin.py, rgtara.py, rgeslestir.py, rgsec.py, toplu2.js) sadece başvuru için duruyor.
