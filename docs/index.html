@@ -1807,7 +1807,10 @@ function pozisyonlar(x, p) {
   if (o && o.imza === imza) return o.L;
   const S = sure(x), t = S.son ? S.son.zaman : new Date(), O = ozet(x), L = [];
   const ilkDefaEngel = O.ilkDefa && p.kadrolu === 'evet';
-  if (x.eksik) {
+  if (x.duyuru) {
+    // Kariyer Kapısı beslemesinden gelen ilan: metni yok, şartlar ve son gün ilanın kendi sayfasında
+    L.push({ x, ad: konu(x), grup: 'bak', sartlar: [], neden: "Kariyer Kapısı ilanı: son gün ve şartlar ilanın sayfasında.", adet: null });
+  } else if (x.eksik) {
     L.push({ x, ad: konu(x), grup: 'bak', sartlar: [], neden: 'Tablosu resim olarak basılmış; şartları ilanın aslından kontrol et.', adet: O.kisi });
   } else if (x.B && x.B.kadrolar && x.B.kadrolar.length) {
     const r = Bolucu.degerlendir(x.B, p, t), tercih = Il.tercihler(p.iller || '').iller;
@@ -2195,7 +2198,7 @@ function dugmeler(x) {
   const O = ozet(x), S = sure(x), d = el('div', { class: 'yapiskan' });
   if (O.link) d.append(el('a', { class: 'birincil', href: O.link, target: '_blank', rel: 'noopener' }, /kariyerkapisi/.test(O.link) ? "Kariyer Kapısı'nda başvur ↗" : 'Başvuru sayfasını aç ↗'));
   const ikinci = el('div', { style: 'display:grid;grid-template-columns:1fr 1fr;gap:8px' });
-  if (x.kaynak) ikinci.append(el('a', { class: 'ikincil', href: x.kaynak, target: '_blank', rel: 'noopener' }, '📄 Resmî ilan'));
+  if (x.kaynak) ikinci.append(el('a', { class: 'ikincil', href: x.kaynak, target: '_blank', rel: 'noopener' }, x.duyuru ? "📄 Kariyer Kapısı'nda aç" : '📄 Resmî ilan'));
   if (S.son && S.kod !== 'gecti') { const is = Bildirim.planla(konu(x), Sure.bul(x.metin), S, new Date(), 10)[0]; if (is) ikinci.append(el('a', { class: 'ikincil', href: is.adres, target: '_blank', rel: 'noopener' }, '⏰ Takvime ekle')) }
   if (ikinci.children.length) d.append(ikinci);
   return d;

@@ -244,29 +244,68 @@ for n in iptaller + duzeltmeler:
 # SBB'de açık görünüp bizde olmayan ilanlar (Resmî Gazete dışında, sadece kurum sitesinde/Kariyer Kapısı'nda yayımlananlar).
 # Kurum başına SBB'deki ilan sayısı bizdekinden fazlaysa fazlası "eksik olabilir" diye listelenir; akademik ve süresi geçenler hariç.
 sbbEksik = []
+# Bizdeki gerçek (tam okunmuş) ilanların adı + metninin başı; Kariyer Kapısı "duyuru" kayıtları ayrı tutulur
+bizim = [sade(str(x.get('kurum', '')) + ' ' + str(x.get('anahtar', ''))) for x in hazir]
+duyurular = {}   # id -> (metin, guid)
+for f in glob.glob(os.path.join(Y, 'kayitlar', '*.json')):
+    try:
+        k = json.loads(json.load(open(f, encoding='utf-8'))['json'])
+        if k['id'] not in durum['yuklu']: continue
+        if k.get('duyuru'): duyurular[k['id']] = (sade(k.get('ad', '')), k.get('guid'), *(k.get('ad', '').split(':', 1) + [''])[:2])
+        else: bizim.append(sade(k.get('ad', '') + ' ' + k.get('metin', '')))
+    except Exception: pass
+kelime = lambda kurum: [w for w in kurum.split() if len(w) > 2 and w not in ('ili', 'baskanligi', 'baskanlik', 'mudurlugu', 'genel', 've', 'rektorlugu', 'universitesi')]
+GENEL = {'alacak', 'personel', 'ilani', 'alimi', 'temin', 'temini', 'edilecektir', 'sozlesmeli', 'yili', 'giris', 'sinavi', 'alim', 'duyurusu', 'basvuru'}
+def bizdeVar(kurum, baslik, liste):
+    K_ = kelime(sade(kurum))
+    konu = [w for w in sade(baslik).split() if len(w) > 4 and w not in GENEL and not w.isdigit() and w not in K_]
+    # Kurum sözcüklerinin çoğu ("(AFAD)", "Genel Sekreterliği" gibi ekler olmasa da) ve konu sözcüklerinin çoğu aynı ilanda
+    esik = lambda L: max(1, -(-len(L) * 2 // 3))
+    return any(K_ and sum(w in b for w in K_) >= esik(K_) and (not konu or sum(w in b for w in konu) >= esik(konu)) for b in liste)
 if sbb:
-    # Bizdeki her ilanın adı + metninin başı (kurum ve konu sözcükleri burada geçer)
-    bizim = [sade(str(x.get('kurum', '')) + ' ' + str(x.get('anahtar', ''))) for x in hazir]
-    for f in glob.glob(os.path.join(Y, 'kayitlar', '*.json')):
-        try:
-            k = json.loads(json.load(open(f, encoding='utf-8'))['json'])
-            if k['id'] in durum['yuklu']: bizim.append(sade(k.get('ad', '') + ' ' + k.get('metin', '')[:3000]))
-        except Exception: pass
     tekil, gor = [], set()
     iptalli = {x['kurum'] for x in sbb if re.search(r'iptal', sade(x['baslik']))}   # iptal duyurusu olan kurumun ilanı sayılmaz
     for x in sbb:
         k = (x['kurum'], sade(x['baslik']))
         if k in gor or x['son'] < bugun or x['kurum'] in iptalli or re.search(r'ogretim|arastirma gorevlisi|akademik|iptal|duzeltme', sade(x['baslik'])): continue
         gor.add(k); tekil.append(x)
-    # Kurum adı sözcük sözcük aranır: "karsiyaka izmir belediye baskanligi" ↔ "izmir ili karsiyaka belediye baskanligi"
-    kelime = lambda kurum: [w for w in kurum.split() if len(w) > 2 and w not in ('ili', 'baskanligi', 'baskanlik', 'mudurlugu', 'genel', 've')]
-    GENEL = {'alacak', 'personel', 'ilani', 'alimi', 'temin', 'temini', 'edilecektir', 'sozlesmeli', 'yili', 'giris', 'sinavi'}
+    # Kurum adı sözcük sözcük, konu sözcüklerinin çoğuyla birlikte aranır
     for x in tekil:
-        K_ = kelime(x['kurum'])
-        konu = [w for w in sade(x['baslik']).split() if len(w) > 4 and w not in GENEL and not w.isdigit()]
-        # Kurum sözcüklerinin hepsi ve konu sözcüklerinin çoğu aynı ilanda geçiyorsa bizde var
-        var = any(K_ and all(w in b for w in K_) and (not konu or sum(w in b for w in konu) >= max(1, len(konu) * 2 // 3)) for b in bizim)
-        if not var: sbbEksik.append({'kurum': x['kurum'], 'baslik': x['baslik'], 'son': x['son'].isoformat(), 'bizde': 0, 'sbbde': 1})
+        if not bizdeVar(x['kurum'], x['baslik'], bizim + [d[0] for d in duyurular.values()]):
+            sbbEksik.append({'kurum': x['kurum'], 'baslik': x['baslik'], 'son': x['son'].isoformat(), 'bizde': 0, 'sbbde': 1})
+
+# KARİYER KAPISI resmî RSS beslemesi: bizde olmayan alım ilanı "duyuru" kaydı olarak eklenir (kurum, başlık, tür, bağlantı).
+# Beslemede şart ve son gün yok; uygulama bunları "kontrol et, ilanın aslına bak" diye gösterir.
+# Beslemeden düşen ya da Resmî Gazete'den tam okunan ilanın duyuru kaydı kaldırılır. İç servislere (API) gidilmez.
+KK_DISI = re.compile(r'gorevde yukselme|unvan degisikligi|yurt disi egitim|belge basvurusu|tercih ilani|ogretim|arastirma gorevlisi|merkezi yerlestirme|yeterlik')
+kkEklenen, kkBeslemede = [], set()
+try:
+    import xml.etree.ElementTree as ET
+    rss = urllib.request.urlopen(urllib.request.Request('https://kariyerkapisi.gov.tr/RSS', headers=UA), timeout=60).read()
+    for it in ET.fromstring(rss).iter('item'):
+        bas, link, tur_ = (it.findtext('title') or '').strip(), (it.findtext('link') or '').strip(), (it.findtext('category') or '').strip()
+        guid = link.split('i=')[-1]
+        kkBeslemede.add(guid)
+        if not guid or KK_DISI.search(sade(tur_ + ' ' + bas)): continue
+        kurum, _, konu = bas.partition(' - ')
+        if bizdeVar(kurum, konu or bas, bizim) or any(d[1] == guid for d in duyurular.values()): continue
+        pub = it.findtext('pubDate') or ''
+        metin = (f"{kurum.strip()}:\n{(konu or bas).strip()}\n\nBu ilan Kariyer Kapısı'nda yayımlandı (ilan türü: {tur_}; yayın: {pub[5:16]}).\n"
+                 "Son başvuru tarihi, şartlar ve kontenjanlar ilanın Kariyer Kapısı sayfasında yazıyor; başvurmadan önce oradan oku.")
+        kid = 'kariyer-kapisi-' + guid
+        kayit = {'id': kid, 'eklendi': int(time.time() * 1000), 'ad': f"{kurum.strip()}: {(konu or bas).strip()}", 'kaynak': link, 'metin': metin,
+                 'B': None, 'uyari': [], 'eksik': False, 'duyuru': True, 'guid': guid, 'tur': tur_}
+        json.dump({'json': json.dumps(kayit, ensure_ascii=False)}, open(os.path.join(Y, 'kayitlar', kid + '.json'), 'w', encoding='utf-8'), ensure_ascii=False)
+        r = {'ad': 'kk-' + guid, 'gun': bugun.strftime('%Y%m%d'), 'url': link, 'anahtar': sade(kurum), 'id': kid, 'kurum': kayit['ad'], 'son': None,
+             'kadro': 0, 'eksik': False, 'ocr': False, 'uyari': [], 'sbb': 'Kariyer Kapısı', 'dosya': os.path.join(Y, 'kayitlar', kid + '.json')}
+        hazir.append(r); kkEklenen.append(r)
+    print('Kariyer Kapısı beslemesi', len(kkBeslemede), 'ilan, yeni duyuru', len(kkEklenen))
+except Exception as e:
+    print('Kariyer Kapısı okunamadı:', str(e)[:80])
+if kkBeslemede:
+    for id_, (ad_, guid, kurum_, konu_) in duyurular.items():
+        if guid not in kkBeslemede: kaldir.append({'id': id_, **durum['yuklu'][id_], 'neden': "Kariyer Kapısı'ndan kalktı (süresi bitti)"})
+        elif bizdeVar(kurum_, konu_, bizim): kaldir.append({'id': id_, **durum['yuklu'][id_], 'neden': "ilan artık tam okunmuş olarak listede"})
 
 json.dump({'tarih': bugun.isoformat(), 'hazir': hazir, 'kaldir': kaldir, 'bak': [{k: v for k, v in r.items() if k != 'metin'} for r in bak],
            'atla': [{k: v for k, v in r.items() if k != 'metin'} for r in atla], 'sbbEksik': sbbEksik}, open(YENI, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

@@ -33,7 +33,7 @@ for (const id of Object.keys(durum.yuklu)) {
   if (son && son.zaman.getTime() < dun) { cikan.push(id + ' (süresi geçti)'); continue }
   // Başlık yeni kuralla yeniden çıkarılır (çok satırlı konu başlıkları kesilmesin); elle dosyası varsa onunki geçerli.
   const yeniAd = Bolucu.ilanAdi(k.metin);
-  if (yeniAd && !/^İlan:/.test(yeniAd) && yeniAd.length >= k.ad.length) k.ad = yeniAd;
+  if (!k.duyuru && yeniAd && !/^İlan:/.test(yeniAd) && yeniAd.length >= k.ad.length) k.ad = yeniAd;
   // Genel şartlar güncel kuralla yeniden çıkarılır (eski yüklemelerde bölüm erken kesilmişti)
   if (k.B && k.B.kadrolar) { const g = Bolucu.genelSartlar(k.metin); if (g.length > (k.B.genel || '').length) { k.B.genel = g; genelSay++ } }
   if (elleUygula(k)) elleSay++;
