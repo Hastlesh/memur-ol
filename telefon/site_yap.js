@@ -8,12 +8,15 @@ const govde = fs.readFileSync(path.join(__dirname, 'sartim-tamam.html'), 'utf8')
 const html = `<!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
 <meta name="theme-color" content="#4b23a0">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="ikon-192.png">
 <link rel="apple-touch-icon" href="ikon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Şartım Tamam">
 </head><body>

@@ -1,21 +1,24 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
 <meta name="theme-color" content="#4b23a0">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="ikon-192.png">
 <link rel="apple-touch-icon" href="ikon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Şartım Tamam">
 </head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Şartım Tamam — az yazı, çok işaret: renk, simge, halka. Karşılama → 5 adım → İlanlar / Sana uygun / Profil → ayrıntı */
-:root{--zemin:#f6f4fb;--kart:#fff;--ic:#f1eef8;--yazi:#1b1530;--soluk:#6e6583;--cizgi:#e6e1f0;--ana:#4a24b8;--ana2:#7048e8;--koyu:#241164;--ana-ac:#efe9ff;--mercan:#ff6f4f;--mercan-ac:#ffece7;--tamam:#0c9a6a;--tamam-ac:#e1f6ee;--bak:#c27400;--bak-ac:#fff2dc;--yok:#d0344f;--yok-ac:#fde8ec;--ters:#fff;--golge:0 1px 2px rgb(36 17 100/.05),0 6px 18px rgb(36 17 100/.07);--govde:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--golge:none;color-scheme:dark}}
-:root[data-theme="dark"]{--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--golge:none;color-scheme:dark}
+:root{--zemin:#f6f4fb;--kart:#fff;--ic:#f1eef8;--yazi:#1b1530;--soluk:#6e6583;--cizgi:#e6e1f0;--ana:#4a24b8;--ana2:#7048e8;--koyu:#241164;--ana-ac:#efe9ff;--mercan:#ff6f4f;--mercan-yazi:#d2401f;--mercan-ac:#ffece7;--tamam:#08795a;--tamam-ac:#e1f6ee;--bak:#985400;--bak-ac:#fff2dc;--yok:#b3264a;--yok-ac:#fde8ec;--ters:#fff;--golge:0 1px 2px rgb(36 17 100/.05),0 6px 18px rgb(36 17 100/.07);--govde:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--golge:none;color-scheme:dark}}
+:root[data-theme="dark"]{--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--golge:none;color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{background:var(--zemin);color:var(--yazi);font:16px/1.4 var(--govde);-webkit-text-size-adjust:100%;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
@@ -35,7 +38,7 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 
 /* Marka */
 .ust{display:flex;align-items:center;gap:10px;margin:2px 0 14px}
-.marka{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.12em;letter-spacing:-.02em;flex:1}.marka b{color:var(--mercan)}
+.marka{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.12em;letter-spacing:-.02em;flex:1}.marka b{color:var(--mercan-yazi)}
 .marka svg{width:36px;height:36px;flex:none}
 .yuvarlak{width:44px;height:44px;border-radius:50%;background:var(--kart);box-shadow:var(--golge);display:grid;place-items:center;color:var(--ana);text-decoration:none}
 .yuvarlak.zil-acik{background:var(--ana);color:#fff}
@@ -79,7 +82,7 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .nav button{flex:1;max-width:213px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 10px;font-size:.74em;font-weight:700;color:var(--soluk);position:relative}
 .nav button svg{width:24px;height:24px}.nav button[aria-current="page"]{color:var(--ana)}
 .nav button[aria-current="page"]::before{content:"";position:absolute;top:0;width:28px;height:3px;border-radius:0 0 4px 4px;background:var(--ana)}
-.nav .rozet-n{position:absolute;top:5px;left:calc(50% + 8px);background:var(--tamam);color:#fff;border-radius:99px;font-size:.85em;padding:0 6px;font-weight:800;line-height:1.5}
+.nav .rozet-n{position:absolute;top:5px;left:calc(50% + 8px);background:var(--tamam);color:var(--ters);border-radius:99px;font-size:.85em;padding:0 6px;font-weight:800;line-height:1.5}
 
 /* Ana sayfa kahramanı */
 .hero{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--ana2),var(--ana) 55%,var(--koyu));color:#fff;border-radius:24px;padding:18px;display:flex;align-items:center;gap:16px;width:100%;text-align:left;box-shadow:0 10px 24px rgb(74 36 184/.28)}
@@ -106,7 +109,7 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .ilan .sag{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .hap{display:inline-flex;align-items:center;gap:4px;font-size:.74em;font-weight:800;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .hap.uygun{background:var(--tamam-ac);color:var(--tamam)}.hap.bak{background:var(--bak-ac);color:var(--bak)}.hap.uymuyor{background:var(--ic);color:var(--soluk)}
-.hap.yeni{background:var(--mercan);color:#fff}
+.hap.yeni{background:#d2401f;color:#fff}
 .mini{display:flex;gap:3px;margin-top:6px}.mini i{width:14px;height:5px;border-radius:9px;background:var(--cizgi)}.mini i.t{background:var(--tamam)}.mini i.b{background:var(--bak)}.mini i.y{background:var(--yok)}
 
 /* Sana uygun */
@@ -159,6 +162,7 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
 .ozellik div{background:var(--kart);border-radius:18px;padding:14px 8px;box-shadow:var(--golge);font-weight:700;font-size:.85em;display:flex;flex-direction:column;align-items:center;gap:8px}
 .ozellik .rk{background:var(--ana-ac);color:var(--ana)}
 [hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 </style>
 
 <main id="kok"></main>
@@ -167,7 +171,7 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
   <button data-sekme="uygun"><span data-ik="hedef"></span>Sana uygun<span class="rozet-n" id="navSayi" hidden></span></button>
   <button data-sekme="profil"><span data-ik="kisi"></span>Profil</button>
 </nav>
-<div class="alt-cubuk" id="alt" hidden><div><div class="sayac" id="sayac"></div><button class="birincil" id="ileri">Devam</button></div></div>
+<div class="alt-cubuk" id="alt" hidden><div><div class="sayac" id="sayac" role="status" aria-live="polite"></div><button class="birincil" id="ileri">Devam</button></div></div>
 
 <script>window.TELEFON = true;</script>
 <script>/* motor.js */
@@ -1843,6 +1847,8 @@ const el = (tur, ozellik = {}, ...cocuk) => {
   return e;
 };
 const oku = (k, v) => Depo.oku(k, v), yaz = (k, v) => Depo.yaz(k, v);
+// Dışarıdan gelen (ilan verisindeki) adresler yalnızca https/http ise bağlantı olur (javascript:, intent: vb. engellenir — OWASP)
+const guvenliLink = u => { try { const a = new URL(String(u)); return /^https?:$/.test(a.protocol) ? a.href : null } catch { return null } };
 const kucuk = Motor.kucuk;
 // Bildirim: Android uygulamasının kendisi gösterir (Ana.java köprüsü "Android"; arka plan denetimi Denetci.java köprüsü "Arka").
 const ANDROID = !!(window.Android && window.Android.bildirimDurum);
@@ -2062,6 +2068,9 @@ function ciz(d) {
   for (const b of $('nav').querySelectorAll('button')) b.setAttribute('aria-current', d.ekran === 'ana' && b.dataset.sekme === sekme ? 'page' : 'false');
   K.replaceChildren();
   ({ hosgeldin: hosgeldinCiz, sihir: sihirCiz, ana: anaCiz, ilan: ilanCiz, poz: pozCiz })[d.ekran](d);
+  // Her ekranın kendi başlığı (ekran okuyucu ve sekme adı için — WCAG 2.4.2)
+  const h1 = K.querySelector('h1'), ad = d.ekran === 'ana' ? { ilanlar: 'İlanlar', uygun: 'Sana uygun', profil: 'Profil' }[sekme] : h1 && h1.textContent;
+  document.title = (ad ? ad + ' · ' : '') + 'Şartım Tamam';
   scrollTo(0, d.kaydir || 0);
   navSay();
 }
@@ -2286,8 +2295,13 @@ function profilCiz() {
     K.append(el('button', { class: 'ikincil', style: 'margin-top:14px', onclick: () => { acik ? Android.bildirimKapat() : Android.bildirimAc(); setTimeout(bildirimGuncel, 300) } },
       ikon('zil'), acik ? 'Bildirimler açık · kapat' : 'Yeni ilan bildirimlerini aç'));
   }
-  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
-  K.append(el('p', { class: 'ipucu', style: 'display:flex;gap:6px;align-items:center' }, ikon('kalkan'), 'Bilgilerin sadece bu telefonda.'));
+  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
+  const giz = el('details', { class: 'acilir' }); giz.append(el('summary', {}, ikon('kalkan'), 'Gizlilik'));
+  for (const t of ['Girdiğin bilgiler yalnızca bu cihazda saklanır; hiçbir sunucuya gönderilmez, hesap yoktur.',
+    'İnternetten sadece herkese açık ilan listesi indirilir (GitHub Pages). Bu sırada her web sitesinde olduğu gibi IP adresin o sunucuya görünür.',
+    'Reklam, izleme ya da analiz aracı yoktur. Kimlik numarası, telefon, e-posta istenmez.',
+    '"Bilgilerimi sil" ile her şey bu cihazdan silinir.']) giz.append(el('p', { class: 'soluk kucuk', text: '• ' + t }));
+  K.append(giz);
 }
 let silZaman = 0;
 function silOnay() { if (Date.now() - silZaman < 4000) return true; silZaman = Date.now(); return false }
@@ -2295,7 +2309,7 @@ function silOnay() { if (Date.now() - silZaman < 4000) return true; silZaman = D
 // ---------- Ayrıntı ----------
 function ustBar(x) {
   const pay = el('button', { class: 'yuvarlak', 'aria-label': 'Paylaş', onclick: async () => {
-    const yazi = `${kurumKisa(x)}: ${konuKisa(x)}${sure(x).son ? ' · son gün ' + tarihYaz(sure(x).son.zaman) : ''}${x.kaynak ? '\n' + x.kaynak : ''}`;
+    const k = guvenliLink(x.kaynak), yazi = `${kurumKisa(x)}: ${konuKisa(x)}${sure(x).son ? ' · son gün ' + tarihYaz(sure(x).son.zaman) : ''}${k ? '\n' + k : ''}`;
     try { if (navigator.share) await navigator.share({ title: konuKisa(x), text: yazi }); else { await navigator.clipboard.writeText(yazi); pay.replaceChildren(ikon('tik')) } } catch { }
   } }, ikon('paylas'));
   return el('div', { class: 'ust-bar' }, el('button', { class: 'yuvarlak', 'aria-label': 'Geri', onclick: () => history.back() }, ikon('geri')), el('span'), pay);
@@ -2366,11 +2380,11 @@ function basvuruKart(x) {
   return k;
 }
 function dugmeler(x) {
-  const O = ozet(x), S = sure(x), d = el('div', { class: 'yapiskan' });
-  if (O.link) d.append(el('a', { class: 'birincil', href: O.link, target: '_blank', rel: 'noopener' }, /kariyerkapisi/.test(O.link) ? "Kariyer Kapısı'nda başvur" : 'Başvuru sayfası', ikon('dis')));
+  const O = ozet(x), S = sure(x), d = el('div', { class: 'yapiskan' }), link = guvenliLink(O.link), kaynak = guvenliLink(x.kaynak);
+  if (link) d.append(el('a', { class: 'birincil', href: link, target: '_blank', rel: 'noopener noreferrer' }, /kariyerkapisi/.test(link) ? "Kariyer Kapısı'nda başvur" : 'Başvuru sayfası', ikon('dis')));
   const ikinci = el('div', { class: 'ikili' });
-  if (x.kaynak) ikinci.append(el('a', { class: 'ikincil', href: x.kaynak, target: '_blank', rel: 'noopener' }, ikon('belge'), x.duyuru ? 'Kariyer Kapısı' : 'Resmî ilan'));
-  if (S.son && S.kod !== 'gecti') { const is = Bildirim.planla(konuKisa(x), Sure.bul(x.metin), S, new Date(), 10)[0]; if (is) ikinci.append(el('a', { class: 'ikincil', href: is.adres, target: '_blank', rel: 'noopener' }, ikon('takvim'), 'Takvime ekle')) }
+  if (kaynak) ikinci.append(el('a', { class: 'ikincil', href: kaynak, target: '_blank', rel: 'noopener noreferrer' }, ikon('belge'), x.duyuru ? 'Kariyer Kapısı' : 'Resmî ilan'));
+  if (S.son && S.kod !== 'gecti') { const is = Bildirim.planla(konuKisa(x), Sure.bul(x.metin), S, new Date(), 10)[0]; if (is && guvenliLink(is.adres)) ikinci.append(el('a', { class: 'ikincil', href: is.adres, target: '_blank', rel: 'noopener noreferrer' }, ikon('takvim'), 'Takvime ekle')) }
   if (ikinci.children.length) d.append(ikinci);
   return d;
 }
