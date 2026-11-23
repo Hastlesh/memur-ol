@@ -28,6 +28,7 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .marka{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.12em;letter-spacing:-.02em;flex:1}.marka b{color:var(--mercan)}
 .marka svg{width:36px;height:36px;flex:none}
 .yuvarlak{width:44px;height:44px;border-radius:50%;background:var(--kart);box-shadow:var(--golge);display:grid;place-items:center;color:var(--ana);text-decoration:none}
+.yuvarlak.zil-acik{background:var(--ana);color:#fff}
 
 /* Düğmeler */
 .birincil{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border-radius:18px;background:linear-gradient(135deg,var(--ana2),var(--ana));color:#fff;font-weight:700;font-size:1.05em;text-decoration:none;box-shadow:0 6px 16px rgb(74 36 184/.25)}
@@ -182,7 +183,10 @@ const el = (tur, ozellik = {}, ...cocuk) => {
 };
 const oku = (k, v) => Depo.oku(k, v), yaz = (k, v) => Depo.yaz(k, v);
 const kucuk = Motor.kucuk;
-const BILDIRIM = 'https://ntfy.sh/sartimtamam-l1mnao9by2';   // yeni ilan bildirim kanalı (ntfy)
+// Bildirim: Android uygulamasının kendisi gösterir (Ana.java köprüsü "Android"; arka plan denetimi Denetci.java köprüsü "Arka").
+const ANDROID = !!(window.Android && window.Android.bildirimDurum);
+const bildirimAcik = () => { try { return ANDROID && Android.bildirimDurum() === 'acik' } catch { return false } };
+window.bildirimGuncel = () => { if (durumSon && durumSon.ekran === 'ana') ciz({ ...durumSon, kaydir: scrollY }) };
 
 // ---------- Simgeler (çizgi simge seti) ----------
 const YOL = {
@@ -215,7 +219,8 @@ for (const s of document.querySelectorAll('[data-ik]')) s.replaceWith(ikon(s.dat
 // Logo: ilan kâğıdı + köşesinde onay damgası
 const LOGO = '<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lgST" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7048e8"/><stop offset=".55" stop-color="#4a24b8"/><stop offset="1" stop-color="#241164"/></linearGradient></defs><rect width="64" height="64" rx="19" fill="url(#lgST)"/><g transform="rotate(-9 29 30)"><rect x="14" y="11" width="29" height="37" rx="6" fill="#fff"/><rect x="19.5" y="19" width="18" height="3.6" rx="1.8" fill="#cdbff7"/><rect x="19.5" y="26" width="13" height="3.6" rx="1.8" fill="#cdbff7"/><rect x="19.5" y="33" width="9" height="3.6" rx="1.8" fill="#cdbff7"/></g><circle cx="44.5" cy="44.5" r="12.5" fill="#ff6f4f" stroke="#fff" stroke-width="3.5"/><path d="m38.6 44.6 4.2 4.1 7.7-8.4" fill="none" stroke="#fff" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const logo = () => { const s = el('span', { class: 'marka' }); s.innerHTML = LOGO; s.append(el('span', {}, 'şartım', el('b', { text: 'tamam' }))); return s };
-const ustSatir = () => el('div', { class: 'ust' }, logo(), el('a', { class: 'yuvarlak', href: BILDIRIM, target: '_blank', rel: 'noopener', 'aria-label': 'Yeni ilan bildirimi al (ntfy)', title: 'Yeni ilan bildirimi' }, ikon('zil')));
+const ustSatir = () => el('div', { class: 'ust' }, logo(), ANDROID ? el('button', { class: 'yuvarlak' + (bildirimAcik() ? ' zil-acik' : ''), 'aria-label': bildirimAcik() ? 'Bildirimler açık' : 'Bildirimleri aç',
+  onclick: () => { bildirimAcik() ? Android.bildirimKapat() : Android.bildirimAc(); setTimeout(bildirimGuncel, 300) } }, ikon('zil')) : null);
 // Halka grafik: dilimler [{n, renk}], ortada yazı
 function halka(dilimler, boyut, kalin, orta, renkArka = 'rgb(255 255 255 / .18)') {
   const r = (boyut - kalin) / 2, c = 2 * Math.PI * r, top = dilimler.reduce((t, d) => t + d.n, 0) || 1;
@@ -302,7 +307,7 @@ const kisiYaz = n => (+n).toLocaleString('tr-TR');
 const ALANLAR = {
   okul: ['Okul', 1], bolum: ['Bölüm', 1], puan: ['KPSS', 2], puanYil: ['Sınav yılı', 2], dogum: ['Doğum tarihi', 3], cinsiyet: ['Cinsiyet', 3],
   asker: ['Askerlik', 3], ikamet: ['Yaşadığın il', 3], ehliyet: ['Ehliyet', 4], belge: ['Belgeler', 4], boy: ['Boy', 5], kilo: ['Kilo', 5], deneyim: ['Deneyim', 5],
-  ogrenci: ['Öğrencilik', 5], emekli: ['Emeklilik', 5], sozlesmeli: ['4/B durumu', 5], fesih: ['Fesih durumu', 5]
+  ogrenci: ['Öğrencilik', 5], emekli: ['Emeklilik', 5], kadrolu: ['Kadrolu memurluk', 5], sozlesmeli: ['4/B durumu', 5], fesih: ['Fesih durumu', 5]
 };
 function eksikler(p) {
   const say = {};
@@ -312,12 +317,23 @@ function eksikler(p) {
   }
   return Object.entries(say).filter(([e]) => ALANLAR[e]).sort((a, b) => b[1] - a[1]);
 }
-function doluluk(p) {
+function alanListe(p) {
   const L = ['okul', 'puan', 'dogum', 'cinsiyet', 'ikamet', 'ehliyet', 'belge', 'boy', 'kilo', 'deneyim', 'ogrenci', 'emekli', 'kadrolu', 'sozlesmeli', 'fesih'];
-  if (p.okul >= 3) L.push('bolum');
+  if (p.okul >= 3) L.splice(1, 0, 'bolum');
   if (p.cinsiyet === 'E') L.push('asker');
-  const dolu = e => ({ puan: Motor.puanListe(p).length > 0 || p.puanYok, ehliyet: p.ehliyet != null, belge: p.belgeSoruldu !== false, boy: !!p.boy, deneyim: p.deneyim !== '' && p.deneyim != null })[e] ?? !!p[e];
-  return Math.round(100 * L.filter(dolu).length / L.length);
+  return L;
+}
+const doluMu = (p, e) => ({ puan: Motor.puanListe(p).length > 0 || p.puanYok, ehliyet: p.ehliyet != null, belge: p.belgeSoruldu !== false, boy: !!p.boy, deneyim: p.deneyim !== '' && p.deneyim != null })[e] ?? !!p[e];
+const bosAlanlar = p => alanListe(p).filter(e => !doluMu(p, e));
+function doluluk(p) { const L = alanListe(p); return Math.round(100 * (L.length - bosAlanlar(p).length) / L.length) }
+// Profil tamlığı: yüzde + boş bilgilerin her biri düğme (dokununca o soruya gider). Sayı = o bilgi kaç pozisyonu etkiliyor.
+function tamlikKart(p) {
+  const d = doluluk(p), E = new Map(eksikler(p)), A = [...E.keys(), ...bosAlanlar(p).filter(e => !E.has(e))].filter(e => ALANLAR[e]);
+  const k = el('div', { class: 'kart', style: 'margin-top:12px' }, el('div', { class: 'tamlik' }, el('b', { text: `Profil %${d}` }), el('div', { class: 'cubuk' }, el('i', { style: `width:${d}%` }))));
+  if (A.length) k.append(el('div', { class: 'soluk kucuk', style: 'margin-top:10px', text: 'Eksik bilgiler — dokun, doldur:' }),
+    el('div', { class: 'eksikler', style: 'margin-top:8px' }, ...A.map(e => el('button', { onclick: () => { taslak = JSON.parse(JSON.stringify(profil)); adim = ALANLAR[e][1] - 1; git({ ekran: 'sihir' }) } },
+      ikon('arti'), ALANLAR[e][0], E.get(e) ? el('small', { text: String(E.get(e)), title: 'Etkilediği pozisyon' }) : null))));
+  return A.length || d < 100 ? k : null;
 }
 
 // ---------- Kartlar ----------
@@ -446,6 +462,8 @@ $('ileri').onclick = () => {
   if (!gecerli(taslak)) return;
   if (adim < ADIMLAR.length - 1) { adim++; sihirCiz(); scrollTo(0, 0); return }
   profil = { ...taslak, ad: 'Ben', genel: taslak.genel !== false }; yaz('kisiler', [profil]);
+  if (yuklendi) isaretle();   // profil değişince çıkan sonuçlar zaten ekranda: bildirim gerekmez
+  if (ANDROID && !oku('bildirimSoruldu', false)) { yaz('bildirimSoruldu', true); try { Android.bildirimAc() } catch { } }
   history.replaceState({ ekran: 'ana', sekme: 'uygun' }, ''); sekme = 'uygun'; ciz({ ekran: 'ana', sekme: 'uygun' });
 };
 
@@ -584,13 +602,7 @@ function uygunCiz() {
   K.append(el('div', { class: 'ozet3', style: 'margin-top:12px' },
     el('div', {}, el('span', { class: 'rk u' }, ikon('tik')), el('div', {}, el('div', { class: 'rakam', text: String(U.length) }), el('div', { class: 'ad', text: 'Uygun' }))),
     el('div', {}, el('span', { class: 'rk k' }, ikon('soru')), el('div', {}, el('div', { class: 'rakam', text: String(B.length) }), el('div', { class: 'ad', text: 'Kontrol et' })))));
-  const E = eksikler(profil), d = doluluk(profil);
-  if (E.length || d < 100) {
-    const k = el('div', { class: 'kart', style: 'margin-top:12px' }, el('div', { class: 'tamlik' }, el('b', { text: `Profil %${d}` }), el('div', { class: 'cubuk' }, el('i', { style: `width:${d}%` }))));
-    if (E.length) k.append(el('div', { class: 'eksikler' }, ...E.slice(0, 6).map(([e, n]) =>
-      el('button', { onclick: () => { taslak = JSON.parse(JSON.stringify(profil)); adim = ALANLAR[e][1] - 1; git({ ekran: 'sihir' }) } }, ikon('arti'), ALANLAR[e][0], el('small', { text: String(n) })))));
-    K.append(k);
-  }
+  const tk = tamlikKart(profil); if (tk) K.append(tk);
   K.append(el('h2', {}, el('span', { class: 'nokta n-uygun' }), 'Başvurabilirsin', el('span', { class: 'say', text: String(U.length) })));
   if (U.length) U.forEach(z => K.append(pozKart(z))); else K.append(el('div', { class: 'bos', style: 'padding:14px' }, ikon('zil'), el('p', { text: 'Henüz yok — yeni ilanlar gelince burada.' })));
   if (B.length) { K.append(el('h2', {}, el('span', { class: 'nokta n-bak' }), 'Kontrol et', el('span', { class: 'say', text: String(B.length) }))); B.forEach(z => K.append(pozKart(z))) }
@@ -599,7 +611,7 @@ function uygunCiz() {
 function profilCiz() {
   const p = profil;
   K.append(ustSatir(), el('h1', { text: 'Profil' }));
-  K.append(el('div', { class: 'kart', style: 'margin-top:12px' }, el('div', { class: 'tamlik' }, el('b', { text: `%${doluluk(p)} dolu` }), el('div', { class: 'cubuk' }, el('i', { style: `width:${doluluk(p)}%` })))));
+  const tk = tamlikKart(p); if (tk) K.append(tk);
   const satir = (ik, ad, deger, a) => el('button', { class: 'ilan', onclick: () => { taslak = JSON.parse(JSON.stringify(p)); adim = a; git({ ekran: 'sihir' }) } },
     el('span', { class: 'rk', style: 'background:var(--ana-ac);color:var(--ana)' }, ikon(ik)),
     el('div', { class: 'govde' }, el('div', { class: 'kurum', style: 'margin:0', text: ad }), el('div', { class: 'baslik', style: 'font-weight:700', text: deger || '—' })), ikon('ileri'));
@@ -608,7 +620,11 @@ function profilCiz() {
     satir('kimlik', 'Kişisel', [p.cinsiyet === 'K' ? 'Kadın' : p.cinsiyet === 'E' ? 'Erkek' : '', p.dogum ? p.dogum.split('-').reverse().join('.') : '', p.ikamet].filter(Boolean).join(' · '), 2),
     satir('araba', 'Ehliyet ve belgeler', [p.ehliyet ? p.ehliyet : p.ehliyet === '' ? 'Ehliyet yok' : '', ...(p.belgeler || [])].filter(Boolean).join(' · '), 3),
     satir('ayar', 'Diğer', [p.boy ? p.boy + ' cm' : '', p.kilo ? p.kilo + ' kg' : '', p.iller || ''].filter(Boolean).join(' · '), 4));
-  K.append(el('a', { class: 'ikincil', href: BILDIRIM, target: '_blank', rel: 'noopener', style: 'margin-top:14px' }, ikon('zil'), 'Yeni ilan bildirimi al'));
+  if (ANDROID) {
+    const acik = bildirimAcik();
+    K.append(el('button', { class: 'ikincil', style: 'margin-top:14px', onclick: () => { acik ? Android.bildirimKapat() : Android.bildirimAc(); setTimeout(bildirimGuncel, 300) } },
+      ikon('zil'), acik ? 'Bildirimler açık · kapat' : 'Yeni ilan bildirimlerini aç'));
+  }
   K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
   K.append(el('p', { class: 'ipucu', style: 'display:flex;gap:6px;align-items:center' }, ikon('kalkan'), 'Bilgilerin sadece bu telefonda.'));
 }
@@ -720,12 +736,38 @@ function ilanCiz(d) {
   K.append(basvuruKart(x), dugmeler(x));
 }
 
+// ---------- Bildirim için "görülen" pozisyonlar ----------
+// Uygulamada gösterilen uygun/kontrol pozisyonları işaretlenir; arka plan denetimi yalnızca işaretsiz (yeni) olanları bildirir.
+const anahtar = z => z.x.id + '#' + (z.i ?? -1);
+const ilgili = () => tumPozisyon(profil).filter(z => z.grup !== 'uymuyor');
+function isaretle(P = ilgili()) { const g = new Set(oku('bildirilen', [])); P.forEach(z => g.add(anahtar(z))); yaz('bildirilen', [...g].slice(-4000)) }
+function arkaDenetim() {
+  const bit = () => { try { Arka.bitti() } catch { } };
+  if (!profil || !profil.okul) { bit(); return }
+  Depo.ortakIlanlar(L => {
+    ilanlar = L; yuklendi = true;
+    const once = oku('bildirilen', null), P = ilgili();
+    if (once) {
+      const s = new Set(once), yeni = g => P.filter(z => z.grup === g && !s.has(anahtar(z)));
+      const U = yeni('uygun'), B = yeni('bak'), ad = z => (z.k ? z.ad : konuKisa(z.x)) + ' · ' + kurumKisa(z.x);
+      if (U.length) Arka.bildir(U.length === 1 ? 'Sana uygun yeni ilan' : `Sana uygun ${U.length} yeni ilan`, U.slice(0, 4).map(ad).join('\n') + (B.length ? `\n+${B.length} ilanda şartlarına bakmalısın` : ''));
+      else if (B.length) Arka.bildir(B.length === 1 ? 'Yeni ilan: şartlarına bak' : `${B.length} yeni ilan: şartlarına bak`, B.slice(0, 4).map(ad).join('\n'));
+    }
+    console.log('ST arka denetim:', P.length, 'pozisyon,', once ? P.filter(z => !once.includes(anahtar(z))).length : 'ilk', 'yeni');
+    isaretle(P); bit();
+  }, bit);
+}
+
 // ---------- Başlangıç ----------
-Depo.ortakIlanlar((L, g) => {
-  ilanlar = L; guncel = g; yuklendi = true;
-  if (durumSon && durumSon.ekran === 'sihir') sayacGuncelle(); else if (durumSon) ciz(durumSon);
-}, () => { yuklendi = true; if (durumSon && durumSon.ekran !== 'sihir') { K.replaceChildren(ustSatir(), el('div', { class: 'bos' }, ikon('zil'), el('p', { text: 'İlanlara ulaşamadım. İnternetini kontrol et.' }))) } });
-if (profil && profil.okul && (Motor.puanListe(profil).length || profil.puanYok)) { history.replaceState({ ekran: 'ana', sekme: 'uygun' }, ''); sekme = 'uygun'; ciz({ ekran: 'ana', sekme: 'uygun' }) }
-else { profil = null; history.replaceState({ ekran: 'hosgeldin' }, ''); ciz({ ekran: 'hosgeldin' }) }
+if (window.Arka) arkaDenetim();   // Android arka plan denetimi: ekran çizilmez
+else {
+  Depo.ortakIlanlar((L, g) => {
+    ilanlar = L; guncel = g; yuklendi = true;
+    if (profil) isaretle();
+    if (durumSon && durumSon.ekran === 'sihir') sayacGuncelle(); else if (durumSon) ciz(durumSon);
+  }, () => { yuklendi = true; if (durumSon && durumSon.ekran !== 'sihir') { K.replaceChildren(ustSatir(), el('div', { class: 'bos' }, ikon('zil'), el('p', { text: 'İlanlara ulaşamadım. İnternetini kontrol et.' }))) } });
+  if (profil && profil.okul && (Motor.puanListe(profil).length || profil.puanYok)) { history.replaceState({ ekran: 'ana', sekme: 'uygun' }, ''); sekme = 'uygun'; ciz({ ekran: 'ana', sekme: 'uygun' }) }
+  else { profil = null; history.replaceState({ ekran: 'hosgeldin' }, ''); ciz({ ekran: 'hosgeldin' }) }
+}
 </script>
 </body></html>
