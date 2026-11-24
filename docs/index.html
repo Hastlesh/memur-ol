@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-reErayB1d+txSqjJI9m0SNmR3HDTKZKukPA4xc3SWNQ=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-JVbKcFl92LK7/rptmwS43w/VkrrTMLi/Mct82eZ/v/c=' 'sha256-2sE46OFTFApoqBPey6d5Ce4sehxz5EUr3LyusUodt1k=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-reErayB1d+txSqjJI9m0SNmR3HDTKZKukPA4xc3SWNQ=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-L+/eaCiwbBL6Ft0wTGZl5QHXXF1ya/AW4ig7IVKfa+o=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
@@ -120,6 +120,9 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .rk.u{background:var(--tamam-ac);color:var(--tamam)}.rk.k{background:var(--bak-ac);color:var(--bak)}
 .tamlik{display:flex;align-items:center;gap:12px}.tamlik .cubuk{flex:1;height:8px;border-radius:9px;background:var(--cizgi);overflow:hidden}.tamlik .cubuk i{display:block;height:100%;background:linear-gradient(90deg,var(--mercan),var(--ana2))}
 .tamlik b{font-size:.9em}
+.hz-satir{display:flex;align-items:center;gap:12px;padding:11px 2px;border-top:1px solid var(--cizgi);font-weight:600;cursor:pointer}
+.hz-satir input{width:22px;height:22px;min-height:0;flex:none;margin:0;accent-color:var(--ana)}
+.hz-satir input:checked+span{color:var(--soluk);text-decoration:line-through}
 .eksikler{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .eksikler button{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed var(--ana2);color:var(--ana);background:var(--ana-ac);border-radius:999px;padding:7px 13px;font-weight:700;font-size:.88em}
 .eksikler button small{background:var(--kart);border-radius:99px;padding:0 7px;font-weight:800}
@@ -1882,7 +1885,41 @@ window.TABAN_VERI = [
     return { tur: t, turAd: TURLER[t].ad, kisi: n, ilanNe, yer: y, link: baglanti(ilan.metin), adimlar, etiketler: E, ilkDefa: /ilk defa atan/.test(k) };
   }
 
-  const api = { ozetle, isNe, tur, TURLER, baglanti, yer, akademik };
+  // Başvuru hazırlık listesi: ilanın "istenen belgeler" bölümünden bilinen belgeler. Bölüm bulunmazsa boş döner.
+  const BELGELER = [
+    ['basvuru', 'Başvuru formu / dilekçe', /başvuru formu|başvuru dilekçe|iş talep formu|dilekçe/],
+    ['kimlik', 'Kimlik kartı fotokopisi', /nüfus cüzdan|(?<!görevlisi )kimlik kart|t\.? ?c\.? kimlik (numaralı|no)?.{0,20}(fotokopi|sureti|örneği)/],
+    ['diploma', 'Diploma / mezuniyet belgesi', /diploma|mezuniyet belgesi/],
+    ['kpss', 'KPSS sonuç belgesi', /kpss.{0,40}(sonuç|puan) belgesi|sınav sonuç belgesi|sonuç belgesinin/],
+    ['foto', 'Vesikalık fotoğraf', /fotoğraf/],
+    ['adli', 'Adli sicil kaydı (e-Devlet)', /adli sicil/],
+    ['asker', 'Askerlik durum belgesi (erkekler)', /askerlik durum|terhis belgesi|askerlik (ile ilgili )?(belge|bilgi)|askerlik görevini/],
+    ['ehliyet', 'Sürücü belgesi fotokopisi', /sürücü belgesi/],
+    ['ozgecmis', 'Özgeçmiş', /özgeçmiş|\bcv\b/],
+    ['dil', 'Yabancı dil belgesi (YDS/YÖKDİL)', /\byds\b|yökdil|yabancı dil (belgesi|sınav sonuç|puan)/],
+    ['hizmet', 'Deneyim belgesi / SGK hizmet dökümü', /hizmet döküm|sgk.{0,30}(döküm|belge)|hizmet belgesi|deneyim belgesi|tecrübe belgesi|iş deneyim/],
+    ['sertifika', 'İstenen sertifika(lar)', /sertifika/],
+    ['saglik', 'Sağlık raporu', /sağlık (kurulu )?raporu/],
+    ['ikamet', 'Yerleşim yeri belgesi', /ikametgah|yerleşim yeri belgesi/],
+    ['transkript', 'Not dökümü (transkript)', /transkript|not döküm/],
+    ['mal', 'Mal bildirimi', /mal bildirim/]
+  ];
+  const BELGE_BOLUM = /(istenen|istenilen|istenecek|gerekli|teslim edilecek|sunulacak|yüklenecek|ibraz edilecek) (belgeler|evraklar|evrak)|başvuru belgeleri|evrak kontrol listesi/g;
+  function belgeler(metin) {
+    const k = kucuk(metin).replace(/[âà]/g, 'a').replace(/î/g, 'i').replace(/û/g, 'u');   // "adlî" = "adli"
+    let en = [];
+    for (const m of k.matchAll(BELGE_BOLUM)) {
+      let parca = k.slice(m.index, m.index + 2500);
+      // Bölüm, sonraki başlıkta (başvuru yeri, sınav tarihi…) biter
+      const son = parca.slice(150).search(/(^|\s)\d{1,2} ?[-.)] ?(başvuru (yeri|tarihi|şekli|süresi)|(sözlü |yazılı |uygulamalı )?sınav|değerlendirme|sonuç)/);
+      if (son >= 0) parca = parca.slice(0, 150 + son);
+      const L = BELGELER.filter(([, , d]) => d.test(parca)).map(([id, ad]) => ({ id, ad }));
+      if (L.length > en.length) en = L;
+    }
+    return en.length >= 2 ? en : [];   // tek tük eşleşme güvenilmez
+  }
+
+  const api = { ozetle, isNe, tur, TURLER, baglanti, yer, akademik, belgeler };
   if (typeof module !== 'undefined') module.exports = api; else kok.Ozet = api;
 })(this);
 
@@ -2179,7 +2216,8 @@ function pozKart(z) {
         z.adet ? el('span', {}, ikon('kisiler'), kisiYaz(z.adet)) : null,
         z.ildeki ? el('span', {}, ikon('konum'), z.ildeki) : null,
         el('span', {}, ikon('saat'), kalan(S)),
-        z.grup === 'bak' && z.neden ? el('span', { style: 'color:var(--bak)' }, z.neden.length > 42 ? z.neden.slice(0, 40) + '…' : z.neden) : null)),
+        z.grup === 'bak' && z.neden ? el('span', { style: 'color:var(--bak)' }, z.neden.length > 42 ? z.neden.slice(0, 40) + '…' : z.neden) : null,
+        takipDurum(z) === 'takip' && belgeListe(z.x).length ? (h => el('span', {}, ikon('tik'), h.n === h.m ? 'Belgeler hazır' : `Belgeler ${h.n}/${h.m}`))(hazirlikDurum(z.x)) : null)),
     el('div', { class: 'sag' }, s.length ? hap(z.grup, `${t}/${s.length}`) : hap(z.grup, z.grup === 'uygun' ? 'Uygun' : z.grup === 'bak' ? 'Bak' : '—'),
       takipDurum(z) === 'basvurdum' ? el('span', { class: 'hap basvurdu' }, ikon('tik'), 'Başvurdun') : takipDurum(z) ? el('span', { class: 'hap takipte', 'aria-label': 'Takipte' }, ikon('yer', 'dolu')) : null));
 }
@@ -2475,7 +2513,7 @@ function profilCiz() {
         ne + (dk != null && dk > 720 ? '. Telefonun pil ayarlarında Şartım Tamam için "Kısıtlama yok" seç.' : '')));
     }
   }
-  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); yaz('sonDenetim', null); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
+  K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); yaz('sonDenetim', null); yaz('hazirlik', {}); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
   K.append(el('button', { class: 'ikincil', style: 'margin-top:10px', onclick: e => uygulamaPaylas(e.currentTarget) }, ikon('paylas'), el('span', { text: 'Uygulamayı arkadaşınla paylaş' })));
   const giz = el('details', { class: 'acilir' }); giz.append(el('summary', {}, ikon('kalkan'), 'Gizlilik'));
   for (const t of ['Girdiğin bilgiler yalnızca bu cihazda saklanır; hiçbir sunucuya gönderilmez, hesap yoktur.',
@@ -2560,6 +2598,31 @@ function basvuruKart(x) {
   if (bil.length) { const d = el('details', { class: 'acilir' }); d.append(el('summary', {}, ikon('ac', 'ac'), `Bilmen gerekenler (${bil.length})`)); bil.forEach(u => d.append(el('p', { class: 'soluk kucuk', text: '• ' + u }))); k.append(d) }
   return k;
 }
+// Başvuru hazırlık listesi: ilanın "istenen belgeler" bölümünden; işaretler yalnızca bu telefonda saklanır
+const belgeListe = x => x._belge || (x._belge = Ozet.belgeler(x.metin));
+const hazirlikDurum = x => { const L = belgeListe(x), S = new Set(oku('hazirlik', {})[x.id] || []); return { n: L.filter(b => S.has(b.id)).length, m: L.length } };
+function hazirlikKart(x) {
+  const L = belgeListe(x);
+  if (!L.length) return [];
+  const secili = new Set(oku('hazirlik', {})[x.id] || []);
+  const say = el('span', { class: 'say' }), dolgu = el('i');
+  const guncelle = () => { const n = L.filter(b => secili.has(b.id)).length; say.textContent = n === L.length ? 'Hazır' : `${n}/${L.length}`; dolgu.style.width = Math.round(n / L.length * 100) + '%' };
+  const k = el('div', { class: 'kart' }, el('h2', { style: 'margin:0 0 8px' }, ikon('tik'), 'Hazırlık listesi', say),
+    el('div', { class: 'tamlik', style: 'margin-bottom:6px' }, el('div', { class: 'cubuk' }, dolgu)));
+  for (const b of L) {
+    const g = el('input', { type: 'checkbox' }); g.checked = secili.has(b.id);
+    g.onchange = () => {
+      g.checked ? secili.add(b.id) : secili.delete(b.id);
+      const T = oku('hazirlik', {}); if (secili.size) T[x.id] = [...secili]; else delete T[x.id];
+      yaz('hazirlik', T); guncelle();
+    };
+    k.append(el('label', { class: 'hz-satir' }, g, el('span', { text: b.ad })));
+  }
+  const edevlet = /e-devlet|kariyer/i.test(ozet(x).yer || '');
+  k.append(el('p', { class: 'soluk kucuk', style: 'margin-top:10px', text: 'İlan metninden çıkarıldı; aslı mı, fotokopi mi, kaç adet istendiğini ilandan oku.' + (edevlet ? ' e-Devlet\'teki bilgiler (mezuniyet, adli sicil, askerlik) çoğu zaman kendiliğinden gelir.' : '') }));
+  guncelle();
+  return [k];
+}
 // Takip et / Başvurdum (pozisyon başına)
 function takipDugmeleri(z) {
   const d = takipDurum(z), ciz2 = () => ciz({ ...durumSon, kaydir: scrollY });
@@ -2580,8 +2643,8 @@ function pozCiz(d) {
   const x = ilanlar.find(i => i.id === d.id);
   if (!x) { K.append(el('p', { class: 'bos', text: 'İlan bulunamadı.' })); return }
   gorulduYap(x);
-  const P = pozisyonlar(x, profil), z = d.i >= 0 ? P.find(y => y.i === d.i) : P[0];
-  K.append(bant(x, z.k ? z.ad : konuKisa(x), z.adet), karar(z), takipDugmeleri(z), bilgiKart(x, z.k ? z.ad : konuKisa(x), z), zamanKart(x), sartKart(z));
+  const P = pozisyonlar(x, profil), z = (d.i >= 0 && P.find(y => y.i === d.i)) || P[0];
+  K.append(bant(x, z.k ? z.ad : konuKisa(x), z.adet), karar(z), takipDugmeleri(z), bilgiKart(x, z.k ? z.ad : konuKisa(x), z), zamanKart(x), sartKart(z), ...hazirlikKart(x));
   if (P.length > 1) K.append(el('button', { class: 'ikincil', onclick: () => git({ ekran: 'ilan', id: x.id }) }, ikon('liste'), `Bu ilandaki ${P.length} pozisyon`));
   K.append(basvuruKart(x), dugmeler(x));
 }
@@ -2591,12 +2654,12 @@ function ilanCiz(d) {
   gorulduYap(x);
   const P = pozisyonlar(x, profil);
   K.append(bant(x, konuKisa(x), ozet(x).kisi));
-  if (P.length === 1) { K.append(karar(P[0]), takipDugmeleri(P[0]), bilgiKart(x, P[0].k ? P[0].ad : '', P[0]), zamanKart(x), sartKart(P[0]), basvuruKart(x), dugmeler(x)); return }
+  if (P.length === 1) { K.append(karar(P[0]), takipDugmeleri(P[0]), bilgiKart(x, P[0].k ? P[0].ad : '', P[0]), zamanKart(x), sartKart(P[0]), ...hazirlikKart(x), basvuruKart(x), dugmeler(x)); return }
   K.append(zamanKart(x));
   const gr = g => P.filter(z => z.grup === g);
   for (const [g, ad] of [['uygun', 'Sana uygun'], ['bak', 'Kontrol et']]) if (gr(g).length) { K.append(el('h2', {}, el('span', { class: 'nokta n-' + g }), ad, el('span', { class: 'say', text: String(gr(g).length) }))); gr(g).forEach(z => K.append(pozKart(z))) }
   if (gr('uymuyor').length) { const dd = el('details', { class: 'acilir' }); dd.append(el('summary', {}, ikon('ac', 'ac'), `Diğer pozisyonlar (${gr('uymuyor').length})`)); gr('uymuyor').forEach(z => dd.append(pozKart(z))); K.append(dd) }
-  K.append(basvuruKart(x), dugmeler(x));
+  K.append(...hazirlikKart(x), basvuruKart(x), dugmeler(x));
 }
 
 // ---------- Bildirim için "görülen" pozisyonlar ----------

@@ -131,6 +131,40 @@
     return { tur: t, turAd: TURLER[t].ad, kisi: n, ilanNe, yer: y, link: baglanti(ilan.metin), adimlar, etiketler: E, ilkDefa: /ilk defa atan/.test(k) };
   }
 
-  const api = { ozetle, isNe, tur, TURLER, baglanti, yer, akademik };
+  // Başvuru hazırlık listesi: ilanın "istenen belgeler" bölümünden bilinen belgeler. Bölüm bulunmazsa boş döner.
+  const BELGELER = [
+    ['basvuru', 'Başvuru formu / dilekçe', /başvuru formu|başvuru dilekçe|iş talep formu|dilekçe/],
+    ['kimlik', 'Kimlik kartı fotokopisi', /nüfus cüzdan|(?<!görevlisi )kimlik kart|t\.? ?c\.? kimlik (numaralı|no)?.{0,20}(fotokopi|sureti|örneği)/],
+    ['diploma', 'Diploma / mezuniyet belgesi', /diploma|mezuniyet belgesi/],
+    ['kpss', 'KPSS sonuç belgesi', /kpss.{0,40}(sonuç|puan) belgesi|sınav sonuç belgesi|sonuç belgesinin/],
+    ['foto', 'Vesikalık fotoğraf', /fotoğraf/],
+    ['adli', 'Adli sicil kaydı (e-Devlet)', /adli sicil/],
+    ['asker', 'Askerlik durum belgesi (erkekler)', /askerlik durum|terhis belgesi|askerlik (ile ilgili )?(belge|bilgi)|askerlik görevini/],
+    ['ehliyet', 'Sürücü belgesi fotokopisi', /sürücü belgesi/],
+    ['ozgecmis', 'Özgeçmiş', /özgeçmiş|\bcv\b/],
+    ['dil', 'Yabancı dil belgesi (YDS/YÖKDİL)', /\byds\b|yökdil|yabancı dil (belgesi|sınav sonuç|puan)/],
+    ['hizmet', 'Deneyim belgesi / SGK hizmet dökümü', /hizmet döküm|sgk.{0,30}(döküm|belge)|hizmet belgesi|deneyim belgesi|tecrübe belgesi|iş deneyim/],
+    ['sertifika', 'İstenen sertifika(lar)', /sertifika/],
+    ['saglik', 'Sağlık raporu', /sağlık (kurulu )?raporu/],
+    ['ikamet', 'Yerleşim yeri belgesi', /ikametgah|yerleşim yeri belgesi/],
+    ['transkript', 'Not dökümü (transkript)', /transkript|not döküm/],
+    ['mal', 'Mal bildirimi', /mal bildirim/]
+  ];
+  const BELGE_BOLUM = /(istenen|istenilen|istenecek|gerekli|teslim edilecek|sunulacak|yüklenecek|ibraz edilecek) (belgeler|evraklar|evrak)|başvuru belgeleri|evrak kontrol listesi/g;
+  function belgeler(metin) {
+    const k = kucuk(metin).replace(/[âà]/g, 'a').replace(/î/g, 'i').replace(/û/g, 'u');   // "adlî" = "adli"
+    let en = [];
+    for (const m of k.matchAll(BELGE_BOLUM)) {
+      let parca = k.slice(m.index, m.index + 2500);
+      // Bölüm, sonraki başlıkta (başvuru yeri, sınav tarihi…) biter
+      const son = parca.slice(150).search(/(^|\s)\d{1,2} ?[-.)] ?(başvuru (yeri|tarihi|şekli|süresi)|(sözlü |yazılı |uygulamalı )?sınav|değerlendirme|sonuç)/);
+      if (son >= 0) parca = parca.slice(0, 150 + son);
+      const L = BELGELER.filter(([, , d]) => d.test(parca)).map(([id, ad]) => ({ id, ad }));
+      if (L.length > en.length) en = L;
+    }
+    return en.length >= 2 ? en : [];   // tek tük eşleşme güvenilmez
+  }
+
+  const api = { ozetle, isNe, tur, TURLER, baglanti, yer, akademik, belgeler };
   if (typeof module !== 'undefined') module.exports = api; else kok.Ozet = api;
 })(this);
