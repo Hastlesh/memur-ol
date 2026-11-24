@@ -41,4 +41,37 @@ self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.me
 e.respondWith(fetch(e.request).then(r=>{const k=r.clone();caches.open(ON).then(c=>c.put(u.pathname.endsWith('ilanlar.json')?'ilanlar.json':e.request,k));return r}).catch(()=>caches.match(u.pathname.endsWith('ilanlar.json')?'ilanlar.json':e.request).then(r=>r||caches.match('./'))))});
 `);
 fs.writeFileSync(path.join(D, '.nojekyll'), '');
+
+// Gizlilik politikası ve kullanım koşulları (Google Play bu adresi ister: https://hastlesh.github.io/memur-ol/gizlilik.html)
+const gizlilik = `<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<title>Memur Ol · Gizlilik politikası</title><link rel="icon" href="ikon-192.png">
+<style>body{margin:0;background:#f6f4fb;color:#1b1530;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:1.6em;margin:.2em 0}h2{font-size:1.15em;margin:1.6em 0 .3em}a{color:#4a24b8}.not{background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 6px 18px rgb(36 17 100/.07)}
+@media(prefers-color-scheme:dark){body{background:#100c19;color:#f1ecfa}a{color:#b9a2ff}.not{background:#1b1627;box-shadow:none}}</style></head><body><main>
+<p><a href="./">← Memur Ol</a></p>
+<h1>Gizlilik politikası ve kullanım koşulları</h1>
+<p>Yürürlük tarihi: 24 Kasım 2026</p>
+<p class="not"><b>Kısaca:</b> Memur Ol hiçbir kişisel veri toplamaz. Girdiğin bilgiler yalnızca kendi telefonunda saklanır, hiçbir sunucuya gönderilmez. Hesap, reklam, izleme ya da analiz aracı yoktur.</p>
+<h2>1. Hangi bilgileri giriyorsun, nerede duruyor?</h2>
+<p>Sana uygun ilanları gösterebilmek için mezuniyet, bölüm, KPSS puanı, doğum tarihi, cinsiyet, askerlik durumu, ehliyet, boy-kilo gibi bilgileri girersin. Bu bilgiler <b>yalnızca cihazındaki uygulama hafızasında</b> saklanır; karşılaştırma da cihazında yapılır. Bu bilgiler bize ya da başka birine gönderilmez. Kimlik numarası, ad-soyad, telefon numarası ya da e-posta istenmez.</p>
+<p>Android uygulamasında bu bilgiler telefonun bulut yedeğine ve yeni telefona aktarıma da dahil edilmez.</p>
+<h2>2. İnternete ne gönderiliyor?</h2>
+<p>Uygulama yalnızca herkese açık ilan listesini indirir (GitHub Pages: hastlesh.github.io). Bu istekte senin bilgilerin yer almaz. Her web sitesinde olduğu gibi, bağlantı sırasında IP adresin ve cihaz türün bu sunucuyu işleten GitHub'a görünür; GitHub'ın kendi <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener noreferrer">gizlilik bildirimi</a> geçerlidir.</p>
+<h2>3. İzinler</h2>
+<p><b>Bildirim:</b> yalnızca sen açarsan, sana uygun yeni ilan ve son gün hatırlatmaları için. <b>İnternet:</b> ilan listesini indirmek için. <b>Titreşim:</b> dokunma geri bildirimi için. <b>Açılışta çalışma:</b> telefon yeniden başlayınca ilan kontrolünün sürmesi için. Konum, rehber, kamera, mikrofon ya da dosyalarına erişilmez.</p>
+<h2>4. Bilgilerini silmek</h2>
+<p>Uygulamada <b>Profil → Bilgilerimi sil</b> ile bütün bilgilerin cihazdan silinir. Uygulamayı kaldırmak da hepsini siler. Bizde senin hakkında saklanan bir bilgi olmadığı için ayrıca silinecek bir şey yoktur.</p>
+<h2>5. Çocuklar</h2>
+<p>Uygulama kamu iş ilanlarına başvurabilecek yaştaki yetişkinler içindir ve çocuklardan bilerek bilgi toplamaz (zaten hiç kimseden toplamaz).</p>
+<h2>6. Resmî uygulama değildir</h2>
+<p>Memur Ol resmî bir devlet uygulaması değildir ve hiçbir kamu kurumuyla bağlantısı yoktur. İlanlar <a href="https://www.resmigazete.gov.tr" rel="noopener noreferrer">Resmî Gazete</a>, <a href="https://kariyerkapisi.gov.tr/isealim" rel="noopener noreferrer">Kariyer Kapısı</a> ve kurumların kendi sitelerinde yayımlanan resmî metinlerden derlenir; her ilanda resmî metnin bağlantısı verilir.</p>
+<h2>7. Sorumluluk</h2>
+<p>Uygunluk sonuçları ilan metinlerinden otomatik çıkarılır ve hatalı ya da eksik olabilir. Uygulama bilgilendirme amaçlıdır; başvuru şartları, tarihleri ve sonuçları için tek geçerli kaynak kurumun yayımladığı resmî ilandır. Başvurmadan önce ilanın aslını okuman gerekir.</p>
+<h2>8. Değişiklikler ve iletişim</h2>
+<p>Bu politika değişirse bu sayfa güncellenir ve yürürlük tarihi değişir. Soru ve bildirimlerin için: <a href="https://github.com/Hastlesh/memur-ol/issues" rel="noopener noreferrer">github.com/Hastlesh/memur-ol/issues</a></p>
+</main></body></html>
+`;
+fs.writeFileSync(path.join(D, 'gizlilik.html'), gizlilik);
 console.log('site:', Math.round(Buffer.byteLength(html) / 1024) + ' KB sayfa,', Math.round(fs.statSync(path.join(D, 'ilanlar.json')).size / 1024) + ' KB ilan');

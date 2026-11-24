@@ -139,8 +139,9 @@
       let kaynak = 'canli';
       // Android uygulaması: önce internetteki güncel liste (window.ILAN_ADRESI), olmazsa uygulamanın içindeki kopya
       let r = null;
-      if (kok.ILAN_ADRESI) { try { r = await fetch(kok.ILAN_ADRESI + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) r = null } catch { r = null } }
-      if (!r) { if (kok.ILAN_ADRESI) kaynak = 'gomulu'; r = await fetch('ilanlar.json?t=' + Date.now(), { cache: 'no-store' }) }
+      // cache: 'no-cache' → sunucuya 'değişti mi?' diye sorulur (ETag); değişmediyse liste yeniden indirilmez (çok kullanıcıda bant genişliği)
+      if (kok.ILAN_ADRESI) { try { r = await fetch(kok.ILAN_ADRESI, { cache: 'no-cache' }); if (!r.ok) r = null } catch { r = null } }
+      if (!r) { if (kok.ILAN_ADRESI) kaynak = 'gomulu'; r = await fetch('ilanlar.json', { cache: 'no-cache' }) }
       if (!r.ok) throw new Error(r.status);
       const metin = await r.text();
       if (metin.length > 30e6) throw new Error('büyük');

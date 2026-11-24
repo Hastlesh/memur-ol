@@ -668,7 +668,8 @@ function hosgeldinCiz() {
   s.append(l, el('div', { class: 'marka-yazi' }, 'memur', el('b', { text: 'ol' })), el('h1', {}, 'Sana uyan kamu ilanı, ', el('b', { text: 'tek bakışta.' })),
     el('p', { class: 'soluk', text: 'Bilgilerini bir kez gir, şartları biz karşılaştıralım.' }),
     el('div', { class: 'ozellik' }, oz('kalkan', 'Şart şart'), oz('ucretsiz', 'Ücretsiz'), oz('kimlik', 'Hesapsız')),
-    el('button', { class: 'birincil', onclick: () => { taslak = { belgeSoruldu: false }; adim = 0; git({ ekran: 'sihir' }) } }, 'Başlayalım', ikon('ileri')));
+    el('button', { class: 'birincil', onclick: () => { taslak = { belgeSoruldu: false }; adim = 0; git({ ekran: 'sihir' }) } }, 'Başlayalım', ikon('ileri')),
+    el('p', { class: 'soluk kucuk', style: 'margin-top:18px;max-width:420px;line-height:1.45', text: RESMI_DEGIL }));
   K.append(s);
 }
 
@@ -913,8 +914,18 @@ function profilCiz() {
     'İnternetten sadece herkese açık ilan listesi indirilir (GitHub Pages). Bu sırada her web sitesinde olduğu gibi IP adresin o sunucuya görünür.',
     'Reklam, izleme ya da analiz aracı yoktur. Kimlik numarası, telefon, e-posta istenmez.',
     '"Bilgilerimi sil" ile her şey bu cihazdan silinir.']) giz.append(el('p', { class: 'soluk kucuk', text: '• ' + t }));
+  giz.append(el('p', { class: 'kucuk' }, el('a', { href: SITE + 'gizlilik.html', target: '_blank', rel: 'noopener noreferrer' }, 'Gizlilik politikasının tamamı')));
   K.append(giz);
+  // Hakkında: resmî uygulama olmadığı + bilginin resmî kaynakları (Google Play "devlet bilgisi" kuralı)
+  const hk = el('details', { class: 'acilir' }); hk.append(el('summary', {}, ikon('soru'), 'Hakkında ve kaynaklar'));
+  hk.append(el('p', { class: 'soluk kucuk', text: RESMI_DEGIL }),
+    el('p', { class: 'soluk kucuk', text: 'Uygunluk sonuçları ilan metninden otomatik çıkarılır ve hatalı olabilir. Başvurmadan önce ilanın aslını mutlaka oku; kesin bilgi kurumun yayımladığı ilandadır.' }),
+    el('p', { class: 'kucuk', style: 'font-weight:700;margin-top:10px', text: 'Resmî kaynaklar' }));
+  for (const [ad, u] of KAYNAKLAR) hk.append(el('p', { class: 'kucuk', style: 'margin:4px 0' }, el('a', { href: u, target: '_blank', rel: 'noopener noreferrer' }, ad)));
+  K.append(hk);
 }
+const RESMI_DEGIL = 'Memur Ol resmî bir devlet uygulaması değildir; hiçbir kamu kurumuyla bağlantısı yoktur. İlanlar Resmî Gazete, Kariyer Kapısı ve kurumların kendi sitelerinde yayımlanan resmî metinlerden derlenir.';
+const KAYNAKLAR = [['Resmî Gazete — Çeşitli İlanlar', 'https://www.resmigazete.gov.tr'], ['Kariyer Kapısı — Kamu İşe Alım', 'https://kariyerkapisi.gov.tr/isealim'], ['ÖSYM — KPSS sonuçları', 'https://www.osym.gov.tr']];
 let silZaman = 0;
 function silOnay() { if (Date.now() - silZaman < 4000) return true; silZaman = Date.now(); return false }
 
@@ -986,8 +997,8 @@ function basvuruKart(x) {
   const O = ozet(x), k = el('div', { class: 'kart' }, el('h2', { style: 'margin:0 0 12px' }, ikon('belge'), 'Nasıl başvurulur'));
   const A = el('div', { class: 'adimlar' });
   (O.adimlar.length ? O.adimlar : ['İlanın aslındaki yoldan']).forEach((a, i) => A.append(el('div', { class: 'adim' }, el('i', { text: String(i + 1) }), el('span', { text: a.replace(/\.$/, '') }))));
-  k.append(A);
-  const bil = [...(x.B ? [...(x.B.uyari || []), ...(x.B.ilUyari || [])] : []), ...(x.uyari || [])].filter(u => !/sağlama|okunan|tablo bulunamadı/i.test(u));
+  k.append(A, el('p', { class: 'soluk kucuk', style: 'margin-top:10px', text: 'Bu sayfa ilanın aslından otomatik hazırlandı. Başvurmadan önce resmî ilanı oku; kesin bilgi oradadır.' }));
+  const bil =[...(x.B ? [...(x.B.uyari || []), ...(x.B.ilUyari || [])] : []), ...(x.uyari || [])].filter(u => !/sağlama|okunan|tablo bulunamadı/i.test(u));
   if (bil.length) { const d = el('details', { class: 'acilir' }); d.append(el('summary', {}, ikon('ac', 'ac'), `Bilmen gerekenler (${bil.length})`)); bil.forEach(u => d.append(el('p', { class: 'soluk kucuk', text: '• ' + u }))); k.append(d) }
   return k;
 }
