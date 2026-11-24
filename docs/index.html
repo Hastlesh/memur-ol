@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-pL6k6BImw1kitjlPesLvDffpdVacMIFLA1isn0PT/0M=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-KLoDzIG8o7FbE9djAbKN5caxluDn1K1WvdPctjWVr6M=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-pL6k6BImw1kitjlPesLvDffpdVacMIFLA1isn0PT/0M=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-i/8RORfcWIFwFEWm1gzvWt/I39wUGU7BJkpMkZnX7vw=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
@@ -16,9 +16,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Şartım Tamam — az yazı, çok işaret: renk, simge, halka. Karşılama → 5 adım → İlanlar / Sana uygun / Profil → ayrıntı */
-:root{--zemin:#f6f4fb;--kart:#fff;--ic:#f1eef8;--yazi:#1b1530;--soluk:#6e6583;--cizgi:#e6e1f0;--ana:#4a24b8;--ana2:#7048e8;--koyu:#241164;--ana-ac:#efe9ff;--mercan:#ff6f4f;--mercan-yazi:#d2401f;--mercan-ac:#ffece7;--tamam:#08795a;--tamam-ac:#e1f6ee;--bak:#985400;--bak-ac:#fff2dc;--yok:#b3264a;--yok-ac:#fde8ec;--ters:#fff;--ana-ustu:#fff;--golge:0 1px 2px rgb(36 17 100/.05),0 6px 18px rgb(36 17 100/.07);--govde:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--ana-ustu:#100c19;--golge:none;color-scheme:dark}}
-:root[data-theme="dark"]{--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#4fd3a2;--tamam-ac:#12302a;--bak:#f4b55c;--bak-ac:#33281a;--yok:#ff8aa0;--yok-ac:#3a1f28;--ters:#100c19;--ana-ustu:#100c19;--golge:none;color-scheme:dark}
+:root{--zemin:#f6f4fb;--kart:#fff;--ic:#f1eef8;--yazi:#1b1530;--soluk:#6e6583;--cizgi:#e6e1f0;--ana:#4a24b8;--ana2:#7048e8;--koyu:#241164;--ana-ac:#efe9ff;--mercan:#ff6f4f;--mercan-yazi:#c2381a;--mercan-ac:#ffece7;--tamam:#0f7470;--tamam-ac:#ddf2ef;--bak:#a84b00;--bak-ac:#ffefdf;--yok:#7f1630;--yok-ac:#fbe6ea;--ters:#fff;--ana-ustu:#fff;--golge:0 1px 2px rgb(36 17 100/.05),0 6px 18px rgb(36 17 100/.07);--govde:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#86e8d8;--tamam-ac:#0f2e2b;--bak:#ffb13d;--bak-ac:#352617;--yok:#f7647b;--yok-ac:#3b1c24;--ters:#100c19;--ana-ustu:#100c19;--golge:none;color-scheme:dark}}
+:root[data-theme="dark"]{--zemin:#100c19;--kart:#1b1627;--ic:#241e33;--yazi:#f1ecfa;--soluk:#a99fbc;--cizgi:#322a44;--ana:#b9a2ff;--ana2:#9b7dff;--koyu:#0c0717;--ana-ac:#2a2142;--mercan:#ff8a6f;--mercan-yazi:#ff8a6f;--mercan-ac:#3a231e;--tamam:#86e8d8;--tamam-ac:#0f2e2b;--bak:#ffb13d;--bak-ac:#352617;--yok:#f7647b;--yok-ac:#3b1c24;--ters:#100c19;--ana-ustu:#100c19;--golge:none;color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{background:var(--zemin);color:var(--yazi);font:16px/1.4 var(--govde);-webkit-text-size-adjust:100%;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
@@ -109,7 +109,7 @@ input:focus,select:focus{outline:none;border-color:var(--ana2)}
 .ilan .sag{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .hap{display:inline-flex;align-items:center;gap:4px;font-size:.74em;font-weight:800;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .hap.uygun{background:var(--tamam-ac);color:var(--tamam)}.hap.bak{background:var(--bak-ac);color:var(--bak)}.hap.uymuyor{background:var(--ic);color:var(--soluk)}
-.hap.yeni{background:#d2401f;color:#fff}
+.hap.yeni{background:#c2381a;color:#fff}
 .mini{display:flex;gap:3px;margin-top:6px}.mini i{width:14px;height:5px;border-radius:9px;background:var(--cizgi)}.mini i.t{background:var(--tamam)}.mini i.b{background:var(--bak)}.mini i.y{background:var(--yok)}
 
 /* Sana uygun */
@@ -175,7 +175,7 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
 .serit{display:flex;gap:6px;margin:0 -16px 4px;padding:2px 16px 8px}
 .serit button{flex:none;width:48px;padding:8px 0 6px;border-radius:14px;background:var(--ic);display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--soluk)}
 .serit button i{font-style:normal;font-size:.7em;font-weight:700;text-transform:uppercase}.serit button b{font-size:1.1em;color:var(--yazi)}
-.serit button span{min-width:18px;height:18px;border-radius:9px;background:#d2401f;color:#fff;font-size:.72em;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.serit button span{min-width:18px;height:18px;border-radius:9px;background:#c2381a;color:#fff;font-size:.72em;font-weight:800;display:grid;place-items:center;padding:0 5px}
 .serit button .bos-n{background:none}.serit button:disabled{opacity:.45;cursor:default}
 .serit button[aria-pressed="true"]{background:var(--ana);color:var(--ana-ustu)}.serit button[aria-pressed="true"] b{color:var(--ana-ustu)}
 .meta .cevrimdisi{background:var(--bak-ac);color:var(--bak);border-radius:99px;padding:2px 9px}
@@ -1964,6 +1964,23 @@ const el = (tur, ozellik = {}, ...cocuk) => {
   return e;
 };
 const oku = (k, v) => Depo.oku(k, v), yaz = (k, v) => Depo.yaz(k, v);
+// ---------- Tema: Otomatik (telefonun ayarı) / Açık / Koyu ----------
+const TEMALAR = { oto: 'Otomatik', acik: 'Açık', koyu: 'Koyu' };
+function temaUygula() {
+  const t = oku('tema', 'oto'), r = document.documentElement;
+  if (t === 'acik') r.dataset.theme = 'light'; else if (t === 'koyu') r.dataset.theme = 'dark'; else delete r.dataset.theme;
+  // Web sitesi (ana ekrana eklenmiş hali): tarayıcı çubuğu da zemin renginde
+  const mt = document.querySelector('meta[name="theme-color"]'); if (mt) mt.content = getComputedStyle(r).getPropertyValue('--zemin').trim() || mt.content;
+  // Android: telefonun üst ve alt çubuğu uygulamanın zeminiyle aynı renk olur (gece modunda beyaz şerit kalmaz)
+  try {
+    if (window.Android && window.Android.tema) {
+      const koyu = t === 'koyu' || (t === 'oto' && !!window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+      Android.tema(getComputedStyle(r).getPropertyValue('--zemin').trim(), koyu);
+    }
+  } catch { }
+}
+temaUygula();
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', temaUygula) } catch { }
 // Dışarıdan gelen (ilan verisindeki) adresler yalnızca https/http ise bağlantı olur (javascript:, intent: vb. engellenir — OWASP)
 const guvenliLink = u => { try { const a = new URL(String(u)); return /^https?:$/.test(a.protocol) ? a.href : null } catch { return null } };
 const kucuk = Motor.kucuk;
@@ -2313,7 +2330,7 @@ function konfeti(kaynak) {
   titret(25);
   if (!hareket() || !kaynak || !document.body.animate) return;
   const r = kaynak.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
-  const R = ['#7048e8', '#ff6f4f', '#4fe3b0', '#ffc56b', '#b9a2ff'];
+  const R = ['#7048e8', '#ff6f4f', '#86e8d8', '#ffb13d', '#b9a2ff'];
   for (let i = 0; i < 28; i++) {
     const p = el('i', { class: 'konfeti', 'aria-hidden': 'true' });
     p.style.left = x + 'px'; p.style.top = y + 'px'; p.style.background = R[i % R.length];
@@ -2537,10 +2554,10 @@ function ilanlarCiz() {
   // Kahraman: halka + iki sayı
   const orta = el('b', {}, String(u), el('small', { text: 'uygun' }));
   K.append(el('button', { class: 'hero', onclick: () => git({ ekran: 'ana', sekme: 'uygun' }) },
-    halka([{ n: u, renk: '#4fe3b0' }, { n: b, renk: '#ffc56b' }, { n: Math.max(0, P.length - u - b), renk: 'rgb(255 255 255 / .22)' }], 96, 11, orta),
+    halka([{ n: u, renk: '#86e8d8' }, { n: b, renk: '#ffb13d' }, { n: Math.max(0, P.length - u - b), renk: 'rgb(255 255 255 / .22)' }], 96, 11, orta),
     el('div', { class: 'bilgi' }, el('div', { class: 'etk', text: 'Sana göre' }),
-      el('div', { class: 'satir' }, el('span', { class: 'nokta', style: 'background:#4fe3b0' }), el('b', { text: String(u) }), 'başvurabilirsin'),
-      el('div', { class: 'satir' }, el('span', { class: 'nokta', style: 'background:#ffc56b' }), el('b', { text: String(b) }), 'kontrol et')),
+      el('div', { class: 'satir' }, el('span', { class: 'nokta', style: 'background:#86e8d8' }), el('b', { text: String(u) }), 'başvurabilirsin'),
+      el('div', { class: 'satir' }, el('span', { class: 'nokta', style: 'background:#ffb13d' }), el('b', { text: String(b) }), 'kontrol et')),
     el('span', { class: 'git' }, ikon('ileri'))));
   const yenileD = el('button', { type: 'button', 'aria-label': 'İlanları yenile', onclick: async () => {
     yenileD.disabled = true;
@@ -2622,6 +2639,10 @@ function profilCiz() {
         ne + (dk != null && dk > 720 ? '. Telefonun pil ayarlarında Şartım Tamam için "Kısıtlama yok" seç.' : '')));
     }
   }
+  const tm = oku('tema', 'oto');
+  K.append(el('div', { class: 'kart', style: 'margin-top:14px' }, el('h2', { style: 'margin:0 0 10px' }, ikon('isik'), 'Görünüm'),
+    el('div', { class: 'cipler', role: 'group', 'aria-label': 'Tema' }, ...Object.entries(TEMALAR).map(([k, ad]) =>
+      el('button', { 'aria-pressed': String(tm === k), onclick: () => { yaz('tema', k); temaUygula(); titret(10); ciz({ ...durumSon, kaydir: scrollY }) } }, ad)))));
   K.append(el('button', { class: 'metin-d', style: 'margin-top:10px;color:var(--yok)', onclick: e => { if (silOnay()) { yaz('kisiler', []); yaz('gorulen', []); yaz('bildirilen', null); yaz('bildirimSoruldu', false); yaz('takip', {}); yaz('hatirlatilan', []); yaz('sonDenetim', null); yaz('hazirlik', {}); if (ANDROID) try { Android.bildirimKapat() } catch { } profil = null; git({ ekran: 'hosgeldin' }, false) } else e.currentTarget.lastChild.textContent = 'Emin misin? Tekrar dokun' } }, ikon('cop'), el('span', { text: 'Bilgilerimi sil' })));
   K.append(el('button', { class: 'ikincil', style: 'margin-top:10px', onclick: e => uygulamaPaylas(e.currentTarget) }, ikon('paylas'), el('span', { text: 'Uygulamayı arkadaşınla paylaş' })));
   const giz = el('details', { class: 'acilir' }); giz.append(el('summary', {}, ikon('kalkan'), 'Gizlilik'));
