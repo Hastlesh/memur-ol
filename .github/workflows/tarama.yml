@@ -1,9 +1,13 @@
-# Her sabah 08.17 (Türkiye) Resmî Gazete ilanlarını tarar, yeni ilanları yükler, siteyi günceller.
+# Günde üç kez (Türkiye saatiyle 08.17, 14.47, 20.17) Resmî Gazete + Kariyer Kapısı ilanlarını tarar, yeni ilanları yükler,
+# süresi bitenleri çıkarır, siteyi günceller. GitHub zamanlanmış işleri yoğunlukta atlayabildiği için tek saate bağlı değil;
+# tarama işlenmiş ilanı yeniden eklemez, fazladan çalışması zararsızdır.
 # Bildirimi Android uygulaması kendisi yapar. Eylemler commit koduna sabitli (tedarik zinciri güvenliği, OWASP Top 10).
 name: Günlük ilan taraması
 on:
   schedule:
     - cron: '17 5 * * *'
+    - cron: '47 11 * * *'
+    - cron: '17 17 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -37,4 +41,4 @@ jobs:
           git config user.name "Memur Ol tarayıcı"
           git config user.email "actions@users.noreply.github.com"
           git add -A yukleyici/kayitlar yukleyici/tarama/durum.json docs telefon/ilanlar.json
-          git diff --cached --quiet && echo "değişiklik yok" || (git commit -q -m "İlan taraması $(date +%F)" && git push -q)
+          git diff --cached --quiet && echo "değişiklik yok" || (git commit -q -m "İlan taraması $(date +%F)" && (git push -q || (git pull -q --rebase && git push -q)))
