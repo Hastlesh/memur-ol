@@ -1,7 +1,7 @@
 /* Android uygulamasının içindeki sayfa (assets/index.html). android\yap.ps1 çağırır.
    Kullanım: node apk_sayfa.js <çıktı dosyası> */
 const fs = require('fs'), path = require('path');
-const ILAN = 'https://hastlesh.github.io/sartim-tamam/ilanlar.json';
+const ILAN = 'https://hastlesh.github.io/memur-ol/ilanlar.json';
 const sayfa = fs.readFileSync(path.join(__dirname, 'sartim-tamam.html'), 'utf8');
 let html = '<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
   + '<meta http-equiv="Content-Security-Policy" content="{{CSP}}"><meta name="referrer" content="strict-origin-when-cross-origin">'
