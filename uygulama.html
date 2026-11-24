@@ -972,13 +972,21 @@ function arkaIs(L) {
     // Son gün hatırlatması: takip edilen ya da uygun olup başvurulmamış pozisyonlar, son günden bir gün önce ve son gün
     const T = oku('takip', {}), H = new Set(oku('hatirlatilan', [])), gun = d => d.toLocaleDateString('sv-SE');
     const bg = gun(new Date()), yg = gun(new Date(Date.now() + 864e5));
-    const aday = tumPozisyon(profil).filter(z => { const d = T[pozAnahtar(z)]; return d === 'takip' || (z.grup === 'uygun' && d !== 'basvurdum') })
-      .map(z => ({ z, g: sure(z.x).son ? gun(sure(z.x).son.zaman) : null })).filter(o => (o.g === bg || o.g === yg) && !H.has(pozAnahtar(o.z) + '|' + o.g));
+    const izlenen = tumPozisyon(profil).filter(z => { const d = T[pozAnahtar(z)]; return d === 'takip' || (z.grup === 'uygun' && d !== 'basvurdum') });
+    const aday = izlenen.map(z => ({ z, g: sure(z.x).son ? gun(sure(z.x).son.zaman) : null })).filter(o => (o.g === bg || o.g === yg) && !H.has(pozAnahtar(o.z) + '|' + o.g));
     const ad2 = z => (z.k ? z.ad : konuKisa(z.x)) + ' · ' + kurumKisa(z.x);
+    // Hazırlık listesinde işaretlenmemiş belge sayısı (liste varsa)
+    const eksikYaz = L => { const e = [...new Set(L.map(z => z.x))].reduce((t, x) => { const h = hazirlikDurum(x); return t + h.m - h.n }, 0); return e ? `\nHazırlık listende ${e} belge işaretlenmedi.` : '' };
     for (const [g, baslik] of [[bg, 'Bugün son gün'], [yg, 'Yarın son gün']]) {
       const L = aday.filter(o => o.g === g); if (!L.length) continue;
-      arkaBildir(baslik + (L.length > 1 ? ` (${L.length} ilan)` : ''), L.slice(0, 4).map(o => ad2(o.z)).join('\n') + '\nBaşvurduysan uygulamada "Başvurdum" de.', L.map(o => o.z));
+      arkaBildir(baslik + (L.length > 1 ? ` (${L.length} ilan)` : ''), [...new Set(L.map(o => ad2(o.z)))].slice(0, 4).join('\n') + eksikYaz(L.map(o => o.z)) + '\nBaşvurduysan uygulamada "Başvurdum" de.', L.map(o => o.z));
       L.forEach(o => H.add(pozAnahtar(o.z) + '|' + o.g));
+    }
+    // Başvurular bugün açıldı: henüz açılmamış görünen (açılış tarihi olan) ilanlar açıldığı gün bir kez
+    const acilan = izlenen.filter(z => { const b = sure(z.x).bas; return b && gun(b.zaman) === bg && !H.has(pozAnahtar(z) + '|ac') });
+    if (acilan.length) {
+      arkaBildir(acilan.length === 1 ? 'Başvurular bugün açıldı' : `${acilan.length} ilanda başvurular bugün açıldı`, [...new Set(acilan.map(ad2))].slice(0, 4).join('\n') + eksikYaz(acilan), acilan);
+      acilan.forEach(z => H.add(pozAnahtar(z) + '|ac'));
     }
     yaz('hatirlatilan', [...H].slice(-600));
   }

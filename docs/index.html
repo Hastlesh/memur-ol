@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-reErayB1d+txSqjJI9m0SNmR3HDTKZKukPA4xc3SWNQ=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-L+/eaCiwbBL6Ft0wTGZl5QHXXF1ya/AW4ig7IVKfa+o=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-/khcCp5AGgyAdZDQmn+UZdVLAZZNfEdkJqbY05P+e1Q=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-fFCZM73UO9kZ0BIvLFpf7sh1Qx1xebmupIaLz11rdjI=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
@@ -844,8 +844,13 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
   const saatYaz = d => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
   const yaz = x => `${x.zaman.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' })}${x.saatVar ? ' saat ' + saatYaz(x.zaman) : ''}`;
 
-  // kod: gecti | acilmadi | bugun | az | acik | belirsiz
+  // kod: gecti | acilmadi | bugun | az | acik | belirsiz; bas: başvurunun açıldığı gün (biliniyorsa)
   function durum(b, simdi = new Date()) {
+    const r = durum0(b, simdi);
+    r.bas = b.baslar[0] || null;
+    return r;
+  }
+  function durum0(b, simdi) {
     const not = [];
     if (b.uzatma) not.push('İlanda süre uzatımından söz ediliyor, kurumun sitesinden son tarihe bak.');
     if (!b.sonlar.length) return { kod: 'belirsiz', kisa: 'tarih?', baslik: 'Son başvuru gününü bulamadım, ilandan kendin bak', not, son: null };
@@ -2702,13 +2707,21 @@ function arkaIs(L) {
     // Son gün hatırlatması: takip edilen ya da uygun olup başvurulmamış pozisyonlar, son günden bir gün önce ve son gün
     const T = oku('takip', {}), H = new Set(oku('hatirlatilan', [])), gun = d => d.toLocaleDateString('sv-SE');
     const bg = gun(new Date()), yg = gun(new Date(Date.now() + 864e5));
-    const aday = tumPozisyon(profil).filter(z => { const d = T[pozAnahtar(z)]; return d === 'takip' || (z.grup === 'uygun' && d !== 'basvurdum') })
-      .map(z => ({ z, g: sure(z.x).son ? gun(sure(z.x).son.zaman) : null })).filter(o => (o.g === bg || o.g === yg) && !H.has(pozAnahtar(o.z) + '|' + o.g));
+    const izlenen = tumPozisyon(profil).filter(z => { const d = T[pozAnahtar(z)]; return d === 'takip' || (z.grup === 'uygun' && d !== 'basvurdum') });
+    const aday = izlenen.map(z => ({ z, g: sure(z.x).son ? gun(sure(z.x).son.zaman) : null })).filter(o => (o.g === bg || o.g === yg) && !H.has(pozAnahtar(o.z) + '|' + o.g));
     const ad2 = z => (z.k ? z.ad : konuKisa(z.x)) + ' · ' + kurumKisa(z.x);
+    // Hazırlık listesinde işaretlenmemiş belge sayısı (liste varsa)
+    const eksikYaz = L => { const e = [...new Set(L.map(z => z.x))].reduce((t, x) => { const h = hazirlikDurum(x); return t + h.m - h.n }, 0); return e ? `\nHazırlık listende ${e} belge işaretlenmedi.` : '' };
     for (const [g, baslik] of [[bg, 'Bugün son gün'], [yg, 'Yarın son gün']]) {
       const L = aday.filter(o => o.g === g); if (!L.length) continue;
-      arkaBildir(baslik + (L.length > 1 ? ` (${L.length} ilan)` : ''), L.slice(0, 4).map(o => ad2(o.z)).join('\n') + '\nBaşvurduysan uygulamada "Başvurdum" de.', L.map(o => o.z));
+      arkaBildir(baslik + (L.length > 1 ? ` (${L.length} ilan)` : ''), [...new Set(L.map(o => ad2(o.z)))].slice(0, 4).join('\n') + eksikYaz(L.map(o => o.z)) + '\nBaşvurduysan uygulamada "Başvurdum" de.', L.map(o => o.z));
       L.forEach(o => H.add(pozAnahtar(o.z) + '|' + o.g));
+    }
+    // Başvurular bugün açıldı: henüz açılmamış görünen (açılış tarihi olan) ilanlar açıldığı gün bir kez
+    const acilan = izlenen.filter(z => { const b = sure(z.x).bas; return b && gun(b.zaman) === bg && !H.has(pozAnahtar(z) + '|ac') });
+    if (acilan.length) {
+      arkaBildir(acilan.length === 1 ? 'Başvurular bugün açıldı' : `${acilan.length} ilanda başvurular bugün açıldı`, [...new Set(acilan.map(ad2))].slice(0, 4).join('\n') + eksikYaz(acilan), acilan);
+      acilan.forEach(z => H.add(pozAnahtar(z) + '|ac'));
     }
     yaz('hatirlatilan', [...H].slice(-600));
   }

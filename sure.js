@@ -110,8 +110,13 @@
   const saatYaz = d => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
   const yaz = x => `${x.zaman.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' })}${x.saatVar ? ' saat ' + saatYaz(x.zaman) : ''}`;
 
-  // kod: gecti | acilmadi | bugun | az | acik | belirsiz
+  // kod: gecti | acilmadi | bugun | az | acik | belirsiz; bas: başvurunun açıldığı gün (biliniyorsa)
   function durum(b, simdi = new Date()) {
+    const r = durum0(b, simdi);
+    r.bas = b.baslar[0] || null;
+    return r;
+  }
+  function durum0(b, simdi) {
     const not = [];
     if (b.uzatma) not.push('İlanda süre uzatımından söz ediliyor, kurumun sitesinden son tarihe bak.');
     if (!b.sonlar.length) return { kod: 'belirsiz', kisa: 'tarih?', baslik: 'Son başvuru gününü bulamadım, ilandan kendin bak', not, son: null };
