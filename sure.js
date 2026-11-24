@@ -53,7 +53,9 @@
       const o = once(m, 130), yakin = once(m, 45), s = sonra(m, 130);
       // "28.10.2026-11.11.2026 tarihleri arasında e-Devlet Kapısı üzerinden ... başvuru": sözcük uzakta olabilir
       if (!/başvur|müracaat/.test(o + ' ' + s) && !(/^ ?tarihleri aras/.test(s) && /başvur|müracaat/.test(sonra(m, 280)))) continue;
-      if (/itiraz|sınav(ı|lar)? tarih|sonuç|doğum|teslim|tercih tarih|göreve başla/.test(yakin)) continue;
+      // "sözlü/uygulamalı sınav şeklinde 7-11 Aralık tarihleri arasında" başvuru değil sınav tarihidir
+      // (belediye kalıbı "sözlü ve uygulamalı sınava katılabilmek için; 09/12-11/12" ise başvuru tarihidir, atlanmaz)
+      if (/itiraz|sınav(ı|lar)? (tarih|şeklinde)|sonuç|doğum|teslim|tercih tarih|göreve başla/.test(yakin)) continue;
       if (/^.{0,25}(itiraz|doğumlu|tarihli ve)/.test(s)) continue;
       const b2 = tarih(m[3]), b1 = b2 && tarih(m[1], b2);
       if (!b1 || !b2) continue;

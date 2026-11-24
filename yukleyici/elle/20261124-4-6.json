@@ -1,0 +1,24 @@
+{
+ "not": "İlanda tablo yok; kadrolar ilan metnindeki KTU.YRD.1-8 maddelerinden elle düzenlendi (2026-11-24). Başvuran sayısının 4 katı aday KPSS puanına göre sözlü sınava çağrılır.",
+ "yillar": [2025, 2026],
+ "genel": "a) 657 sayılı Devlet Memurları Kanunu'nun 48 inci maddesinin birinci fıkrasının (A) bendinde belirtilen genel şartları taşımak,\nb) Sınavın yapılacağı yılın Ocak ayının ilk günü itibariyle 35 (otuz beş) yaşını doldurmamış olmak (01/01/1992 ve daha sonra doğanlar başvurabilecektir).",
+ "toplam": 20,
+ "kadrolar": [
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Mimarlık)", "adet": 3, "okul": "Lisans", "kpss": "2025-2026 KPSS P3\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Mimarlık bölümünden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Şehir ve Bölge Planlama)", "adet": 3, "okul": "Lisans", "kpss": "2025-2026 KPSS P3\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Şehir ve Bölge Planlama bölümünden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Makine Mühendisliği)", "adet": 3, "okul": "Lisans", "kpss": "2025-2026 KPSS P3\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Makine Mühendisliği bölümünden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Çevre Mühendisliği)", "adet": 2, "okul": "Lisans", "kpss": "2025-2026 KPSS P3\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Çevre Mühendisliği bölümünden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (İktisat, İşletme)", "adet": 3, "okul": "Lisans", "kpss": "2025-2026 KPSS P28\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının İktisat, İşletme bölümlerinden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Kamu Yönetimi, Siyaset Bilimi ve Kamu Yönetimi)", "adet": 2, "okul": "Lisans", "kpss": "2025-2026 KPSS P29\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Kamu Yönetimi, Siyaset Bilimi ve Kamu Yönetimi bölümlerinden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Uluslararası İlişkiler)", "adet": 3, "okul": "Lisans", "kpss": "2025-2026 KPSS P34\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Uluslararası İlişkiler bölümünden mezun olmak."},
+  {"ad": "Kültür ve Turizm Uzman Yardımcısı (Sanat Tarihi)", "adet": 1, "okul": "Lisans", "kpss": "2025-2026 KPSS P3\nEn az 80", "taban": "80",
+   "nitelik": "En az 4 yıllık lisans eğitimi veren yükseköğretim kurumlarının Sanat Tarihi bölümünden mezun olmak."}
+ ]
+}

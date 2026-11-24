@@ -5,7 +5,7 @@ const fs = require('fs'), path = require('path');
 const Sure = require(path.join(__dirname, '..', 'sure.js'));
 const Bolucu = require(path.join(__dirname, '..', 'bolucu.js'));
 const durum = JSON.parse(fs.readFileSync(path.join(__dirname, 'tarama', 'durum.json'), 'utf8'));
-const dun = Date.now() - 864e5, L = [], cikan = [];
+const dun = Date.now(), L = [], cikan = [];   // son başvuru anı geçen ilan hemen çıkar (son gün 23.59'a kadar listede)
 // elle\<pdf adı>.json: resim olarak basılmış tabloların elle okunmuş hali. Kadrolar, il dağılımı ve genel şartlar buradan gelir.
 const ELLE = path.join(__dirname, 'elle');
 function elleUygula(k) {

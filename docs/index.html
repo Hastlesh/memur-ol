@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-/khcCp5AGgyAdZDQmn+UZdVLAZZNfEdkJqbY05P+e1Q=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-fFCZM73UO9kZ0BIvLFpf7sh1Qx1xebmupIaLz11rdjI=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N3pjepXJVYx4c46OfNTDEphQhnpt3lfMVkALbYBZKbY=' 'sha256-UgYrsYNUoaqJK1UDU5B01QxgLIES5H7rI/nBtCC7iT8=' 'sha256-x7s3wNiAH/AMkr/nyX7VPQee8n4d+Xw+wxg7yGeXrlw=' 'sha256-pL6k6BImw1kitjlPesLvDffpdVacMIFLA1isn0PT/0M=' 'sha256-uTN2vh7lAN256LTw4Lkunbz/YiowyhsIZiIv8wRzPLM=' 'sha256-It1rSjLbEhk2FI+7C8jzYX1wvdEob/z7fz0t88xishQ=' 'sha256-+ivl6iWROKO8rr8D/81KcCdoNpQCMwQwRuG7lDFQ1g0=' 'sha256-IXrCZj28VdtwlBz3V9YpL5lpEoohHPy5gZWxVEppETM=' 'sha256-xYuFzDdaoBpZZfuX58+M8cBzUjn076Za+QGFqs4vJWA=' 'sha256-i3j7juSMInbo8a0nnJq0IE82kXuBP+wWB19JUjRuj5Y=' 'sha256-BxfaKZNLvW8WlsRXCbRyN9jwWf2pisVT4H6kJtpvAsc=' 'sha256-fFCZM73UO9kZ0BIvLFpf7sh1Qx1xebmupIaLz11rdjI=' 'sha256-Ao8y/xH3NovYw2Qyr4t7nWEXj76tgtF9A5PXJUMYZp8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Şartım Tamam · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
@@ -787,7 +787,9 @@ details.acilir>summary::-webkit-details-marker{display:none}details.acilir>summa
       const o = once(m, 130), yakin = once(m, 45), s = sonra(m, 130);
       // "28.10.2026-11.11.2026 tarihleri arasında e-Devlet Kapısı üzerinden ... başvuru": sözcük uzakta olabilir
       if (!/başvur|müracaat/.test(o + ' ' + s) && !(/^ ?tarihleri aras/.test(s) && /başvur|müracaat/.test(sonra(m, 280)))) continue;
-      if (/itiraz|sınav(ı|lar)? tarih|sonuç|doğum|teslim|tercih tarih|göreve başla/.test(yakin)) continue;
+      // "sözlü/uygulamalı sınav şeklinde 7-11 Aralık tarihleri arasında" başvuru değil sınav tarihidir
+      // (belediye kalıbı "sözlü ve uygulamalı sınava katılabilmek için; 09/12-11/12" ise başvuru tarihidir, atlanmaz)
+      if (/itiraz|sınav(ı|lar)? (tarih|şeklinde)|sonuç|doğum|teslim|tercih tarih|göreve başla/.test(yakin)) continue;
       if (/^.{0,25}(itiraz|doğumlu|tarihli ve)/.test(s)) continue;
       const b2 = tarih(m[3]), b1 = b2 && tarih(m[1], b2);
       if (!b1 || !b2) continue;

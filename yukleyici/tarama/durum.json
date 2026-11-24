@@ -1,5 +1,5 @@
 {
-"sonGun": "20261123",
+"sonGun": "20261124",
 "islenen": {
 "20261117-4-2": "duzeltme (yüklü HMB ilanına zaten eklendi)",
 "20261010-4-1": "alım ilanı değil",
@@ -555,7 +555,17 @@
 "20261123-4-4": "ankara-yildirim-beyazit-universitesi-rektorlugu-sozlesmeli-b-077c7973",
 "20261123-4-5": "turk-akreditasyon-kurumu-giris-sinavi-ilani-5754f0b8",
 "20261123-4-12": "ondokuz-mayis-universitesi-rektorlugu-surekli-isci-alim-ilan-aad0d07b",
-"20261030-4-5": "nukleer-duzenleme-kurumu-sozlesmeli-bilisim-personeli-giris--ca61b954"
+"20261030-4-5": "nukleer-duzenleme-kurumu-sozlesmeli-bilisim-personeli-giris--ca61b954",
+"20261124-4-1": "alım ilanı değil",
+"20261124-4-2": "alım ilanı değil",
+"20261124-4-3": "alım ilanı değil",
+"20261124-4-4": "alım ilanı değil",
+"20261124-4-5": "alım ilanı değil",
+"20261124-4-7": "akademik",
+"20261124-4-8": "akademik",
+"20261124-4-9": "akademik",
+"20261124-4-10": "alım ilanı değil",
+"20261124-4-6": "kultur-ve-turizm-bakanligi-kultur-ve-turizm-uzman-yardimcili-c3dc8cd1"
 },
 "yuklu": {
 "adalet-bakanligi-adli-tip-kurumu-baskanligi-sozlesmeli-perso-e4691169": {
@@ -909,6 +919,14 @@
 "kurum": "Millî Savunma Bakanlığı: ENGELLİ VE TMSY KONTENJANINDAN SÜREKLİ İŞÇİ TEMİNİ İLANI (148 KİŞİ)",
 "son": "2026-11-27",
 "url": "https://personeltemin.msb.gov.tr/AnaSayfa/DuyuruDetay/?id=972ead46-f8c5-4cb5-9fdf-a3d1aecb6e0f"
+},
+"kultur-ve-turizm-bakanligi-kultur-ve-turizm-uzman-yardimcili-c3dc8cd1": {
+"ad": "20261124-4-6",
+"gun": "20261124",
+"anahtar": "kultur ve turizm bakanligi",
+"kurum": "Kültür ve Turizm Bakanlığı: KÜLTÜR VE TURİZM UZMAN YARDIMCILIĞI YARIŞMA SINAV İLANI",
+"son": "2026-12-23",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261124-4-6.pdf"
 }
 },
 "notlar": [
