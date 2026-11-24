@@ -541,6 +541,31 @@ for (const b of $('nav').querySelectorAll('button')) b.onclick = () => git({ ekr
 function navSay() {
   const n = profil && yuklendi ? tumPozisyon(profil).filter(z => z.grup === 'uygun').length : 0;
   $('navSayi').hidden = !n; $('navSayi').textContent = n;
+  pencereYaz();
+}
+// Android ana ekran parçacığı: uygun sayısı + en yakın son gün (yalnızca sayılar ve ilan adı gider; değişmediyse gönderilmez)
+let pencereSon = '';
+function pencereYaz() {
+  const kopru = window.Arka && window.Arka.pencere ? window.Arka : window.Android && window.Android.pencere ? window.Android : null;
+  if (!kopru || !yuklendi) return;
+  let v = { p: false };
+  try {
+    if (profil && profil.okul) {
+      const T = oku('takip', {}), Z = tumPozisyon(profil);
+      const U = Z.filter(z => z.grup === 'uygun');
+      const yakin = Z.filter(z => (z.grup === 'uygun' || T[pozAnahtar(z)] === 'takip') && T[pozAnahtar(z)] !== 'basvurdum')
+        .map(z => ({ z, S: sure(z.x) })).filter(o => o.S.son && o.S.kod !== 'gecti').sort((a, b) => a.S.son.zaman - b.S.son.zaman)[0];
+      v = { p: true, u: U.length, b: Z.filter(z => z.grup === 'bak').length };
+      if (yakin) {
+        v.s = yakin.S.son.zaman.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' }) + (yakin.S.kod === 'acilmadi' ? '' : ' · ' + yakin.S.kisa);
+        v.a = yakin.z.k ? yakin.z.ad : konuKisa(yakin.z.x);
+      }
+    }
+  } catch { return }
+  const j = JSON.stringify(v);
+  if (j === pencereSon) return;
+  pencereSon = j;
+  try { kopru.pencere(j) } catch { }
 }
 
 function hosgeldinCiz() {
@@ -955,7 +980,7 @@ function arkaDenetim() {
   // Ne olursa olsun iş bitirilir (yoksa telefon 1,5 dk bekler); sonuç profilde "Son kontrol" olarak görünür
   const bit = ok => { try { yaz('sonDenetim', { t: Date.now(), ok: ok === true }) } catch { } try { Arka.bitti() } catch { } };
   if (!profil || !profil.okul) { bit(true); return }
-  Depo.ortakIlanlar(L => { try { arkaIs(L) } catch (h) { console.log('ST arka hata:', h && h.message) } bit(true) }, () => bit(false));
+  Depo.ortakIlanlar(L => { try { arkaIs(L) } catch (h) { console.log('ST arka hata:', h && h.message) } pencereYaz(); bit(true) }, () => bit(false));
 }
 function arkaIs(L) {
   {
