@@ -10,7 +10,7 @@ let html = `<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="{{CSP}}">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Şartım Tamam · Sana uygun kamu ilanları</title>
+<title>Memur Ol · Sana uygun kamu ilanları</title>
 <meta name="description" content="Okulunu, KPSS puanını ve bilgilerini gir; açık kamu ilanlarından sana uyan pozisyonları şart şart göster. Ücretsiz, hesap yok.">
 <meta name="theme-color" content="#4b23a0">
 <link rel="manifest" href="manifest.webmanifest">
@@ -18,7 +18,7 @@ let html = `<!doctype html>
 <link rel="apple-touch-icon" href="ikon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Şartım Tamam">
+<meta name="apple-mobile-web-app-title" content="Memur Ol">
 </head><body>
 ${govde}
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
@@ -28,7 +28,7 @@ html = require('./csp').cspEkle(html, { ek: "worker-src 'self'; manifest-src 'se
 fs.writeFileSync(path.join(D, 'index.html'), html);
 fs.copyFileSync(path.join(__dirname, 'ilanlar.json'), path.join(D, 'ilanlar.json'));
 fs.writeFileSync(path.join(D, 'manifest.webmanifest'), JSON.stringify({
-  name: 'Şartım Tamam', short_name: 'Şartım Tamam', description: 'Sana uygun kamu ilanları',
+  name: 'Memur Ol', short_name: 'Memur Ol', description: 'Sana uygun kamu ilanları',
   start_url: './', scope: './', display: 'standalone', background_color: '#f5f3f9', theme_color: '#4b23a0', lang: 'tr',
   icons: [{ src: 'ikon-192.png', sizes: '192x192', type: 'image/png' }, { src: 'ikon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }]
 }, null, 1));

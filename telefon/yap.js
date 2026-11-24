@@ -14,7 +14,7 @@ const dosyalar = [...h.matchAll(/<script src="([\w.]+\.js)"><\/script>/g)].map(m
 const kod = al(/<script>\n('use strict';[\s\S]*?)<\/script>\s*<\/body>/, 'kod');
 const guvenli = s => s.replace(/<\/script/gi, '<\\/script');
 
-const cikti = `<title>Şartım Tamam</title>
+const cikti = `<title>Memur Ol</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>${stil}</style>
 ${govde}

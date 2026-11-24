@@ -1,6 +1,6 @@
 {
- "name": "Şartım Tamam",
- "short_name": "Şartım Tamam",
+ "name": "Memur Ol",
+ "short_name": "Memur Ol",
  "description": "Sana uygun kamu ilanları",
  "start_url": "./",
  "scope": "./",

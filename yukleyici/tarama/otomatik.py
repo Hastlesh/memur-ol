@@ -1,4 +1,4 @@
-# Şartım Tamam - otomatik ilan taraması (elle liste yok).
+# Memur Ol - otomatik ilan taraması (elle liste yok).
 # Kullanım: python -I otomatik.py [--bas YYYYMMDD] [--son YYYYMMDD] [--deneme]
 #  1. Resmî Gazete "Çeşitli İlanlar" günlük sayfaları (durum.json'daki son günden bugüne), her PDF indirilir
 #  2. İçerikten personel alım ilanları ayrılır (akademik, ihale, yasaklama vb. elenir); resim PDF'ler Windows OCR ile okunur
