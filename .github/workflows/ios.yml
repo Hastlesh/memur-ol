@@ -5,10 +5,12 @@ name: iOS derlemesi
 on:
   workflow_dispatch:
   push:
-    paths: ['kotlin/**', 'cekirdek/**', '.github/workflows/ios.yml']
+    # Motor (cekirdek/) değişince derleme gerekmez: uygulamalar imzalı motoru siteden alır
+    paths: ['kotlin/**', '.github/workflows/ios.yml']
 permissions:
   contents: read
-concurrency: { group: ios, cancel-in-progress: true }
+# Çalışan derleme iptal edilmez (uzun sürer); yenisi sırada bekler
+concurrency: { group: ios, cancel-in-progress: false }
 jobs:
   derle:
     runs-on: macos-15
