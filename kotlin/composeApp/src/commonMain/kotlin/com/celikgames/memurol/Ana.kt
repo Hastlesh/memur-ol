@@ -359,7 +359,8 @@ private fun ProfilSekmesi(d: UygulamaDurum) {
                 Baslik("Hakkında"); Soluk(RESMI_DEGIL)
                 listOf("Resmî Gazete — Çeşitli İlanlar" to "https://www.resmigazete.gov.tr", "Kariyer Kapısı — Kamu İşe Alım" to "https://kariyerkapisi.gov.tr/isealim", "ÖSYM — KPSS sonuçları" to "https://www.osym.gov.tr")
                     .forEach { (ad, a) -> TextButton(onClick = { disAc(a) }) { Text(ad) } }
-                d.guncel?.let { Soluk("İlan listesi: $it") }
+                d.guncel?.let { g -> Soluk("İlan listesi: " + (zamanTr(g) ?: g)) }
+                Soluk("Hesap motoru: ${d.cekirdek.surum}" + if (d.cekirdek.kaynak == "site") " (güncellendi)" else "")
             }
         }
     }

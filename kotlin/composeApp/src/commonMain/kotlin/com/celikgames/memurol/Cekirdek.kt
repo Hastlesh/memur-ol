@@ -16,32 +16,66 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
  * İlanlar bir kez motora yüklenir; profil değişince yalnız hesap yeniden yapılır.
  */
 class Cekirdek {
-    private val motor = JsMotor()
+    private var motor = JsMotor()
     private val kilit = Mutex()
     private var hazir = false
     private var ilanImza = ""
+    private var sonIlanMetin: String? = null
     var ilanHam: List<JsonObject> = emptyList(); private set
+    /** Çalışan motorun sürümü ve nereden geldiği ("uygulama" | "site") */
+    var surum: Long = 0; private set
+    var kaynak: String = "uygulama"; private set
 
     @OptIn(ExperimentalResourceApi::class)
     private suspend fun hazirla() {
         if (hazir) return
-        val kod = Res.readBytes("files/memurol-cekirdek.js").decodeToString()
-        motor.calistir(kod + "\n'tamam'")
-        hazir = true
+        val gomulu = Res.readBytes("files/memurol-cekirdek.js").decodeToString()
+        val gomuluSurum = Regex("CEKIRDEK_SURUM = (\\d+)").find(gomulu)?.groupValues?.get(1)?.toLongOrNull() ?: 0
+        // Siteden gelmiş, imzası tutan ve daha yeni motor varsa onu dene; çalışmazsa sil ve kendi motoruna dön
+        val uzak = CekirdekGuncel.kayitli(gomuluSurum)
+        if (uzak != null) {
+            val tamam = runCatching {
+                motor.calistir(uzak + "\n'tamam'")
+                check(motor.calistir("String(MemurOlCekirdek.api)") == CekirdekGuncel.API.toString())
+                JSON.decodeFromString(Sabitler.serializer(), motor.calistir("MemurOlCekirdek.sabitler()"))
+            }.isSuccess
+            if (tamam) { hazir = true; kaynak = "site"; surum = Depo.oku("cekirdekSurum")?.toLongOrNull() ?: 0; return }
+            CekirdekGuncel.sil(); motor.kapat(); motor = JsMotor()
+        }
+        motor.calistir(gomulu + "\n'tamam'")
+        hazir = true; kaynak = "uygulama"; surum = gomuluSurum
+    }
+
+    /** Siteden yeni motor geldiyse motoru baştan kurar (ilanlar yeniden yüklenir). Deneme hesabı hata verirse kendi motoruna döner. */
+    suspend fun motoruYenile(): Boolean = kilit.withLock {
+        motor.kapat(); motor = JsMotor(); hazir = false; ilanImza = ""
+        hazirla()
+        sonIlanMetin?.let { yukleIc(it) }
+        val calisiyor = runCatching { JSON.decodeFromString(Sayac.serializer(), motor.calistir("MemurOlCekirdek.say(ILANLAR, '{}', null)")) }.isSuccess
+        if (!calisiyor && kaynak == "site") {
+            CekirdekGuncel.sil(); motor.kapat(); motor = JsMotor(); hazir = false; ilanImza = ""
+            hazirla(); sonIlanMetin?.let { yukleIc(it) }
+        }
+        kaynak == "site"
     }
 
     /** ilanlar.json metnini motora yükler. Geçersizse false. */
     suspend fun ilanlariYukle(ilanlarJson: String): Boolean = kilit.withLock {
+        hazirla()
+        yukleIc(ilanlarJson)
+    }
+
+    private suspend fun yukleIc(ilanlarJson: String): Boolean {
         val dizi = runCatching { Json.parseToJsonElement(ilanlarJson).jsonObject["ilanlar"]!!.jsonArray }.getOrNull() ?: return false
         if (dizi.isEmpty()) return false
-        hazirla()
         val metin = dizi.toString()
         if (metin.hashCode().toString() == ilanImza) return true
         // JSON metni JS'de doğrudan dizi değişmezi olarak geçerlidir
         motor.calistir("var ILANLAR = JSON.stringify($metin); 'tamam'")
         ilanImza = metin.hashCode().toString()
         ilanHam = dizi.map { it.jsonObject }
-        true
+        sonIlanMetin = ilanlarJson
+        return true
     }
 
     suspend fun hesapla(p: Profil): HesapSonuc = kilit.withLock {

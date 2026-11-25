@@ -84,6 +84,8 @@ class UygulamaDurum(private val kapsam: CoroutineScope) {
     }
 
     suspend fun yenile(): Boolean {
+        // Önce motor: sitede imzalı daha yeni motor varsa al ve hemen kullan (uygulama güncellemesi gerekmez)
+        runCatching { if (CekirdekGuncel.denetle(cekirdek.surum)) { cekirdek.motoruYenile(); hesapla() } }
         val r = IlanKaynagi.getir() ?: return false
         if (r.degismedi) { kaynak = "canli"; return true }   // elimizdeki liste zaten güncel: yeniden hesap gerekmez
         if (!cekirdek.ilanlariYukle(r.metin!!)) return false

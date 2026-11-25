@@ -2,7 +2,8 @@
    Motor dosyaları (motor, il, sure, taban, taban_veri, bolucu, bolumler, ozet) bundan ÖNCE aynı genel alanda çalıştırılır.
    Hesap mantığı uygulama.html'deki pozisyonlar()/eksikler()/engeller()/hedefPuan() ile birebir aynıdır;
    orada bir kural değişirse burada da değiştir (kontrol: node cekirdek\dene.js).
-   Giriş/çıkış JSON metnidir: Android JavaScriptSandbox ve iOS JavaScriptCore yalnız metin taşır. */
+   Giriş/çıkış JSON metnidir: Android JavaScriptSandbox ve iOS JavaScriptCore yalnız metin taşır.
+   Uzaktan güncelleme: node cekirdek\paketle.js --yayinla → docs/cekirdek (imzalı); uygulamalar güncelleme beklemeden alır. */
 (function (kok) {
   'use strict';
   const Motor = kok.Motor, Il = kok.Il, Sure = kok.Sure, Ozet = kok.Ozet, Bolucu = kok.Bolucu;
@@ -186,5 +187,6 @@
     return JSON.stringify(s);
   }
 
-  kok.MemurOlCekirdek = { hesapla, ayrinti, sabitler, say, surum: 1 };
+  kok.MemurOlCekirdek = { hesapla, ayrinti, sabitler, say,
+    surum: typeof CEKIRDEK_SURUM !== 'undefined' ? CEKIRDEK_SURUM : 0, api: typeof CEKIRDEK_API !== 'undefined' ? CEKIRDEK_API : 1 };
 })(this);
