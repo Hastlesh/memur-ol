@@ -15,7 +15,6 @@ import platform.Foundation.NSUserDefaults
 import platform.Foundation.create
 import platform.Foundation.dataTaskWithRequest
 import platform.Foundation.setValue
-import platform.Foundation.allHeaderFields
 import platform.JavaScriptCore.JSContext
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
