@@ -57,7 +57,9 @@ actual suspend fun indir(adres: String): String? {
 actual suspend fun indirKosullu(adres: String, damga: String?): Indirilen? {
     if (!adres.startsWith("https://")) return null
     val url = NSURL.URLWithString(adres) ?: return null
-    val istek = platform.Foundation.NSMutableURLRequest.requestWithURL(url, NSURLRequestReloadIgnoringLocalCacheData, 20.0)
+    val istek = platform.Foundation.NSMutableURLRequest.requestWithURL(url) as platform.Foundation.NSMutableURLRequest
+    istek.setCachePolicy(NSURLRequestReloadIgnoringLocalCacheData)
+    istek.setTimeoutInterval(20.0)
     if (damga != null) istek.setValue(damga, forHTTPHeaderField = "If-Modified-Since")
     return suspendCancellableCoroutine { k ->
         val is_ = NSURLSession.sharedSession.dataTaskWithRequest(istek) { veri, yanit, hata ->
