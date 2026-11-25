@@ -1,6 +1,6 @@
-/* Memur Ol çekirdeği — sürüm 202611251534 — üretildi, elle değiştirme (node cekirdek/paketle.js) */
+/* Memur Ol çekirdeği — sürüm 202611251641 — üretildi, elle değiştirme (node cekirdek/paketle.js) */
 var window = this;
-var CEKIRDEK_SURUM = 202611251534, CEKIRDEK_API = 1;
+var CEKIRDEK_SURUM = 202611251641, CEKIRDEK_API = 1;
 /* motor.js */
 /* Şartım Tamam - şart çıkarma ve karşılaştırma motoru.
    Temel kural: emin değilse asla "tamam" deme, "bak" de. */
@@ -265,7 +265,11 @@ var CEKIRDEK_SURUM = 202611251534, CEKIRDEK_API = 1;
           if (!f || !/1 metreden fazla olan kısmı/.test(k)) return r('bak', `Boyun yetiyor (en az ${esik} cm). Boy-kilo şartını ilandan kontrol et.`);
           if (!p.kilo) return r('bak', `Boyun yetiyor. Boy-kilo uyumu isteniyor (en fazla ${f[1]} kg fark).`, null, 'kilo');
           const fark = Math.abs(+p.kilo - (+p.boy - 100));
-          return fark <= +f[1] ? r('tamam', `Boy ${p.boy} cm, kilo ${p.kilo}: boy ve boy-kilo şartı tutuyor.`) : r('yok', `Boy-kilo farkın ${fark} kg, en fazla ${f[1]} olmalı.`);
+          if (fark <= +f[1]) return r('tamam', `Boy ${p.boy} cm, kilo ${p.kilo}: boy ve boy-kilo şartı tutuyor.`);
+          // Sınırı 1-2 kg aşan elenmez: kilo kısa sürede değişir ve ölçüm kurumda yapılır → kontrol et
+          const asim = fark - +f[1];
+          if (asim <= 2) return r('bak', `Boy-kilo farkın ${fark} kg, en fazla ${f[1]} olmalı: ${asim} kg fazla. Ölçüm kurumda yapılır; başvuruya kadar ${asim} kg ${+p.kilo > +p.boy - 100 ? 'vermen' : 'alman'} yeterli.`);
+          return r('yok', `Boy-kilo farkın ${fark} kg, en fazla ${f[1]} olmalı.`);
         }
         return r('tamam', `En az ${esik} cm isteniyor, sende ${p.boy}.`);
       }
