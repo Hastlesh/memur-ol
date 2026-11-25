@@ -49,3 +49,24 @@ jobs:
               [ -n "$bas" ] && sed -n "${bas},$((bas+120))p" derleme.log | grep -vE "^\s+(cd |export |/bin/sh)" | head -n 120
               exit 1; }
           tail -n 5 derleme.log
+      - name: Simülatörde aç — çökme kontrolü ve ekran görüntüleri (iPhone 6,9")
+        run: |
+          APP=$(find ~/Library/Developer/Xcode/DerivedData -maxdepth 6 -path '*Debug-iphonesimulator/MemurOl.app' | head -1)
+          CIHAZ=$(xcrun simctl list devices available -j | python3 -c "import json,sys;d=json.load(sys.stdin)['devices'];L=[x for k,v in d.items() if 'iOS' in k for x in v if 'Pro Max' in x['name']];print(L[-1]['udid'])")
+          echo "uygulama: $APP  cihaz: $CIHAZ"
+          xcrun simctl boot "$CIHAZ"; xcrun simctl bootstatus "$CIHAZ" -b >/dev/null
+          xcrun simctl status_bar "$CIHAZ" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
+          xcrun simctl install "$CIHAZ" "$APP"
+          mkdir -p ../ekran
+          ac() { xcrun simctl terminate "$CIHAZ" com.celikgames.memurol 2>/dev/null || true; env "$@" xcrun simctl launch "$CIHAZ" com.celikgames.memurol; sleep 25; }
+          ac SIMCTL_CHILD_MEMUROL_ISTATISTIK_SORMA=1;  xcrun simctl io "$CIHAZ" screenshot ../ekran/1_karsilama.png
+          ac SIMCTL_CHILD_MEMUROL_ORNEK=1 SIMCTL_CHILD_MEMUROL_EKRAN=uygun;   xcrun simctl io "$CIHAZ" screenshot ../ekran/2_sana_uygun.png
+          ac SIMCTL_CHILD_MEMUROL_EKRAN=ilanlar;  xcrun simctl io "$CIHAZ" screenshot ../ekran/3_ilanlar.png
+          ac SIMCTL_CHILD_MEMUROL_EKRAN=profil;   xcrun simctl io "$CIHAZ" screenshot ../ekran/4_profil.png
+          echo "=== ÇALIŞIYOR MU ==="; xcrun simctl spawn "$CIHAZ" launchctl list | grep -i memurol || echo "UYGULAMA ÇALIŞMIYOR — çökmüş olabilir"
+          echo "=== HATA KAYITLARI ==="; xcrun simctl spawn "$CIHAZ" log show --last 3m --style compact --predicate 'process == "MemurOl"' 2>/dev/null | grep -iE "error|fault|crash|exception|uncaught|kotlin" | head -n 60 || true
+          ls -la ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i memurol || echo "çökme raporu yok"
+      - name: Ekran görüntülerini sakla
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with: { name: ekran-goruntuleri, path: ekran/, if-no-files-found: warn, retention-days: 14 }
