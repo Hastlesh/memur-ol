@@ -1,0 +1,40 @@
+# iPhone derlemesi bulut Mac'te (GitHub Actions macOS, herkese açık depoda ücretsiz).
+# Şimdilik simülatör için derler: Kotlin + Swift kodunun iPhone'da derlendiğini doğrular.
+# App Store'a yükleme için Apple Developer hesabı ve imza sertifikası gerekir (sonra eklenecek).
+name: iOS derlemesi
+on:
+  workflow_dispatch:
+  push:
+    paths: ['kotlin/**', 'cekirdek/**', '.github/workflows/ios.yml']
+permissions:
+  contents: read
+concurrency: { group: ios, cancel-in-progress: true }
+jobs:
+  derle:
+    runs-on: macos-15
+    timeout-minutes: 75
+    defaults: { run: { working-directory: kotlin } }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (tarama.yml ile aynı)
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version: '24' }
+      - name: Java 17 (macOS imajında hazır)
+        run: echo "JAVA_HOME=${JAVA_HOME_17_arm64:-$JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
+      - name: Çekirdek ve ilan listesi (uygulamanın içine giden dosyalar)
+        run: |
+          chmod +x gradlew
+          mkdir -p composeApp/src/commonMain/composeResources/files
+          node ../cekirdek/paketle.js composeApp/src/commonMain/composeResources/files
+          node ../cekirdek/tur_denetim.js
+          cp ../telefon/ilanlar.json composeApp/src/commonMain/composeResources/files/ilanlar.json
+      - name: Kotlin iPhone çerçevesi (simülatör)
+        run: ./gradlew --no-daemon :composeApp:linkDebugFrameworkIosSimulatorArm64
+      - name: Xcode projesini üret
+        run: brew install xcodegen && cd iosApp && xcodegen generate
+      - name: Uygulamayı derle (simülatör)
+        run: |
+          cd iosApp
+          set -o pipefail
+          xcodebuild -project MemurOl.xcodeproj -scheme MemurOl -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tail -n 80

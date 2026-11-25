@@ -1,0 +1,35 @@
+# iPhone uygulaması — Xcode projesi bu dosyadan üretilir (Mac'te: xcodegen generate)
+# Kotlin kodu composeApp içindeki ComposeApp.framework olarak bağlanır.
+name: MemurOl
+options:
+  bundleIdPrefix: com.celikgames
+  deploymentTarget:
+    iOS: "16.4"
+targets:
+  MemurOl:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: Memur Ol
+        CFBundleShortVersionString: "3.0"
+        CFBundleVersion: "21"
+        UILaunchScreen: {}
+        ITSAppUsesNonExemptEncryption: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        CADisableMinimumFrameDurationOnPhone: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.celikgames.memurol
+        TARGETED_DEVICE_FAMILY: "1"
+        FRAMEWORK_SEARCH_PATHS: $(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
+        OTHER_LDFLAGS: [-framework, ComposeApp]
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+    preBuildScripts:
+      - name: Kotlin çerçevesini derle
+        script: |
+          cd "$SRCROOT/.."
+          ./gradlew :composeApp:embedAndSignAppleFrameworkForXcode
+        basedOnDependencyAnalysis: false

@@ -1,0 +1,19 @@
+# Derleme çıktıları ve yerel ayarlar — imza anahtarı bu klasörde değil (SartimTamam\android\imza.jks), asla eklenmez
+build/
+.gradle/
+.kotlin/
+local.properties
+*.apk
+*.aab
+*.jks
+*sifre*
+iosApp/MemurOl.xcodeproj/
+iosApp/build/
+.idea/
+# Firebase ayar dosyası herkese açık depoya girmez
+google-services.json
+# Derlemede üretilenler (yap.ps1 / CI üretir)
+composeApp/src/commonMain/composeResources/files/memurol-cekirdek.js
+composeApp/src/commonMain/composeResources/files/ilanlar.json
+MemurOl.apk
+MemurOl.aab

@@ -10,6 +10,10 @@
 !/telefon/
 /telefon/sartim-tamam.html
 !/yukleyici/
+# Kotlin (Android + iPhone) uygulaması ve ortak JS çekirdeği
+!/kotlin/
+!/cekirdek/
+/cekirdek/memurol-cekirdek.js
 /yukleyici/node_modules/
 /yukleyici/tarama/is/
 /yukleyici/tarama/yeni.json
