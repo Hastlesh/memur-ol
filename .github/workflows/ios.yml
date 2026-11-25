@@ -36,5 +36,6 @@ jobs:
           cd iosApp
           set -o pipefail
           xcodebuild -project MemurOl.xcodeproj -scheme MemurOl -configuration Debug \
-            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGNING_ALLOWED=NO build 2>&1 | tail -n 80
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO build > derleme.log 2>&1 || { grep -nE "error|e: |What went wrong|FAILED|> " derleme.log | grep -v "^.*note:" | head -n 80; exit 1; }
+          tail -n 5 derleme.log
