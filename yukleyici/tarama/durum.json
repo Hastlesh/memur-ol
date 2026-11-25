@@ -1,5 +1,5 @@
 {
-"sonGun": "20261124",
+"sonGun": "20261125",
 "islenen": {
 "20261117-4-2": "duzeltme (yüklü HMB ilanına zaten eklendi)",
 "20261010-4-1": "alım ilanı değil",
@@ -565,7 +565,18 @@
 "20261124-4-8": "akademik",
 "20261124-4-9": "akademik",
 "20261124-4-10": "alım ilanı değil",
-"20261124-4-6": "kultur-ve-turizm-bakanligi-kultur-ve-turizm-uzman-yardimcili-c3dc8cd1"
+"20261124-4-6": "kultur-ve-turizm-bakanligi-kultur-ve-turizm-uzman-yardimcili-c3dc8cd1",
+"20261125-4-1": "iptal",
+"20261125-4-2": "alım ilanı değil",
+"20261125-4-3": "alım ilanı değil",
+"20261125-4-4": "alım ilanı değil",
+"20261125-4-5": "alım ilanı değil",
+"20261125-4-6": "alım ilanı değil",
+"20261125-4-7": "alım ilanı değil",
+"20261125-4-8": "alım ilanı değil",
+"20261125-4-9": "akademik",
+"20261125-4-10": "alım ilanı değil",
+"20261125-4-11": "alım ilanı değil"
 },
 "yuklu": {
 "adalet-bakanligi-adli-tip-kurumu-baskanligi-sozlesmeli-perso-e4691169": {
@@ -1289,6 +1300,15 @@
 "20261021",
 "20261028",
 "20261116"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261125-4-1",
+"anahtar": "biruni universitesi rektorlugu",
+"tarihler": [
+"20261113",
+"20261127"
 ]
 }
 ]
