@@ -14,6 +14,8 @@ import platform.UIKit.UIView
 @Composable
 actual fun ReklamSeridi() {
     val k = IosAyar.kopru ?: return
+    // Gösterim modunda (mağaza ekran görüntüsü) reklam alanı hiç yer kaplamaz
+    if (platform.Foundation.NSProcessInfo.processInfo.environment["MEMUROL_GOSTERIM"] == "1") return
     UIKitView(factory = { k.seritGorunum() }, modifier = Modifier.fillMaxWidth().height(50.dp))
 }
 
