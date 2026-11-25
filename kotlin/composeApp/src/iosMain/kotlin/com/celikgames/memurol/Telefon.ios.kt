@@ -13,9 +13,8 @@ import platform.darwin.dispatch_async
 import platform.darwin.dispatch_get_main_queue
 
 /**
- * iOS: bildirimler UNUserNotificationCenter ile. Arka plan denetimi (BGAppRefreshTask) Swift tarafında kaydedilir
- * (iosApp — sıradaki adım); şimdilik uygulama açıldığında hesaplanan sonuçlar kullanılır. Ana ekran parçacığı
- * iOS'ta WidgetKit (Swift) ister — sonra.
+ * iOS: bildirimler UNUserNotificationCenter ile; arka plan denetimi (BGAppRefreshTask) ve ana ekran parçacığı
+ * (WidgetKit) Swift tarafında, IosKopru üzerinden.
  */
 actual object Telefon {
     private var izinli = false
@@ -32,7 +31,7 @@ actual object Telefon {
         }
     }
 
-    actual fun denetimKur(acik: Boolean) { /* BGTaskScheduler kaydı Swift tarafında (MemurOlApp.swift) yapılacak */ }
+    actual fun denetimKur(acik: Boolean) { IosAyar.kopru?.arkaDenetimKur(acik) }
 
     actual fun bildir(b: Bildirim, sira: Int) {
         if (!izinli) return
@@ -40,7 +39,7 @@ actual object Telefon {
         merkez.addNotificationRequest(UNNotificationRequest.requestWithIdentifier("memurol-$sira", icerik, null), null)
     }
 
-    actual fun pencereYaz(o: PencereOzet) { }
+    actual fun pencereYaz(o: PencereOzet) { IosAyar.kopru?.pencereYaz(o.uygun, o.kontrol, o.son, o.ad, o.profilVar) }
 
     actual fun titret() { UIImpactFeedbackGenerator(UIImpactFeedbackStyle.UIImpactFeedbackStyleLight).impactOccurred() }
 }
