@@ -44,6 +44,8 @@ jobs:
             -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
             CODE_SIGNING_ALLOWED=NO build > derleme.log 2>&1 || {
               echo "=== HATALAR ==="; grep -nE "(: error:|^e: |What went wrong|^FAILURE|Execution failed|commands failed|Command .* failed)" -A4 derleme.log | grep -vE "(clang |Using response|ScanDependencies|builtin-)" | head -n 100
-              echo "=== KOTLIN ADIMI ==="; grep -n "Kotlin" -A40 derleme.log | grep -E "(Task|e: |error|FAIL|wrong|>)" | head -n 60
+              echo "=== KOTLIN ADIMI (Xcode betiği çıktısı) ==="
+              bas=$(grep -n "^PhaseScriptExecution Kotlin" derleme.log | tail -1 | cut -d: -f1)
+              [ -n "$bas" ] && sed -n "${bas},$((bas+120))p" derleme.log | grep -vE "^\s+(cd |export |/bin/sh)" | head -n 120
               exit 1; }
           tail -n 5 derleme.log
