@@ -40,8 +40,11 @@ final class Kopru: NSObject, IosKopru {
 
     // ---------- Reklam ----------
     /// Önce Apple'ın takip izni sorulur (iOS 14.5+ zorunlu), cevap ne olursa olsun reklamlar başlar (izin yoksa kişiselleştirilmemiş).
+    /// Gösterim modu (yalnız simülatör testi, CI ortam değişkeni): reklam ve takip izni penceresi yok — mağaza ekran görüntüleri için
+    static let gosterim = ProcessInfo.processInfo.environment["MEMUROL_GOSTERIM"] == "1"
+
     func reklamlariBaslat() {
-        guard !reklamBasladi else { return }
+        guard !reklamBasladi, !Kopru.gosterim else { return }
         reklamBasladi = true
         ATTrackingManager.requestTrackingAuthorization { _ in
             DispatchQueue.main.async {
@@ -53,6 +56,7 @@ final class Kopru: NSObject, IosKopru {
         GADInterstitialAd.load(withAdUnitID: gecisBirimi, request: GADRequest()) { ad, _ in self.gecis = ad }
     }
     func seritGorunum() -> UIView {
+        if Kopru.gosterim { return UIView() }
         let genislik = UIScreen.main.bounds.width
         let b = GADBannerView(adSize: GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(genislik))
         b.adUnitID = seritBirimi

@@ -11,7 +11,10 @@ fun MainViewController(kopru: IosKopru?) = ComposeUIViewController {
     val kapsam = rememberCoroutineScope()
     val durum = remember {
         gosterimHazirla()
-        UygulamaDurum(kapsam).also { d -> ortam("MEMUROL_EKRAN")?.let { d.hedefAc(null, null, it) } }
+        UygulamaDurum(kapsam).also { d ->
+            ortam("MEMUROL_TEMA")?.let { d.temaDegis(it) }
+            when (val e = ortam("MEMUROL_EKRAN")) { null -> {}; "sihirbaz" -> d.sihirbazAc(1); else -> d.hedefAc(null, null, e) }
+        }
     }
     App(durum)
 }
