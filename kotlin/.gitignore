@@ -19,3 +19,4 @@ MemurOl.apk
 MemurOl.aab
 # iOS Firebase ayar dosyası (CI: IOS_FIREBASE_PLIST gizli değişkeninden yazılır)
 iosApp/GoogleService-Info.plist
+iosApp/Sources/GoogleService-Info.plist

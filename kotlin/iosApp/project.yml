@@ -16,11 +16,9 @@ targets:
   MemurOl:
     type: application
     platform: iOS
+    # Firebase ayar dosyası depoda yok; CI gizli değişkenden Sources/ içine yazar (varsa klasörle birlikte eklenir)
     sources:
       - Sources
-      # Firebase ayar dosyası yalnız varsa (depoda yok; CI gizli değişkenden yazar)
-      - path: GoogleService-Info.plist
-        optional: true
     dependencies:
       - package: Firebase
         product: FirebaseAnalytics
