@@ -52,24 +52,29 @@ h1{font-size:1.6em;margin:.2em 0}h2{font-size:1.15em;margin:1.6em 0 .3em}a{color
 @media(prefers-color-scheme:dark){body{background:#100c19;color:#f1ecfa}a{color:#b9a2ff}.not{background:#1b1627;box-shadow:none}}</style></head><body><main>
 <p><a href="./">← Memur Ol</a></p>
 <h1>Gizlilik politikası ve kullanım koşulları</h1>
-<p>Yürürlük tarihi: 24 Kasım 2026</p>
-<p class="not"><b>Kısaca:</b> Memur Ol hiçbir kişisel veri toplamaz. Girdiğin bilgiler yalnızca kendi telefonunda saklanır, hiçbir sunucuya gönderilmez. Hesap, reklam, izleme ya da analiz aracı yoktur.</p>
+<p>Yürürlük tarihi: 25 Kasım 2026</p>
+<p class="not"><b>Kısaca:</b> Girdiğin bilgiler yalnızca kendi telefonunda saklanır; hesap, kimlik numarası, ad ya da e-posta istenmez. Uygulamanın 3.0 ve sonraki sürümleri <b>reklam</b> gösterir (Google AdMob) ve <b>yalnızca sen izin verirsen</b> anonim kullanım istatistiği gönderir (Google Firebase Analytics). İstatistik izni ilk açılışta sorulur, Profil bölümünden istediğin zaman kapatılır. Web sitesi ve 2.x Android sürümü reklam ve istatistik içermez.</p>
 <h2>1. Hangi bilgileri giriyorsun, nerede duruyor?</h2>
 <p>Sana uygun ilanları gösterebilmek için mezuniyet, bölüm, KPSS puanı, doğum tarihi, cinsiyet, askerlik durumu, ehliyet, boy-kilo gibi bilgileri girersin. Bu bilgiler <b>yalnızca cihazındaki uygulama hafızasında</b> saklanır; karşılaştırma da cihazında yapılır. Bu bilgiler bize ya da başka birine gönderilmez. Kimlik numarası, ad-soyad, telefon numarası ya da e-posta istenmez.</p>
 <p>Android uygulamasında bu bilgiler telefonun bulut yedeğine ve yeni telefona aktarıma da dahil edilmez.</p>
 <h2>2. İnternete ne gönderiliyor?</h2>
-<p>Uygulama yalnızca herkese açık ilan listesini indirir (GitHub Pages: hastlesh.github.io). Bu istekte senin bilgilerin yer almaz. Her web sitesinde olduğu gibi, bağlantı sırasında IP adresin ve cihaz türün bu sunucuyu işleten GitHub'a görünür; GitHub'ın kendi <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener noreferrer">gizlilik bildirimi</a> geçerlidir.</p>
-<h2>3. İzinler</h2>
-<p><b>Bildirim:</b> yalnızca sen açarsan, sana uygun yeni ilan ve son gün hatırlatmaları için. <b>İnternet:</b> ilan listesini indirmek için. <b>Titreşim:</b> dokunma geri bildirimi için. <b>Açılışta çalışma:</b> telefon yeniden başlayınca ilan kontrolünün sürmesi için. Konum, rehber, kamera, mikrofon ya da dosyalarına erişilmez.</p>
-<h2>4. Bilgilerini silmek</h2>
-<p>Uygulamada <b>Profil → Bilgilerimi sil</b> ile bütün bilgilerin cihazdan silinir. Uygulamayı kaldırmak da hepsini siler. Bizde senin hakkında saklanan bir bilgi olmadığı için ayrıca silinecek bir şey yoktur.</p>
-<h2>5. Çocuklar</h2>
-<p>Uygulama kamu iş ilanlarına başvurabilecek yaştaki yetişkinler içindir ve çocuklardan bilerek bilgi toplamaz (zaten hiç kimseden toplamaz).</p>
-<h2>6. Resmî uygulama değildir</h2>
+<p>Uygulama herkese açık ilan listesini ve uygunluk hesap motorunun güncel sürümünü indirir (GitHub Pages: hastlesh.github.io; motor dosyası dijital imzayla doğrulanır). Bu isteklerde senin bilgilerin yer almaz. Her web sitesinde olduğu gibi, bağlantı sırasında IP adresin ve cihaz türün bu sunucuyu işleten GitHub'a görünür; GitHub'ın kendi <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener noreferrer">gizlilik bildirimi</a> geçerlidir.</p>
+<h2>3. Anonim kullanım istatistiği (isteğe bağlı, 3.0 ve sonrası)</h2>
+<p>İlk açılışta "Anonim kullanım istatistiği gönderilsin mi?" diye sorulur. <b>Evet</b> dersen Google Firebase Analytics'e şunlar gönderilir: uygulamanın açılması, bilgi girişinin hangi adımında kalındığı, hangi ilanlara bakıldığı (kurum ve kadro adı), takip/başvuru işaretleri, bildirimleri açıp kapatma, paylaşma; ve kaba gruplar hâlinde <b>yaş aralığı</b> (ör. 25-29), <b>okul düzeyi</b>, <b>bölüm</b>, <b>yaşadığın il</b>, <b>cinsiyet</b>, <b>KPSS puan aralığı</b> (ör. 60-70), ehliyetin olup olmadığı ve kaç ilana uyduğun (aralık olarak).</p>
+<p><b>Gönderilmeyenler:</b> adın, kesin doğum tarihin, kesin puanın, kimlik numarası, telefon numarası, e-posta, konum ve reklam kimliği. Firebase her cihaza rastgele bir istatistik kimliği verir; bu kimlik seni tanımlamaz. Bu veriler yalnızca uygulamayı geliştirmek için kullanılır, satılmaz ve reklam için kullanılmaz; Google ile veri paylaşımı ayarları kapalıdır. İzni Profil → <b>Anonim istatistik</b> ile kapatırsan gönderim durur ve cihazdaki istatistik kimliği silinir. Hukuki dayanak: açık rızan (KVKK m.5/1).</p>
+<h2>4. Reklamlar (3.0 ve sonrası)</h2>
+<p>Uygulama ücretsizdir ve giderleri reklamla karşılanır. Ekranın altında şerit reklam ve ara sıra tam ekran reklam gösterilir; bilgi girişi sırasında ve ilan ayrıntısında şerit reklam gösterilmez. Reklamları Google AdMob sunar. AdMob reklam göstermek, sahtekârlığı önlemek ve ölçüm yapmak için cihazının <b>reklam kimliğini</b>, IP adresini (yaklaşık konum) ve cihaz bilgilerini kullanabilir; ayrıntılar: <a href="https://policies.google.com/technologies/partner-sites?hl=tr" rel="noopener noreferrer">Google'ın iş ortağı sitelerinde veri kullanımı</a>. Android'de kişiselleştirilmiş reklamları <b>Ayarlar → Google → Reklamlar</b> bölümünden kapatabilir ya da reklam kimliğini silebilirsin; iPhone'da Apple'ın takip izni penceresinde izin vermezsen kişiselleştirilmemiş reklam gösterilir. Girdiğin bilgiler (okul, puan, yaş…) reklam için kullanılmaz ve AdMob'a gönderilmez.</p>
+<h2>5. İzinler</h2>
+<p><b>Bildirim:</b> yalnızca sen açarsan, sana uygun yeni ilan ve son gün hatırlatmaları için. <b>İnternet:</b> ilan listesini indirmek için. <b>Titreşim:</b> dokunma geri bildirimi için. <b>Reklam kimliği (3.0+):</b> yalnız AdMob reklamları için. <b>Açılışta çalışma:</b> telefon yeniden başlayınca ilan kontrolünün sürmesi için. Konum, rehber, kamera, mikrofon ya da dosyalarına erişilmez.</p>
+<h2>6. Bilgilerini silmek</h2>
+<p>Uygulamada <b>Profil → Bilgilerimi sil</b> ile bütün bilgilerin cihazdan silinir. Uygulamayı kaldırmak da hepsini siler. Bizde senin adına saklanan bir hesap ya da profil yoktur. İstatistik izni verdiysen, izni kapatınca cihazdaki istatistik kimliği silinir; Google Analytics'teki anonim kayıtlar 2 ay sonra kendiliğinden silinir.</p>
+<h2>7. Çocuklar</h2>
+<p>Uygulama kamu iş ilanlarına başvurabilecek yaştaki yetişkinler içindir ve çocuklardan bilerek bilgi toplamaz.</p>
+<h2>8. Resmî uygulama değildir</h2>
 <p>Memur Ol resmî bir devlet uygulaması değildir ve hiçbir kamu kurumuyla bağlantısı yoktur. İlanlar <a href="https://www.resmigazete.gov.tr" rel="noopener noreferrer">Resmî Gazete</a>, <a href="https://kariyerkapisi.gov.tr/isealim" rel="noopener noreferrer">Kariyer Kapısı</a> ve kurumların kendi sitelerinde yayımlanan resmî metinlerden derlenir; her ilanda resmî metnin bağlantısı verilir.</p>
-<h2>7. Sorumluluk</h2>
+<h2>9. Sorumluluk</h2>
 <p>Uygunluk sonuçları ilan metinlerinden otomatik çıkarılır ve hatalı ya da eksik olabilir. Uygulama bilgilendirme amaçlıdır; başvuru şartları, tarihleri ve sonuçları için tek geçerli kaynak kurumun yayımladığı resmî ilandır. Başvurmadan önce ilanın aslını okuman gerekir.</p>
-<h2>8. Değişiklikler ve iletişim</h2>
+<h2>10. Değişiklikler ve iletişim</h2>
 <p>Bu politika değişirse bu sayfa güncellenir ve yürürlük tarihi değişir. Soru ve bildirimlerin için: <a href="https://github.com/Hastlesh/memur-ol/issues" rel="noopener noreferrer">github.com/Hastlesh/memur-ol/issues</a></p>
 </main></body></html>
 `;

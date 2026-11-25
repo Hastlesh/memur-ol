@@ -56,7 +56,7 @@ android {
         targetSdk = 36
         versionCode = 21
         versionName = "3.0"
-        // true: Google'ın test reklamları. Play'e çıkarken false yap (gerçek birimler Reklam.android.kt'de).
+        // Reklam: deneme (debug) sürümünde Google'ın test reklamları, Play (release) sürümünde gerçek birimler — aşağıda buildTypes
         buildConfigField("boolean", "REKLAM_TEST", "true")
         // AdMob uygulama kimliği (gerçek "Memur Ol"); REKLAM_TEST=true iken birimler test birimidir
         manifestPlaceholders["admobUygulama"] = "ca-app-pub-6396011409934303~5408066199"
@@ -72,7 +72,10 @@ android {
         }
     }
     buildTypes {
-        getByName("release") { signingConfig = signingConfigs.getByName("yayin"); isMinifyEnabled = false; manifestPlaceholders["uygAd"] = "Memur Ol" }
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("yayin"); isMinifyEnabled = false; manifestPlaceholders["uygAd"] = "Memur Ol"
+            buildConfigField("boolean", "REKLAM_TEST", "false")   // Play sürümü: gerçek AdMob birimleri
+        }
         // Deneme sürümü telefonda ayrı uygulama olarak durur (Play'den kurulu Memur Ol'a dokunmaz)
         getByName("debug") { signingConfig = signingConfigs.getByName("yayin"); applicationIdSuffix = ".deneme"; versionNameSuffix = "-deneme"; manifestPlaceholders["uygAd"] = "Memur Ol K" }
     }
