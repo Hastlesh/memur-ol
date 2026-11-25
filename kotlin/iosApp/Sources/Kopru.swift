@@ -12,9 +12,14 @@ final class Kopru: NSObject, IosKopru {
     static let paylasilan = Kopru()
     static let GRUP = "group.com.celikgames.memurol"
 
-    // Reklam birimleri: Google'ın TEST birimleri. Gerçek iOS birimleri AdMob'da "Memur Ol (iOS)" açılınca buraya yazılır.
+    // Reklam birimleri (AdMob "Memur Ol iOS" ~6833662656). Deneme (Debug) derlemesinde Google'ın test birimleri.
+    #if DEBUG
     private let seritBirimi = "ca-app-pub-3940256099942544/2435281174"
     private let gecisBirimi = "ca-app-pub-3940256099942544/4411468910"
+    #else
+    private let seritBirimi = "ca-app-pub-6396011409934303/8398152070"
+    private let gecisBirimi = "ca-app-pub-6396011409934303/1928499531"
+    #endif
     private var gecis: GADInterstitialAd?
     private var reklamBasladi = false
 

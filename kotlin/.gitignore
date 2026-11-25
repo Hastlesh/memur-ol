@@ -17,3 +17,5 @@ composeApp/src/commonMain/composeResources/files/memurol-cekirdek.js
 composeApp/src/commonMain/composeResources/files/ilanlar.json
 MemurOl.apk
 MemurOl.aab
+# iOS Firebase ayar dosyası (CI: IOS_FIREBASE_PLIST gizli değişkeninden yazılır)
+iosApp/GoogleService-Info.plist

@@ -31,6 +31,9 @@ jobs:
           cp ../telefon/ilanlar.json composeApp/src/commonMain/composeResources/files/ilanlar.json
       - name: Kotlin iPhone çerçevesi (simülatör)
         run: ./gradlew --no-daemon :composeApp:linkDebugFrameworkIosSimulatorArm64
+      - name: Firebase ayar dosyası (gizli değişken varsa)
+        env: { PLIST: '${{ secrets.IOS_FIREBASE_PLIST }}' }
+        run: if [ -n "$PLIST" ]; then echo "$PLIST" | base64 --decode > iosApp/GoogleService-Info.plist; echo "yazıldı"; else echo "yok, istatistiksiz derleniyor"; fi
       - name: Xcode projesini üret
         run: brew install xcodegen && cd iosApp && xcodegen generate
       - name: Uygulamayı derle (simülatör)

@@ -46,8 +46,8 @@ targets:
         BGTaskSchedulerPermittedIdentifiers: [com.celikgames.memurol.denetim]
         # Apple takip izni penceresindeki açıklama (reklam için zorunlu)
         NSUserTrackingUsageDescription: "Reklamların sana daha uygun olması için kullanılır. İzin vermesen de uygulamanın tamamı ücretsiz çalışır."
-        # Google Mobile Ads: şimdilik Google'ın TEST uygulama kimliği; App Store öncesi AdMob'daki iOS kimliğiyle değişecek
-        GADApplicationIdentifier: ca-app-pub-3940256099942544~1458002511
+        # Google Mobile Ads: AdMob "Memur Ol iOS" uygulama kimliği (birimler Kopru.swift'te; Debug'da test birimleri)
+        GADApplicationIdentifier: ca-app-pub-6396011409934303~6833662656
         # Firebase Analytics: izin verilene kadar KAPALI, reklam kimliği toplanmaz
         FIREBASE_ANALYTICS_COLLECTION_ENABLED: false
         GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED: false
