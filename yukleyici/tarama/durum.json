@@ -1,5 +1,5 @@
 {
-"sonGun": "20261125",
+"sonGun": "20261126",
 "islenen": {
 "20261117-4-2": "duzeltme (yüklü HMB ilanına zaten eklendi)",
 "20261010-4-1": "alım ilanı değil",
@@ -576,7 +576,24 @@
 "20261125-4-8": "alım ilanı değil",
 "20261125-4-9": "akademik",
 "20261125-4-10": "alım ilanı değil",
-"20261125-4-11": "alım ilanı değil"
+"20261125-4-11": "alım ilanı değil",
+"20261126-4-1": "alım ilanı değil",
+"20261126-4-2": "alım ilanı değil",
+"20261126-4-3": "alım ilanı değil",
+"20261126-4-4": "alım ilanı değil",
+"20261126-4-5": "alım ilanı değil",
+"20261126-4-6": "alım ilanı değil",
+"20261126-4-7": "alım ilanı değil",
+"20261126-4-8": "iptal",
+"20261126-4-9": "iptal",
+"20261126-4-12": "akademik",
+"20261126-4-14": "akademik",
+"20261126-4-15": "akademik",
+"20261126-4-16": "alım ilanı değil",
+"20261126-4-17": "akademik",
+"20261126-4-18": "alım ilanı değil",
+"20261126-4-11": "afyonkarahisar-ili-ozburun-belediye-baskanligi-surekli-isci--7ffe29f3",
+"20261126-4-13": "mersin-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--a1b0bb5b"
 },
 "yuklu": {
 "adalet-bakanligi-adli-tip-kurumu-baskanligi-sozlesmeli-perso-e4691169": {
@@ -954,6 +971,30 @@
 "kurum": "REKABET KURUMU BAŞKANLIĞI: REKABET UZMAN YARDIMCILIĞI GİRİŞ SINAVI",
 "son": null,
 "url": "https://kariyerkapisi.gov.tr/IlanDetay?i=5fb0c697-781e-4ea8-befb-3f041d6b9385"
+},
+"afyonkarahisar-ili-ozburun-belediye-baskanligi-surekli-isci--7ffe29f3": {
+"ad": "20261126-4-11",
+"gun": "20261126",
+"anahtar": "afyonkarahisar ili ozburun belediye baskanligi",
+"kurum": "Afyonkarahisar İli Özburun Belediye Başkanlığı: SÜREKLİ İŞÇİ ALIM İLANI",
+"son": "2026-12-05",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261126-4-11.pdf"
+},
+"mersin-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--a1b0bb5b": {
+"ad": "20261126-4-13",
+"gun": "20261126",
+"anahtar": "mersin universitesi rektorlugu",
+"kurum": "Mersin Üniversitesi Rektörlüğü: SÖZLEŞMELİ BİLİŞİM PERSONELİ ALIM İLANI",
+"son": "2026-12-11",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261126-4-13.pdf"
+},
+"kariyer-kapisi-0e649e12-a1b8-4d2f-a855-540f983ac98e": {
+"ad": "kk-0e649e12-a1b8-4d2f-a855-540f983ac98e",
+"gun": "20261126",
+"anahtar": "turkiye su enstitusu baskanligi",
+"kurum": "TÜRKİYE SU ENSTİTÜSÜ BAŞKANLIĞI: SÖZLEŞMELİ PERSONEL ALIM İLANI - BİLGİSAYAR MÜHENDİSİ (İSTANBUL)",
+"son": null,
+"url": "https://kariyerkapisi.gov.tr/IlanDetay?i=0e649e12-a1b8-4d2f-a855-540f983ac98e"
 }
 },
 "notlar": [
@@ -1309,6 +1350,22 @@
 "tarihler": [
 "20261113",
 "20261127"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261126-4-8",
+"anahtar": "karamanoglu mehmetbey universitesi rektorlugu",
+"tarihler": [
+"20261109"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261126-4-9",
+"anahtar": "sakarya universitesi rektorlugu",
+"tarihler": [
+"20261106"
 ]
 }
 ]
