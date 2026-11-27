@@ -1,5 +1,5 @@
 {
-"sonGun": "20261126",
+"sonGun": "20261127",
 "islenen": {
 "20261117-4-2": "duzeltme (yüklü HMB ilanına zaten eklendi)",
 "20261010-4-1": "alım ilanı değil",
@@ -593,7 +593,22 @@
 "20261126-4-17": "akademik",
 "20261126-4-18": "alım ilanı değil",
 "20261126-4-11": "afyonkarahisar-ili-ozburun-belediye-baskanligi-surekli-isci--7ffe29f3",
-"20261126-4-13": "mersin-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--a1b0bb5b"
+"20261126-4-13": "mersin-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--a1b0bb5b",
+"20261127-4-1": "iptal",
+"20261127-4-2": "iptal",
+"20261127-4-3": "alım ilanı değil",
+"20261127-4-4": "alım ilanı değil",
+"20261127-4-5": "alım ilanı değil",
+"20261127-4-6": "alım ilanı değil",
+"20261127-4-7": "alım ilanı değil",
+"20261127-4-9": "akademik",
+"20261127-4-10": "akademik",
+"20261127-4-12": "akademik",
+"20261127-4-13": "akademik",
+"20261127-4-14": "alım ilanı değil",
+"20261127-4-15": "alım ilanı değil",
+"20261127-4-8": "disisleri-bakanligi-avrupa-birligi-baskanligi-4-b-sozlesmeli-4193529b",
+"20261127-4-11": "selcuk-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--78d4bbd6"
 },
 "yuklu": {
 "adalet-bakanligi-adli-tip-kurumu-baskanligi-sozlesmeli-perso-e4691169": {
@@ -820,14 +835,6 @@
 "son": null,
 "url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261107-4-12.pdf"
 },
-"nigde-ili-bozkoy-belediye-baskanligi-ilk-defa-atanmak-uzere--e206fda6": {
-"ad": "20261108-4-7",
-"gun": "20261108",
-"anahtar": "nigde ili bozkoy belediye baskanligi",
-"kurum": "Niğde İli Bozköy Belediye Başkanlığı: İLK DEFA ATANMAK ÜZERE İTFAİYE ERİ ALIM İLANI",
-"son": null,
-"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261108-4-7.pdf"
-},
 "ondokuz-mayis-universitesi-rektorlugu-surekli-isci-alim-ilan-aad0d07b": {
 "ad": "20261123-4-12",
 "gun": "20261123",
@@ -995,6 +1002,22 @@
 "kurum": "TÜRKİYE SU ENSTİTÜSÜ BAŞKANLIĞI: SÖZLEŞMELİ PERSONEL ALIM İLANI - BİLGİSAYAR MÜHENDİSİ (İSTANBUL)",
 "son": null,
 "url": "https://kariyerkapisi.gov.tr/IlanDetay?i=0e649e12-a1b8-4d2f-a855-540f983ac98e"
+},
+"disisleri-bakanligi-avrupa-birligi-baskanligi-4-b-sozlesmeli-4193529b": {
+"ad": "20261127-4-8",
+"gun": "20261127",
+"anahtar": "disisleri bakanligi avrupa birligi baskanligi",
+"kurum": "Dışişleri Bakanlığı Avrupa Birliği Başkanlığı: 4/B SÖZLEŞMELİ DESTEK PERSONELİ (ŞOFÖR) ALIM İLANI",
+"son": "2026-12-15",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261127-4-8.pdf"
+},
+"selcuk-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--78d4bbd6": {
+"ad": "20261127-4-11",
+"gun": "20261127",
+"anahtar": "selcuk universitesi rektorlugu",
+"kurum": "Selçuk Üniversitesi Rektörlüğü: SÖZLEŞMELİ BİLİŞİM PERSONELİ ALIM İLANI",
+"son": "2026-12-15",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261127-4-11.pdf"
 }
 },
 "notlar": [
@@ -1366,6 +1389,22 @@
 "anahtar": "sakarya universitesi rektorlugu",
 "tarihler": [
 "20261106"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261127-4-1",
+"anahtar": "enerji piyasasi duzenleme kurumu",
+"tarihler": [
+"20261008"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261127-4-2",
+"anahtar": "nigde ili bozkoy belediye baskanligi",
+"tarihler": [
+"20261108"
 ]
 }
 ]
