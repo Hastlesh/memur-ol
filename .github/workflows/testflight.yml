@@ -40,7 +40,11 @@ jobs:
         env: { P8: '${{ secrets.ASC_KEY_P8 }}', KID: '${{ secrets.ASC_KEY_ID }}' }
         run: |
           [ -n "$P8" ] && [ -n "$KID" ] || { echo "ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8 gizli değişkenleri eksik"; exit 1; }
-          mkdir -p "$RUNNER_TEMP/asc"; printf '%s\n' "$P8" > "$RUNNER_TEMP/asc/AuthKey_$KID.p8"
+          mkdir -p "$RUNNER_TEMP/asc"
+          # Windows'tan gelen CR/BOM vb. temizlenir, PEM baştan kurulur (yalnız base64 gövde alınır)
+          GOVDE=$(printf '%s' "$P8" | tr -d '\r' | sed -n '/BEGIN PRIVATE KEY/,/END PRIVATE KEY/p' | grep -v 'PRIVATE KEY' | tr -cd 'A-Za-z0-9+/=')
+          { echo "-----BEGIN PRIVATE KEY-----"; echo "$GOVDE" | fold -w 64; echo "-----END PRIVATE KEY-----"; } > "$RUNNER_TEMP/asc/AuthKey_$KID.p8"
+          openssl pkey -in "$RUNNER_TEMP/asc/AuthKey_$KID.p8" -noout && echo "anahtar geçerli (${#GOVDE} karakter)" || { echo "anahtar bozuk"; exit 1; }
           echo "ANAHTAR=$RUNNER_TEMP/asc/AuthKey_$KID.p8" >> "$GITHUB_ENV"
       - name: Xcode projesi (yapı numarası = 100 + çalıştırma no; uygulama ve parçacık aynı)
         run: |
