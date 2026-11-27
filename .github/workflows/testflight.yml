@@ -21,6 +21,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with: { node-version: '24' }
+      - name: En yeni Xcode (App Store iOS 26 SDK ister)
+        run: |
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_*.app | grep -E 'Xcode_[0-9]+(\.[0-9]+)*\.app$' | sort -V | tail -1)
+          sudo xcode-select -s "$X/Contents/Developer"; xcodebuild -version
+          xcodebuild -showsdks | grep -i iphoneos
       - name: Java 17 (macOS imajında hazır)
         run: echo "JAVA_HOME=${JAVA_HOME_17_arm64:-$JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
       - name: Çekirdek ve ilan listesi (uygulamanın içine giden dosyalar)
