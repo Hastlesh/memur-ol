@@ -1,6 +1,7 @@
 #!/bin/bash
 # İmzalı arşiv + App Store Connect'e yükleme (TestFlight). testflight.yml çağırır (kotlin/ klasöründen).
 # Gerekli ortam: PROJE, TAKIM, ANAHTAR (.p8 yolu), KID, ISS
+# Arşiv doğrudan dağıtım kimliğiyle imzalanır (geliştirme profili kayıtlı cihaz ister, hesapta cihaz yok).
 set -o pipefail
 cd iosApp
 YETKI=(-allowProvisioningUpdates -authenticationKeyPath "$ANAHTAR" -authenticationKeyID "$KID" -authenticationKeyIssuerID "$ISS")
@@ -10,7 +11,7 @@ hata() { echo "=== HATALAR ==="; grep -nE "(: error:|^e: |error: |What went wron
 echo "== arşiv =="
 xcodebuild archive -project "$PROJE.xcodeproj" -scheme "$PROJE" -configuration Release \
   -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/$PROJE.xcarchive" \
-  CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM="$TAKIM" "${YETKI[@]}" > arsiv.log 2>&1 || hata arsiv.log
+  CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM="$TAKIM" CODE_SIGN_IDENTITY="Apple Distribution" "${YETKI[@]}" > arsiv.log 2>&1 || hata arsiv.log
 tail -n 3 arsiv.log
 
 cat > "$RUNNER_TEMP/disa.plist" <<EOF
