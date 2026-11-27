@@ -1,0 +1,53 @@
+# Memur Ol — imzalı iPhone sürümü üretip TestFlight'a (App Store Connect) yükler.
+# Yalnız elle çalışır (Actions → TestFlight → Run workflow). Mağazaya GÖNDERMEZ; inceleme ayrıca istenir.
+# Gizli değişkenler (Settings → Secrets → Actions): ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (.p8 dosyasının içeriği)
+# İmza: Xcode otomatik imza + App Store Connect API anahtarı (Admin) — sertifika/profil Apple'da bulutta yönetilir.
+name: TestFlight
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency: { group: ios, cancel-in-progress: false }
+jobs:
+  yukle:
+    runs-on: macos-15
+    timeout-minutes: 90
+    defaults: { run: { working-directory: kotlin } }
+    env:
+      TAKIM: LLNXJX2MK5
+      PROJE: MemurOl
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version: '24' }
+      - name: Java 17 (macOS imajında hazır)
+        run: echo "JAVA_HOME=${JAVA_HOME_17_arm64:-$JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
+      - name: Çekirdek ve ilan listesi (uygulamanın içine giden dosyalar)
+        run: |
+          chmod +x gradlew
+          mkdir -p composeApp/src/commonMain/composeResources/files
+          node ../cekirdek/paketle.js composeApp/src/commonMain/composeResources/files
+          node ../cekirdek/tur_denetim.js
+          cp ../telefon/ilanlar.json composeApp/src/commonMain/composeResources/files/ilanlar.json
+      - name: Firebase ayar dosyası (gizli değişken varsa)
+        env: { PLIST: '${{ secrets.IOS_FIREBASE_PLIST }}' }
+        run: |
+          if [ -n "$PLIST" ]; then
+            printf '%s' "$PLIST" | tr -d '\r\n ' | base64 -D > iosApp/Sources/GoogleService-Info.plist
+            plutil -lint iosApp/Sources/GoogleService-Info.plist && echo "yazıldı"
+          else echo "yok, istatistiksiz derleniyor"; fi
+      - name: API anahtarı
+        env: { P8: '${{ secrets.ASC_KEY_P8 }}', KID: '${{ secrets.ASC_KEY_ID }}' }
+        run: |
+          [ -n "$P8" ] && [ -n "$KID" ] || { echo "ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8 gizli değişkenleri eksik"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/asc"; printf '%s\n' "$P8" > "$RUNNER_TEMP/asc/AuthKey_$KID.p8"
+          echo "ANAHTAR=$RUNNER_TEMP/asc/AuthKey_$KID.p8" >> "$GITHUB_ENV"
+      - name: Xcode projesi (yapı numarası = 100 + çalıştırma no; uygulama ve parçacık aynı)
+        run: |
+          brew install xcodegen && cd iosApp && xcodegen generate
+          NO=$((100 + GITHUB_RUN_NUMBER))
+          for p in Sources/Info.plist Widget/Info.plist; do /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NO" "$p"; done
+          echo "yapı numarası: $NO"
+      - name: Arşivle ve TestFlight'a yükle
+        env: { KID: '${{ secrets.ASC_KEY_ID }}', ISS: '${{ secrets.ASC_ISSUER_ID }}' }
+        run: bash iosApp/testflight.sh
