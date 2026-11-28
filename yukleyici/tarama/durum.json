@@ -1,5 +1,5 @@
 {
-"sonGun": "20261127",
+"sonGun": "20261128",
 "islenen": {
 "20261117-4-2": "duzeltme (yüklü HMB ilanına zaten eklendi)",
 "20261010-4-1": "alım ilanı değil",
@@ -608,7 +608,19 @@
 "20261127-4-14": "alım ilanı değil",
 "20261127-4-15": "alım ilanı değil",
 "20261127-4-8": "disisleri-bakanligi-avrupa-birligi-baskanligi-4-b-sozlesmeli-4193529b",
-"20261127-4-11": "selcuk-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--78d4bbd6"
+"20261127-4-11": "selcuk-universitesi-rektorlugu-sozlesmeli-bilisim-personeli--78d4bbd6",
+"20261128-4-1": "alım ilanı değil",
+"20261128-4-2": "alım ilanı değil",
+"20261128-4-3": "akademik",
+"20261128-4-4": "iptal",
+"20261128-4-5": "iptal",
+"20261128-4-6": "alım ilanı değil",
+"20261128-4-7": "alım ilanı değil",
+"20261128-4-8": "alım ilanı değil",
+"20261128-4-11": "akademik",
+"20261128-4-12": "alım ilanı değil",
+"20261128-4-9": "rekabet-kurumu-baskanligi-rekabet-uzman-yardimciligi-giris-s-ed7c12e7",
+"20261128-4-10": "saglik-bakanligi-teftis-kurulu-baskanligi-mufettis-yardimcil-8b7903d7"
 },
 "yuklu": {
 "adalet-bakanligi-adli-tip-kurumu-baskanligi-sozlesmeli-perso-e4691169": {
@@ -971,14 +983,6 @@
 "son": null,
 "url": "https://kariyerkapisi.gov.tr/IlanDetay?i=7cc8cb95-4799-4879-a104-8362bf62ca4d"
 },
-"kariyer-kapisi-5fb0c697-781e-4ea8-befb-3f041d6b9385": {
-"ad": "kk-5fb0c697-781e-4ea8-befb-3f041d6b9385",
-"gun": "20261124",
-"anahtar": "rekabet kurumu baskanligi",
-"kurum": "REKABET KURUMU BAŞKANLIĞI: REKABET UZMAN YARDIMCILIĞI GİRİŞ SINAVI",
-"son": null,
-"url": "https://kariyerkapisi.gov.tr/IlanDetay?i=5fb0c697-781e-4ea8-befb-3f041d6b9385"
-},
 "afyonkarahisar-ili-ozburun-belediye-baskanligi-surekli-isci--7ffe29f3": {
 "ad": "20261126-4-11",
 "gun": "20261126",
@@ -1058,6 +1062,22 @@
 "kurum": "GELİR İDARESİ BAŞKANLIĞI: SÖZLEŞMELİ TEKNİKER GİRİŞ SINAVI",
 "son": null,
 "url": "https://kariyerkapisi.gov.tr/IlanDetay?i=fbe6dbe7-e178-4680-8509-e91d11d9e505"
+},
+"rekabet-kurumu-baskanligi-rekabet-uzman-yardimciligi-giris-s-ed7c12e7": {
+"ad": "20261128-4-9",
+"gun": "20261128",
+"anahtar": "rekabet kurumu baskanligi",
+"kurum": "Rekabet Kurumu Başkanlığı: REKABET UZMAN YARDIMCILIĞI GİRİŞ SINAVI İLANI",
+"son": "2026-12-22",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261128-4-9.pdf"
+},
+"saglik-bakanligi-teftis-kurulu-baskanligi-mufettis-yardimcil-8b7903d7": {
+"ad": "20261128-4-10",
+"gun": "20261128",
+"anahtar": "saglik bakanligi teftis kurulu baskanligi",
+"kurum": "Sağlık Bakanlığı Teftiş Kurulu Başkanlığı: MÜFETTİŞ YARDIMCILIĞI GİRİŞ SINAVI İLANI",
+"son": "2027-01-01",
+"url": "https://www.resmigazete.gov.tr/ilanlar/eskiilanlar/2026/11/20261128-4-10.pdf"
 }
 },
 "notlar": [
@@ -1445,6 +1465,22 @@
 "anahtar": "nigde ili bozkoy belediye baskanligi",
 "tarihler": [
 "20261108"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261128-4-4",
+"anahtar": "gaziantep islam bilim ve teknoloji universitesi rektorlugu",
+"tarihler": [
+"20261116"
+]
+},
+{
+"tur": "iptal",
+"ad": "20261128-4-5",
+"anahtar": "nigde omer halisdemir universitesi rektorlugu",
+"tarihler": [
+"20260918"
 ]
 }
 ]
